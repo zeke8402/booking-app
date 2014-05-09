@@ -1,0 +1,1 @@
+This is a test view for emailing after confirmation
