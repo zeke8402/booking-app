@@ -1,6 +1,6 @@
 # booking-app
 
-
+Laravel web application for booking appointments
 
 ## Hello!
 This is an open-source web application designed to allow users to book an appointment. This is very much a work in progress, but the end product will:
