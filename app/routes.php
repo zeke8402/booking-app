@@ -12,23 +12,11 @@
 |
 */
 
-// This is initial route, which shows all the packages available.
-Route::get('/', function() {
-   $packages = Package::all();
-    return View::make('showPackages')->with('packages', $packages);
-});
+Route::get('/', 'BookingController@getIndex');
+Route::controller('booking', 'BookingController');
 
 
-// This is the route that shows the Calendar once a package has been selected
-Route::get('bookAppointment/{pid}', function($pid){
-  
-  $packageName = DB::table('packages')->where('id', $pid)->pluck('package_name');
-  $days = DB::select('SELECT id, year(booking_date) AS byear, month(booking_date) AS bmonth, day(booking_date) AS bday, booking_date AS bdate FROM booking_dates');
-  
-  return View::make('bookAppointment')->with('days', $days)->with('packageName', $packageName);
-  
-});
-
+/***************** CUSTOMER INFORMATION VIEW **********************/
 // This is the route that asks for customer information after all the appointment details have been selected.
 Route::get('bookAppointment/{pid}/{bdate}/{tid}', function($pid, $bdate, $tid){
   
@@ -39,18 +27,7 @@ Route::get('bookAppointment/{pid}/{bdate}/{tid}', function($pid, $bdate, $tid){
   
 });
 
-
-// Route for GET and POST for getting the times associated with a particular date
-// This is called with AJAX for clicking a date on the datepicker
-Route::any('getTimes', function() {
- 
-  //We get the POST from AJAX for the selected day, and we get the available times with that parameter from the DB
-  $selectedDay = Input::get('selectedDay');
-  $availableTimes = DB::select('SELECT id, booking_time FROM booking_times WHERE booking_date="'.$selectedDay.'"');
-  
-  return Response::make(View::make('getTimes')->with('selectedDay', $selectedDay)->with('availableTimes', $availableTimes), 200, array('Content-Type' => 'application/json'));
-});
-
+/***************** CUSTOMER CONFIRMATION VIEW ********************/
 // This Route takes the appointment details and customer details, adds them to the database, and asks for confirmation
 // Before setting it in stone, we want it to roll back if they cancel
 Route::any('confirm', array('as' => 'customer.input', function() {
@@ -62,7 +39,23 @@ Route::any('confirm', array('as' => 'customer.input', function() {
 
 }));
 
+/***************** APPOINTMENT SUCCESS VIEW **********************/
 Route::any('confirmed', array('as' => 'confirmed', function() {
     return View::make('success');
 }));
+
+
+
+
+
+// Route for GET and POST for getting the times associated with a particular date
+/* This is called with AJAX for clicking a date on the datepicker
+Route::any('getTimes', function() {
+ 
+  //We get the POST from AJAX for the selected day, and we get the available times with that parameter from the DB
+  $selectedDay = Input::get('selectedDay');
+  $availableTimes = DB::select('SELECT id, booking_time FROM booking_times WHERE booking_date="'.$selectedDay.'"');
+  
+  return Response::make(View::make('getTimes')->with('selectedDay', $selectedDay)->with('availableTimes', $availableTimes), 200, array('Content-Type' => 'application/json'));
+}); */
 

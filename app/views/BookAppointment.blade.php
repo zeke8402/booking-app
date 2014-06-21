@@ -24,7 +24,7 @@ $(function() {
       document.getElementById('daySelect').innerHTML = d;
       //Here we need to make an AJAX request to get all the available dates
       $.ajax({
-        url: "<?php echo URL::to('/getTimes'); ?>",
+        url: "<?php echo URL::to('booking/times'); ?>",
         data: "selectedDay="+d,
         dataType: 'json',
         success: function(response){
