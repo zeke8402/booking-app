@@ -15,18 +15,6 @@
 Route::get('/', 'BookingController@getIndex');
 Route::controller('booking', 'BookingController');
 
-
-/***************** CUSTOMER INFORMATION VIEW **********************/
-// This is the route that asks for customer information after all the appointment details have been selected.
-Route::get('bookAppointment/{pid}/{bdate}/{tid}', function($pid, $bdate, $tid){
-  
-  $time = DB::table('booking_times')->where('id', $tid)->pluck('booking_time');
-  
-  // You absolutely must get the id
-  return View::make('customerInfo')->with('pid', $pid)->with('bdate', $bdate)->with('time', $time);
-  
-});
-
 /***************** CUSTOMER CONFIRMATION VIEW ********************/
 // This Route takes the appointment details and customer details, adds them to the database, and asks for confirmation
 // Before setting it in stone, we want it to roll back if they cancel

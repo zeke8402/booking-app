@@ -30,7 +30,10 @@ $(function() {
         success: function(response){
           $('#dayTimes').empty();
           for(var i=0; i < response.length; i++) {
-            $('#dayTimes').append('<a href="'+document.URL+'/'+d+'/'+response[i].id+'">'+response[i].booking_time+'</a><br>');
+            //$('#dayTimes').append('<a href="'+document.URL+'/'+d+'/'+response[i].id+'">'+response[i].booking_time+'</a><br>');
+            
+            var link = '/booking-app/public/';
+            $('#dayTimes').append('<a href="'+ link + 'booking/details/' + d + '/' + response[i].id +'">' + response[i].booking_time +'</a><br>');
           }
         },
         error: function(){

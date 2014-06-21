@@ -48,7 +48,7 @@
       </div>
       <div class="large-6 columns">
         <label for="email">Email</label>
-          <input type="email" name="email" id="email" placeholder="user@example.com" pattern="email" required>
+          <input type="text" name="email" id="email" placeholder="user@example.com" required>
       </label>
       <small class="error">Please enter a valid e-mail address.</small>
   </div>
