@@ -21,6 +21,18 @@ Route::controller('booking', 'BookingController');
 Route::any('confirm', array('as' => 'customer.input', function() {
   
   $input = Input::all();
+  Session::put('fname', $input['fname']);
+  Session::put('lname', $input['lname']);
+  Session::put('number', $input['number']);
+  Session::put('email', $input['email']);
+  
+  //Check if newsletterbox is checked, then add shit to database
+  if($input['newsletterBox']) {
+    Session::put('updates', '1');
+  } else {
+    Session::put('updates', '0');
+  }
+  
   $packageName = DB::table('packages')->where('id', $input['pid'])->pluck('package_name');
   
   return View::make('confirm')->with('input', $input)->with('packageName', $packageName);
@@ -29,21 +41,14 @@ Route::any('confirm', array('as' => 'customer.input', function() {
 
 /***************** APPOINTMENT SUCCESS VIEW **********************/
 Route::any('confirmed', array('as' => 'confirmed', function() {
-    return View::make('success');
-}));
 
-
-
-
-
-// Route for GET and POST for getting the times associated with a particular date
-/* This is called with AJAX for clicking a date on the datepicker
-Route::any('getTimes', function() {
- 
-  //We get the POST from AJAX for the selected day, and we get the available times with that parameter from the DB
-  $selectedDay = Input::get('selectedDay');
-  $availableTimes = DB::select('SELECT id, booking_time FROM booking_times WHERE booking_date="'.$selectedDay.'"');
+  $customer = new Customer;
+  $customer->first_name = Session::get('fname');
+  $customer->last_name = Session::get('lname');
+  $customer->contact_number = Session::get('number');
+  $customer->email = Session::get('email');
+  $customer->wants_updates = Session::get('updates');
+  $customer->save();
   
-  return Response::make(View::make('getTimes')->with('selectedDay', $selectedDay)->with('availableTimes', $availableTimes), 200, array('Content-Type' => 'application/json'));
-}); */
-
+  return View::make('success');
+}));

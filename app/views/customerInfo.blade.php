@@ -55,7 +55,7 @@
 </div>
 <div class="row">
   <div class="large-12 columns">
-    <input id="newsletterBox" type="checkbox" checked><label for="newsletterBox">YES, I want to receive newsletters with this email</label></input>
+    <input id="newsletterBox" name="newsletterBox" type="checkbox" checked><label for="newsletterBox">YES, I want to receive newsletters with this email</label></input>
 </div>
 </div>
 <div class="row">

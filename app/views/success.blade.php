@@ -9,5 +9,6 @@ Mail::send('test', $data, function($message)
 ?>
 
 <p> Thank you </p>
+<p> {{ Session::get('fname') }} </p>
 <p> We have sent you an email confirmation </p>
   

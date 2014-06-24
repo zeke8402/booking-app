@@ -3,8 +3,12 @@ Todo list for the booking app
 ### Front End Functionality ###
  
  - Add customer information to the database if they selected YES for receiving newsletters.
+   check to see if thingy is checked
+   run model to add if it is
  
  - Add a live session timer to the app during booking so they can see how much longer they have left before the session expires. Also make session timers 5 minutes.
+ 
+ - Restyle the application
 
 ### Appointment Schedule Overlap ###
 
