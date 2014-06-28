@@ -78,7 +78,31 @@ class BookingController extends BaseController {
   
   return View::make('confirm')->with('input', $input)->with('packageName', $packageName);
 
-}
+  }
+  
+  /**
+   * Function to add the appointment to database, do scrubbing, and email confirmations
+   *
+   * User interaction is complete
+   *
+   **/
+  public function anyConfirmed() {
+    $customer = new Customer;
+    $customer->first_name = Session::get('fname');
+    $customer->last_name = Session::get('lname');
+    $customer->contact_number = Session::get('number');
+    $customer->email = Session::get('email');
+    $customer->wants_updates = Session::get('updates');
+    $customer->save();
+  
+    // We need to create the appointment here, and remove the time booked, remove the day if no times remain, and remove all times that conflict with the time the package takes to complete.
+  
+    // We can call a booking time model function to remove the date, and any dates conflicting with the package, such as
+    // BookingTimes::removeTimes($timeID, $packageID);
+  
+  
+    return View::make('success');
+  }
 
   /**
   * Function to retrieve times available for a given date
