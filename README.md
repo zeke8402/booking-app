@@ -18,7 +18,6 @@ To get this working, you need to first generate the database schema using the mi
 ```php artisan db:seed``` Seeds the tables with the relevant data
 
 
-I will be working on this as often as I can in my spare time ( In between work and ranking up in CS:GO ;) )
-
+I will be working on this as often as I can in my spare time ( In between work and school )
 
 I encourage and appreciate any feedback related to this app. I am not currently aware of the full scope of the application, but I plan on making it easily customizable to anyone's needs.
