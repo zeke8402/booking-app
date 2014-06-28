@@ -53,7 +53,33 @@ class BookingController extends BaseController {
     
   }
   
+  /**
+  * Function to post customer info and present confirmation view
+  *
+  * User Confirms appointment details to continue
+  *
+  **/
+  public function anyConfirm() {
   
+  $input = Input::all();
+  Session::put('fname', $input['fname']);
+  Session::put('lname', $input['lname']);
+  Session::put('number', $input['number']);
+  Session::put('email', $input['email']);
+  
+  //Check if newsletterbox is checked, then add shit to database
+  if($input['newsletterBox']) {
+    Session::put('updates', '1');
+  } else {
+    Session::put('updates', '0');
+  }
+  
+  $packageName = DB::table('packages')->where('id', $input['pid'])->pluck('package_name');
+  
+  return View::make('confirm')->with('input', $input)->with('packageName', $packageName);
+
+}
+
   /**
   * Function to retrieve times available for a given date
   *

@@ -3,7 +3,7 @@ Todo list for the booking app
 ### Front End Functionality ###
  
  - Add customer information to the database if they selected YES for receiving newsletters.
-   check to see if thingy is checked
+   check to see they want updates
    run model to add if it is
  
  - Add a live session timer to the app during booking so they can see how much longer they have left before the session expires. Also make session timers 5 minutes.
@@ -15,6 +15,7 @@ Todo list for the booking app
  - When a user selects a package, before displaying the times available, go through all existing appointments, and blank out any times that would overlap with an existing appointment if the selected appointment was booked then.
  
  - When a user creates an appointment, remove any dates from date availability that would conflict with the duration of the appointment.
+ - When a user creates an appointment, remove that date from availability.
  
  ###### MILESTONE ######
  

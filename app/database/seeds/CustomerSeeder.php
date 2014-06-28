@@ -10,7 +10,7 @@ class CustomerSeeder extends Seeder {
     Customer::create(array(
       'first_name' => 'Joe',
       'last_name' => 'Danger',
-      'contact_number' => '(666)-666-6666',
+      'contact_number' => '6666666666',
       'email' => 'joedanger@fuckyou.com',
       'wants_updates' => FALSE
     ));
@@ -18,7 +18,7 @@ class CustomerSeeder extends Seeder {
     Customer::create(array(
       'first_name' => 'Todd',
       'last_name' => 'Megatron',
-      'contact_number' => '(555)-555-5555',
+      'contact_number' => '5555555555',
       'email' => 'transformers@eye.io',
       'wants_updates' => TRUE
     ));
