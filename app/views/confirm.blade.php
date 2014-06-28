@@ -30,7 +30,7 @@
       </table>
     </li>
 <li class="bullet-item">
-  {{ HTML::linkRoute('confirmed', 'Confirm Appointment', array(), array('class' => 'button')) }}
+  <a href="confirmed" class="button">Confirm Appointment</a>
 </li>
   </ul>
 </div>

@@ -19,7 +19,7 @@
 <div class="container" id="customerForm">
   
   <!-- Hidden forms to be used later for appointment confirmation -->
-{{ Form::open(array('route' => 'confirmed', 'class' => 'custom', 'data-abide'=>true)) }}
+{{ Form::open(array('action' => 'BookingController@anyConfirm', 'class' => 'custom', 'data-abide'=>true)) }}
 {{ Form::hidden('pid', $pid); }}
 {{ Form::hidden('bdate', $bdate); }}
 {{ Form::hidden('time', $time); }}
