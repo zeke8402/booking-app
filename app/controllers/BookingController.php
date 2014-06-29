@@ -155,7 +155,6 @@ class BookingController extends BaseController {
       BookingDates::where('booking_date', Session::get('aptDate'))->delete();
     }
   
-  
     return View::make('success')->with('starttime', $aptDateTime)->with('endtime', $endDateTime)->with('result', $result);
   }
 
