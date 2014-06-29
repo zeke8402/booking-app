@@ -18,7 +18,6 @@ class CreatePackagesTable extends Migration {
       $table->string('package_name');
       $table->decimal('package_price', 11, 0);
       $table->integer('package_time');
-      $table->string('time_metric'); //Hours or days
       $table->text('package_description');
       $table->timestamps();
     });
