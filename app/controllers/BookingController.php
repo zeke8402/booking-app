@@ -47,6 +47,7 @@ class BookingController extends BaseController {
     
     // Retrieving the real time using the time ID parameter
     $time = BookingTimes::find($aptTimeID)->pluck('booking_time');
+    Session::put('aptTime', $time);
     
     return View::make('customerInfo')->with('pid', Session::get('packageID'))->with('bdate', $aptDate)->with('time', $time);
     
@@ -87,15 +88,53 @@ class BookingController extends BaseController {
    *
    **/
   public function anyConfirmed() {
-    $customer = new Customer;
-    $customer->first_name = Session::get('fname');
-    $customer->last_name = Session::get('lname');
-    $customer->contact_number = Session::get('number');
-    $customer->email = Session::get('email');
-    $customer->wants_updates = Session::get('updates');
-    $customer->save();
-  
+    
+    // Only save customer if the email does not already exist
+    // Using validator 
+    // Must not already exist in the `email` column of `users` table
+    $rules = array('email' => 'unique:customers,email');
+
+    $validator = Validator::make(
+      array(
+        'first_name' => Session::get('fname'),
+        'last_name' => Session::get('lname'),
+        'email' => Session::get('email')
+      ),
+      array(
+        'first_name' => 'exists:customers,first_name',
+        'last_name' => 'exists:customers,last_name',
+        'email' => 'exists:customers,email'
+      )
+    );
+
+    if ($validator->fails()) {
+      // Register the new user or whatever.
+      $customer = new Customer;
+      $customer->first_name = Session::get('fname');
+      $customer->last_name = Session::get('lname');
+      $customer->contact_number = Session::get('number');
+      $customer->email = Session::get('email');
+      $customer->wants_updates = Session::get('updates');
+      $customer->save();
+      $customerID = $customer->id;
+
+    } else {
+      
+      // Get the customer id of the email
+      $customerID = DB::table('customers')->where('email', Session::get('email'))->pluck('id');
+      
+    }
+
     // We need to create the appointment here, and remove the time booked, remove the day if no times remain, and remove all times that conflict with the time the package takes to complete.
+    
+    // Creating the appointment
+    // Required params, id, customer_id, appointment_type, appointment_date, appointment_time
+    $appointment = new Appointment;
+    $appointment->customer_id = $customerID;
+    $appointment->appointment_type = Session::get('packageID');
+    $appointment->appointment_date = Session::get('aptDate');
+    $appointment->appointment_time = Session::get('aptTime');
+    $appointment->save();
   
     // We can call a booking time model function to remove the date, and any dates conflicting with the package, such as
     // BookingTimes::removeTimes($timeID, $packageID);
