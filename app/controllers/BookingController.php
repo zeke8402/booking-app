@@ -1,5 +1,4 @@
 <?php
-
 class BookingController extends BaseController {
   
   /**
@@ -25,7 +24,8 @@ class BookingController extends BaseController {
     
     $packageName = Package::find($pid)->pluck('package_name');
     
-    //This is the query to use MySQL functions to parse the date variables
+   // DO NOT DELETE THESE COMMENTS
+   // This is the query to use MySQL functions to parse the date variables
    // $days = DB::select('SELECT id, year(booking_date) AS byear, month(booking_date) AS bmonth, day(booking_date) AS bday, booking_date AS bdate FROM booking_dates');
     
     $days = DB::select("SELECT id, strftime('%Y', booking_date) AS byear, strftime('%m', booking_date) AS bmonth, strftime('%d', booking_date) AS bday, booking_date AS bdate FROM booking_dates");
@@ -50,8 +50,6 @@ class BookingController extends BaseController {
     Session::put('aptTime', $time->booking_time);
     
     return View::make('customerInfo')->with('pid', Session::get('packageID'))->with('bdate', $aptDate)->with('time', $time->booking_time);
-    
-    
   }
   
   /**

@@ -1,14 +1,18 @@
 @extends('layout')
 @section('content')
 <?php $link = Request::root(); ?>
-{{ $link }}
-  <h3>Select Day</h3>
+<h3>Select a Day</h3>
 <p>You chose <b> {{ $packageName }} </b></p>
 <p> Current Date is <?php $cDate = date('m/d/Y'); echo $cDate; ?> </p>
-<div class="ui-zekepicker" id="calendar"></div>
-<h4> Times Available </h4>
-<p id="daySelect"></p>
-<p id="dayTimes"></p>
+
+<div class="row">
+  <div class="small-8 columns" id="calendar"></div>
+  <div class="small-4 columns">
+    <p id="daySelect"></p>
+    <p id="dayTimes"></p>
+  </div>
+</div>
+
 
 	<script>
 		$(document).ready(function() {
@@ -29,10 +33,9 @@ $(function() {
         dataType: 'json',
         success: function(response){
           $('#dayTimes').empty();
+          $('#dayTimes').append('<h4>Times available</h4>');
           for(var i=0; i < response.length; i++) {
-            //$('#dayTimes').append('<a href="'+document.URL+'/'+d+'/'+response[i].id+'">'+response[i].booking_time+'</a><br>');
-            
-            var link = '/booking-app/public/';
+            var link = '/booking-app/';
             $('#dayTimes').append('<a href="'+ link + 'booking/details/' + d + '/' + response[i].id +'">' + response[i].booking_time +'</a><br>');
           }
         },
