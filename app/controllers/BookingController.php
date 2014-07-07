@@ -36,17 +36,16 @@ class BookingController extends BaseController {
   * User inputs their information to continue
   *
   **/
-  public function getDetails($aptDate, $aptTimeID) {
+  public function getDetails($aptID) {
     
-    // Put Date & Time Selected in the Session
-    Session::put('aptDate', $aptDate);
-    Session::put('aptTimeID', $aptTimeID);
+    // Put the passed date time ID into the session
+    Session::put('aptID', $aptID);
     
-    // Retrieving the real time using the time ID parameter
-    $time = BookingTimes::find($aptTimeID);
-    Session::put('aptTime', $time->booking_time);
+    // Get row of date id
+    $dateRow = BookingDateTimes::find($aptID);
     
-    return View::make('customerInfo')->with('pid', Session::get('packageID'))->with('bdate', $aptDate)->with('time', $time->booking_time);
+    return View::make('customerInfo')->with('pid', Session::get('packageID'))->with('dateRow', $dateRow)->with('aptID', $aptID);
+    
   }
   
   /**

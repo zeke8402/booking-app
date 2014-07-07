@@ -4,7 +4,7 @@ class BookingDateTimes extends Eloquent{
   	protected $table = 'booking_datetimes';
   
     public function scopeDate($query, $date) {
-      return $query->where('strftime("%Y-%m-%d", booking_date)', $date);
+      return $query->where('strftime("%Y-%m-%d", booking_datetime)', $date);
     }
   
     /*

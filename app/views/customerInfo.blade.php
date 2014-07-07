@@ -12,8 +12,9 @@
 
 <!-- Output correct data for checking -->
 <h3> You chose package = {{ $pid }} </h3>
-<h3> You chose date = {{ $bdate }} </h3>
-<h3> You chose time = {{ $time }} </h3>
+<h3> To be conducted on </h3>
+<h3> {{ DateTime::createFromFormat('Y-m-d H:i', $dateRow->booking_datetime )->format('g:ia \o\n l, jS \o\f F Y') }} </h3>
+
 <br><br><br>
 <h3> Form: </h3>
 <div class="container" id="customerForm">
@@ -21,8 +22,8 @@
   <!-- Hidden forms to be used later for appointment confirmation -->
 {{ Form::open(array('action' => 'BookingController@anyConfirm', 'class' => 'custom', 'data-abide'=>true)) }}
 {{ Form::hidden('pid', $pid); }}
-{{ Form::hidden('bdate', $bdate); }}
-{{ Form::hidden('time', $time); }}
+
+
 <fieldset>
   <legend>Customer Information</legend>
   <div class="row">

@@ -36,7 +36,7 @@ $(function() {
           $('#dayTimes').append('<h4>Times available</h4>');
           for(var i=0; i < response.length; i++) {
             var link = '/booking-app/';
-            $('#dayTimes').append('<a href="'+ link + 'booking/details/' + d + '/' + response[i].id +'">' + response[i].bdate +'</a><br>');
+            $('#dayTimes').append('<a href="'+ link + 'booking/details/' + response[i].id +'">' + response[i].bdate +'</a><br>');
           }
         },
         error: function(){
