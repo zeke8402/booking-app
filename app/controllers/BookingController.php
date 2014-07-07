@@ -24,11 +24,8 @@ class BookingController extends BaseController {
     
     $packageName = Package::find($pid)->pluck('package_name');
     
-   // DO NOT DELETE THESE COMMENTS
-   // This is the query to use MySQL functions to parse the date variables
-   // $days = DB::select('SELECT id, year(booking_date) AS byear, month(booking_date) AS bmonth, day(booking_date) AS bday, booking_date AS bdate FROM booking_dates');
-    
-    $days = DB::select("SELECT id, strftime('%Y', booking_date) AS byear, strftime('%m', booking_date) AS bmonth, strftime('%d', booking_date) AS bday, booking_date AS bdate FROM booking_dates");
+    // This groups all booking times by date so we can give a list of all days available.
+    $days = DB::select("SELECT id, strftime('%Y-%m-%d', booking_datetime) AS bdate FROM booking_datetimes GROUP BY bdate");
     
     return View::make('BookAppointment')->with('days', $days)->with('packageName', $packageName);
   }
@@ -164,6 +161,14 @@ class BookingController extends BaseController {
   **/
   public function getTimes() {
     
+    // We get the data from AJAX for the day selected, then we get all available times for that day
+    $selectedDay = Input::get('selectedDay');
+    
+    $availableTimes = DB::select('SELECT id, strftime("%H:%M", booking_datetime) AS bdate FROM booking_datetimes WHERE strftime("%Y-%m-%d", booking_datetime)="'.$selectedDay.'"');
+    //$availableTimes = BookingDateTimes::date($selectedDay);
+    
+    return Response::make(View::make('getTimes')->with('selectedDay', $selectedDay)->with('availableTimes', $availableTimes), 200, array('Content-Type' =>     'application/json'));
+    /*
     //We get the POST from AJAX for the selected day, and we get the available times with that parameter from the DB
     $selectedDay = Input::get('selectedDay');
     // Why doesn't this work?
@@ -193,5 +198,7 @@ class BookingController extends BaseController {
   
      
     return Response::make(View::make('getTimes')->with('selectedDay', $selectedDay)->with('availableTimes', $availableTimes)->with('endTime', $endTime)->with('packageTime', $packageTime), 200, array('Content-Type' =>     'application/json'));
+    
+    */
   }
 }

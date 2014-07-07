@@ -19,31 +19,38 @@ class BookingDateTimesTableSeeder extends Seeder {
     
     // Set a whole week
      BookingDateTimes::create(array(
-      'booking_datetime' => date('Y-m-d H:i', strtotime($currentDate. ' + 11 days'))
+      'booking_datetime' => date('Y-m-d H:i', strtotime($currentDate. ' + 11 days + 8 hours'))
+    ));
+    
+      // Set a whole week
+     BookingDateTimes::create(array(
+      'booking_datetime' => date('Y-m-d H:i', strtotime($currentDate. ' + 11 days + 9 hours'))
+    ));
+    
+      // Set a whole week
+     BookingDateTimes::create(array(
+      'booking_datetime' => date('Y-m-d H:i', strtotime($currentDate. ' + 11 days + 10 hours'))
+    ));
+    
+      // Set a whole week
+     BookingDateTimes::create(array(
+      'booking_datetime' => date('Y-m-d H:i', strtotime($currentDate. ' + 11 days + 11 hours'))
+    ));
+    
+      // Set a whole week
+     BookingDateTimes::create(array(
+      'booking_datetime' => date('Y-m-d H:i', strtotime($currentDate. ' + 11 days + 12 hours'))
+    ));
+    
+      // Set a whole week
+     BookingDateTimes::create(array(
+      'booking_datetime' => date('Y-m-d H:i', strtotime($currentDate. ' + 11 days + 13 hours'))
     ));
     
      BookingDateTimes::create(array(
-      'booking_datetime' => date('Y-m-d H:i', strtotime($currentDate. ' + 12 days'))
+      'booking_datetime' => date('Y-m-d H:i', strtotime($currentDate. ' + 12 days + 8 hours'))
     ));
     
-     BookingDateTimes::create(array(
-      'booking_datetime' => date('Y-m-d H:i', strtotime($currentDate. ' + 13 days'))
-    ));
-    
-     BookingDateTimes::create(array(
-      'booking_datetime' => date('Y-m-d H:i', strtotime($currentDate. ' + 14 days'))
-    ));
-    
-     BookingDateTimes::create(array(
-      'booking_datetime' => date('Y-m-d H:i', strtotime($currentDate. ' + 15 days'))
-    ));
-    
-     BookingDateTimes::create(array(
-      'booking_datetime' => date('Y-m-d H:i', strtotime($currentDate. ' + 16 days'))
-    ));
-    
-     BookingDateTimes::create(array(
-      'booking_datetime' => date('Y-m-d H:i', strtotime($currentDate. ' + 17 days'))
-    ));
+
   }
 }
