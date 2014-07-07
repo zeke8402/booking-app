@@ -6,7 +6,7 @@
     <li class="title">Confirm Appointment</li>
     <li class="price">
    
-      <h4> With Person on {{ DateTime::createFromFormat('Y-m-d H:i', $appointmentInfo['date'] )->format('g:ia \o\n l, jS \o\f F Y') }} </h4>
+      <h4> With Person on {{ DateTime::createFromFormat('Y-m-d H:i', $appointmentInfo['datetime'] )->format('g:ia \o\n l, jS \o\f F Y') }} </h4>
       <h4><small>{{ link_to('/', 'Change'); }}</small></h4>
     </li>
     <li class="bullet-item">

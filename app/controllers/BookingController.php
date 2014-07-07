@@ -22,12 +22,12 @@ class BookingController extends BaseController {
     //Add package to the session data
     Session::put('packageID', $pid);
     
-    $packageName = Package::find($pid)->pluck('package_name');
+    $package = Package::find($pid);
     
     // This groups all booking times by date so we can give a list of all days available.
     $days = DB::select("SELECT id, strftime('%Y-%m-%d', booking_datetime) AS bdate FROM booking_datetimes GROUP BY bdate");
     
-    return View::make('BookAppointment')->with('days', $days)->with('packageName', $packageName);
+    return View::make('BookAppointment')->with('days', $days)->with('packageName', $package->package_name);
   }
   
   /** 
@@ -58,9 +58,13 @@ class BookingController extends BaseController {
   public function anyConfirm() {
   
   $input = Input::all();
+  $package = Package::find(Session::get('packageID'));
+  
   $appointmentInfo = array (
-    "package_name" => Package::find(Session::get('packageID'))->pluck('package_name'),
-    "date"         => Session::get('selection'),
+    "package_id"   => Session::get('packageID'),
+    "package_name" => $package->package_name,
+    "package_time" => $package->package_time,
+    "datetime"     => Session::get('selection'),
     "fname"        => $input['fname'],
     "lname"        => $input['lname'],
     "number"       => $input['number'],
@@ -92,8 +96,21 @@ class BookingController extends BaseController {
   // This will take the place of anyConfirmed
   public function anyConfirmed() {
     
+    $info = Session::get('appointmentInfo');
+    $startTime = DateTime::createFromFormat('Y-m-d H:i', $info['datetime'] )->format('Y-m-d H:i');
+    $endTime = new DateTime($info['datetime']);
+    date_add($endTime, date_interval_create_from_date_string($info['package_time'].' hours'));
     $newCustomer = Customer::addCustomer();
-    return View::make('test')->with('test', $newCustomer);
+    $endTime = $endTime->format('Y-m-d H:i');
+    
+    // Create the appointment with this new customer id
+    Appointment::addAppointment($newCustomer);
+    
+    // Remove all dates conflicting with the appointment duration
+    BookingDateTimes::timeBetween($startTime, $endTime)->delete();
+
+    
+    
 
   }
   
