@@ -108,57 +108,8 @@ class BookingController extends BaseController {
     
     // Remove all dates conflicting with the appointment duration
     BookingDateTimes::timeBetween($startTime, $endTime)->delete();
-
-    
-    
-
   }
   
-  /**
-   * Function to add the appointment to database, do scrubbing, and email confirmations
-   *
-   * User interaction is complete
-   *
-   
-  public function anyConfirmed() {
-    
-    
-    // Creating the appointment
-    // Required params, id, customer_id, appointment_type, appointment_date, appointment_time
-    $appointment = new Appointment;
-    $appointment->customer_id = $customerID;
-    $appointment->appointment_type = Session::get('packageID');
-    $appointment->appointment_datetime = date('Y-m-d H:i', strtotime(Session::get('aptDate').' '.Session::get('aptTime')));
-    $appointment->appointment_date = Session::get('aptDate');
-    $appointment->appointment_time = Session::get('aptTime');
-    $appointment->save();
-    
-    // Grab the end time of the package, and run booking times through
-    // If time >= appointment time and <= ending time, remove that time
-    // This will also remove the time booked.
-    
-    // Remove all the times after the time booked that would overlap the appointment duration
-    $aptDateTime = date('Y-m-d H:i', strtotime(Session::get('aptDate').' '.Session::get('aptTime')));
-    $aptDateTime = DateTime::createFromFormat('Y-m-d H:i', $aptDateTime);
-    $package = Package::find(Session::get('packageID'));
-    $packageDuration = $package->package_time.' '.$package->time_metric;
-    
-    $endDateTime = new DateTime($aptDateTime->format('Y-m-d H:i:s'));
-    $endDateTime = date_add($endDateTime, date_interval_create_from_date_string($packageDuration.' hours'));
-    
-    // Remove all times that would conflict with the appointment
-    BookingTimes::date(Session::get('aptDate'))->between($aptDateTime->format("H:i:s"), $endDateTime->format("H:i:s"))->delete();
-    
-    
-    // Remove date if no more times remain
-    $result = BookingTimes::date(Session::get('aptDate'));
-    if(!$result->first()) {
-      BookingDates::where('booking_date', Session::get('aptDate'))->delete();
-    }
-  
-    return View::make('success')->with('starttime', $aptDateTime)->with('endtime', $endDateTime)->with('result', $result);
-  }
-*/
   /**
   * Function to retrieve times available for a given date
   *
