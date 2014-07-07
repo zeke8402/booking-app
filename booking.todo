@@ -14,11 +14,14 @@ Todo list for the booking app
 
  - When a user selects a package, before displaying the times available, go through all existing appointments, and blank out any times that would overlap with an existing appointment if the selected appointment was booked then.
  
- - When a user creates an appointment, remove any dates from date availability that would conflict with the duration of the appointment.
- - When a user creates an appointment, remove that date from availability.
+
  
  ###### MILESTONE ######
  
  --What's Next--
  Administrator Panel for selecting date and time availabilities...
  
+ 
+ ###### COMPLETE #######
+ - When a user creates an appointment, remove any dates from date availability that would conflict with the duration of the appointment. (DONE)
+ - When a user creates an appointment, remove that date from availability. (DONE)

@@ -11,12 +11,12 @@ class BookingTimesTableSeeder extends Seeder {
     $currentDate = date('Y-m-d');
     BookingTimes::create(array(
       'booking_date' => date('Y-m-d', strtotime($currentDate. ' + 5 days')),
-      'booking_time' => '07:00'
+      'booking_time' => '01:00'
     ));
     
     BookingTimes::create(array(
       'booking_date' => date('Y-m-d', strtotime($currentDate. ' + 5 days')),
-      'booking_time' => '08:00'
+      'booking_time' => '23:00'
     ));
     
     BookingTimes::create(array(
@@ -36,7 +36,7 @@ class BookingTimesTableSeeder extends Seeder {
     
      BookingTimes::create(array(
       'booking_date' => date('Y-m-d', strtotime($currentDate. ' + 11 days')),
-      'booking_time' => '13:00'
+      'booking_time' => '16:00'
     ));
     
      BookingTimes::create(array(

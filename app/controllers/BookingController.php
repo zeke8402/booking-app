@@ -144,7 +144,7 @@ class BookingController extends BaseController {
     $endDateTime = date_add($endDateTime, date_interval_create_from_date_string($packageDuration.' hours'));
     
     // Remove all times that would conflict with the appointment
-    BookingTimes::date(Session::get('aptDate'))->between($aptDateTime->format("H:i"), $endDateTime->format("H:i"))->delete();
+    BookingTimes::date(Session::get('aptDate'))->between($aptDateTime->format("H:i:s"), $endDateTime->format("H:i:s"))->delete();
     
     
     // Remove date if no more times remain
@@ -166,8 +166,32 @@ class BookingController extends BaseController {
     
     //We get the POST from AJAX for the selected day, and we get the available times with that parameter from the DB
     $selectedDay = Input::get('selectedDay');
+    // Why doesn't this work?
+    // $availableTimes = BookingTimes::date($selectedDay);
     $availableTimes = DB::select('SELECT id, booking_time FROM booking_times WHERE booking_date="'.$selectedDay.'"');
+    
+    
+    // Now we need to iterate through each available time, and remove any time that would conflict with an appointment
+    foreach($availableTimes as $t => $value):
+    
+        // Get the selected package time
+        $packageTime = Package::find(Session::get('packageID'))->pluck('package_time');
+    
+        $endTime = date("H:i", strtotime($value->booking_time. " +".$packageTime." hours"));
   
-    return Response::make(View::make('getTimes')->with('selectedDay', $selectedDay)->with('availableTimes', $availableTimes), 200, array('Content-Type' =>     'application/json'));
+        // Now, we need to see if an appointment exists between the given time and the time after X hours, where X is the package time
+        //$appointments = Appointment::date($selectedDay)->between($value->booking_time, $endTime);
+        $appointments = Appointment::date($selectedDay)->where('appointment_time', '>', $value->booking_time)->where('appointment_time', '<', $endTime);
+        //$appointments = array();
+        if($appointments->first()) {
+          // If an appointment exists, we delete the time from the array
+          unset($availableTimes[$t]);
+        }
+          
+
+    endforeach; 
+  
+     
+    return Response::make(View::make('getTimes')->with('selectedDay', $selectedDay)->with('availableTimes', $availableTimes)->with('endTime', $endTime)->with('packageTime', $packageTime), 200, array('Content-Type' =>     'application/json'));
   }
 }

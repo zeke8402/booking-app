@@ -19,6 +19,9 @@ class DatabaseSeeder extends Seeder {
     $this->call('BookingTimesTableSeeder');
     $this->command->info('Booking Times seeded!');
     
+    $this->call('BookingDateTimesTableSeeder');
+    $this->command->info('Booking DateTimes seeded!');
+    
     $this->call('CustomerSeeder');
     $this->command->info('Customers seeded!');
     

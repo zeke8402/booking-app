@@ -6,7 +6,7 @@ class AppointmentSeeder extends Seeder {
   {
     
     Eloquent::unguard();
-    
+    /*
     Appointment::create(array(
       'customer_id' => 1,
       'appointment_type' => 1,
@@ -22,5 +22,6 @@ class AppointmentSeeder extends Seeder {
       'appointment_date' => '2014-03-22',
       'appointment_time' => '14:00:00'
     ));
+    */
   }
 }

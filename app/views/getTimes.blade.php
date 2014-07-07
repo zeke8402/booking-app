@@ -8,4 +8,6 @@ endforeach;
 
 // Encode as json for AJAX
 print_r(json_encode($jsonArr));
+//print_r('package time: '.$packageTime);
+//print_r($endTime);
 ?>
