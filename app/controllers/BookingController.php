@@ -43,6 +43,7 @@ class BookingController extends BaseController {
     
     // Get row of date id
     $dateRow = BookingDateTimes::find($aptID);
+    Session::put('selection', $dateRow->booking_datetime);
     
     return View::make('customerInfo')->with('pid', Session::get('packageID'))->with('dateRow', $dateRow)->with('aptID', $aptID);
     
@@ -57,10 +58,16 @@ class BookingController extends BaseController {
   public function anyConfirm() {
   
   $input = Input::all();
-  Session::put('fname', $input['fname']);
-  Session::put('lname', $input['lname']);
-  Session::put('number', $input['number']);
-  Session::put('email', $input['email']);
+  $appointmentInfo = array (
+    "package_name" => Package::find(Session::get('packageID'))->pluck('package_name'),
+    "date"         => Session::get('selection'),
+    "fname"        => $input['fname'],
+    "lname"        => $input['lname'],
+    "number"       => $input['number'],
+    "email"        => $input['email']
+  );
+
+  Session::put('appointmentInfo', $appointmentInfo);
   
   //Check if newsletterbox is checked, then add shit to database
   if($input['newsletterBox']) {
@@ -71,8 +78,21 @@ class BookingController extends BaseController {
   
   $packageName = DB::table('packages')->where('id', $input['pid'])->pluck('package_name');
   
-  return View::make('confirm')->with('input', $input)->with('packageName', $packageName);
+  //return View::make('confirm')->with('input', $input)->with('packageName', $packageName);
+  return View::make('confirm')->with('appointmentInfo', $appointmentInfo);
 
+  }
+  
+  /**
+   * Function to create the appointment, scrub the database, and send out an email confirmation
+   *
+   * User interaction is complete
+   *
+   **/
+  // This will take the place of anyConfirmed
+  public function anyConfirmed() {
+    
+    
   }
   
   /**
@@ -80,7 +100,7 @@ class BookingController extends BaseController {
    *
    * User interaction is complete
    *
-   **/
+   
   public function anyConfirmed() {
     
     // Only save customer if the email does not already exist
@@ -151,7 +171,7 @@ class BookingController extends BaseController {
   
     return View::make('success')->with('starttime', $aptDateTime)->with('endtime', $endDateTime)->with('result', $result);
   }
-
+*/
   /**
   * Function to retrieve times available for a given date
   *

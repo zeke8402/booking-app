@@ -5,8 +5,8 @@
   <ul class="pricing-table">
     <li class="title">Confirm Appointment</li>
     <li class="price">
-      {{ $packageName }} <br>
-      <h4> With Person on {{ date('l jS \of F Y', strtotime($input['bdate'])) }} at {{ date('h:i:s A', strtotime($input['time'])) }}</h4>
+   
+      <h4> With Person on {{ DateTime::createFromFormat('Y-m-d H:i', $appointmentInfo['date'] )->format('g:ia \o\n l, jS \o\f F Y') }} </h4>
       <h4><small>{{ link_to('/', 'Change'); }}</small></h4>
     </li>
     <li class="bullet-item">
@@ -21,10 +21,10 @@
           </thead>
           <tbody>
             <tr>
-              <td> {{ $input['fname'] }} {{ $input['lname'] }} </td>
-              <td> {{ $input['number'] }} </td>
-              <td> {{ $input['email'] }} </td>
-              <td> <a href="#"> Edit Details </a></td>
+              <td> {{ $appointmentInfo['fname'] }} </td>
+              <td> {{ $appointmentInfo['lname'] }} </td>
+              <td> {{ $appointmentInfo['email'] }} </td>
+              <td> <a href="#"> Edit Details </td>
             </tr>
           </tbody>
       </table>
