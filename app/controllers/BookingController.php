@@ -122,7 +122,8 @@ class BookingController extends BaseController {
     $selectedDay = Input::get('selectedDay');
     
     $availableTimes = DB::select('SELECT id, strftime("%H:%M", booking_datetime) AS bdate FROM booking_datetimes WHERE strftime("%Y-%m-%d", booking_datetime)="'.$selectedDay.'"');
-    //$availableTimes = BookingDateTimes::date($selectedDay);
+
+    // Now we have to cross-reference this data with our appointments table, and mask any dates that might cause a conflict
     
     return Response::make(View::make('getTimes')->with('selectedDay', $selectedDay)->with('availableTimes', $availableTimes), 200, array('Content-Type' =>     'application/json'));
 

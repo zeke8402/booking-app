@@ -9,14 +9,14 @@
     {{ HTML::style('assets/css/scheduler.css') }}
     {{ HTML::style('assets/css/normalize.css') }}
     {{ HTML::style('assets/css/foundation.css') }}
-    {{ HTML::style('http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css') }}
+    {{ HTML::style('assets/js/jquery-ui.custom/jquery-ui.min.css') }}
     
     <!-- Modernizr -->
     {{ HTML::script('js/vendor/modernizr.js') }}
     
     <!-- JQuery must be in the header for the calendar to work, I don't know why... -->
     {{ HTML::script('http://code.jquery.com/jquery-1.9.1.js') }}
-    {{ HTML::script('http://code.jquery.com/ui/1.10.3/jquery-ui.js') }}
+    {{ HTML::script('http://code.jquery.com/ui/1.11.0/jquery-ui.js') }}
 
 
   {{ HTML::script('assets/js/foundation.min.js') }}
