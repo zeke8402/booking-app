@@ -92,6 +92,49 @@ class BookingController extends BaseController {
   // This will take the place of anyConfirmed
   public function anyConfirmed() {
     
+    $rules = array('email' => 'unique:customers,email');
+    
+    $info = Session::get('appointmentInfo');
+    $validator = Validator::make(
+      array(
+        'first_name'  =>  $info['fname'],
+        'last_name'   =>  $info['lname'],
+        'email'       =>  $info['email']
+      ),
+      array(
+        'first_name'  =>  'exists:customers,first_name',
+        'last_name'   =>  'exists:customers,last_name',
+        'email'       =>  'exists:customers,email'
+      )
+    );
+    
+    /*  if ($validator->fails()) {
+      // Register the new user or whatever.
+      $customer = new Customer;
+      $customer->first_name = Session::get('fname');
+      $customer->last_name = Session::get('lname');
+      $customer->contact_number = Session::get('number');
+      $customer->email = Session::get('email');
+      $customer->wants_updates = Session::get('updates');
+      $customer->save();
+      $customerID = $customer->id;
+    } else {
+      // Get the customer id of the email
+      $customerID = DB::table('customers')->where('email', Session::get('email'))->pluck('id');
+    }*/
+    
+    if ($validator->fails()) {
+      // Registering the new user
+      Customer::create(array(
+        'first_name'  =>  $info['fname'],
+        'last_name'   =>  $info['lname'],
+        'contact_number' => $info['number'],
+        'email'       =>  $info['email'],
+        'wants_updates' => Session::get('updates')
+        ));
+    } else {
+      
+    }
     
   }
   
@@ -187,37 +230,6 @@ class BookingController extends BaseController {
     //$availableTimes = BookingDateTimes::date($selectedDay);
     
     return Response::make(View::make('getTimes')->with('selectedDay', $selectedDay)->with('availableTimes', $availableTimes), 200, array('Content-Type' =>     'application/json'));
-    /*
-    //We get the POST from AJAX for the selected day, and we get the available times with that parameter from the DB
-    $selectedDay = Input::get('selectedDay');
-    // Why doesn't this work?
-    // $availableTimes = BookingTimes::date($selectedDay);
-    $availableTimes = DB::select('SELECT id, booking_time FROM booking_times WHERE booking_date="'.$selectedDay.'"');
-    
-    
-    // Now we need to iterate through each available time, and remove any time that would conflict with an appointment
-    foreach($availableTimes as $t => $value):
-    
-        // Get the selected package time
-        $packageTime = Package::find(Session::get('packageID'))->pluck('package_time');
-    
-        $endTime = date("H:i", strtotime($value->booking_time. " +".$packageTime." hours"));
-  
-        // Now, we need to see if an appointment exists between the given time and the time after X hours, where X is the package time
-        //$appointments = Appointment::date($selectedDay)->between($value->booking_time, $endTime);
-        $appointments = Appointment::date($selectedDay)->where('appointment_time', '>', $value->booking_time)->where('appointment_time', '<', $endTime);
-        //$appointments = array();
-        if($appointments->first()) {
-          // If an appointment exists, we delete the time from the array
-          unset($availableTimes[$t]);
-        }
-          
 
-    endforeach; 
-  
-     
-    return Response::make(View::make('getTimes')->with('selectedDay', $selectedDay)->with('availableTimes', $availableTimes)->with('endTime', $endTime)->with('packageTime', $packageTime), 200, array('Content-Type' =>     'application/json'));
-    
-    */
   }
 }
