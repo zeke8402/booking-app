@@ -17,6 +17,8 @@ To get this working, you need to first generate the database schema using the mi
 
 ```php artisan db:seed``` Seeds the tables with the relevant data
 
+Alternatively, you can run the script I made to easily remake the database for me, ```sh makedb.sh```
+
 
 I will be working on this as often as I can in my spare time ( In between work and school )
 
