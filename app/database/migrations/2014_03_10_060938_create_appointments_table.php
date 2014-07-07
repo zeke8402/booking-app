@@ -17,9 +17,7 @@ class CreateAppointmentsTable extends Migration {
       	$table->increments('id');
         $table->integer('customer_id');
         $table->integer('appointment_type');
-        $table->dateTime('appointment_datetime');
-        $table->date('appointment_date');
-        $table->time('appointment_time');
+        $table->datetime('appointment_datetime');
         $table->timestamps();
     });
 	}

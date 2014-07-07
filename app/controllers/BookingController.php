@@ -92,50 +92,9 @@ class BookingController extends BaseController {
   // This will take the place of anyConfirmed
   public function anyConfirmed() {
     
-    $rules = array('email' => 'unique:customers,email');
-    
-    $info = Session::get('appointmentInfo');
-    $validator = Validator::make(
-      array(
-        'first_name'  =>  $info['fname'],
-        'last_name'   =>  $info['lname'],
-        'email'       =>  $info['email']
-      ),
-      array(
-        'first_name'  =>  'exists:customers,first_name',
-        'last_name'   =>  'exists:customers,last_name',
-        'email'       =>  'exists:customers,email'
-      )
-    );
-    
-    /*  if ($validator->fails()) {
-      // Register the new user or whatever.
-      $customer = new Customer;
-      $customer->first_name = Session::get('fname');
-      $customer->last_name = Session::get('lname');
-      $customer->contact_number = Session::get('number');
-      $customer->email = Session::get('email');
-      $customer->wants_updates = Session::get('updates');
-      $customer->save();
-      $customerID = $customer->id;
-    } else {
-      // Get the customer id of the email
-      $customerID = DB::table('customers')->where('email', Session::get('email'))->pluck('id');
-    }*/
-    
-    if ($validator->fails()) {
-      // Registering the new user
-      Customer::create(array(
-        'first_name'  =>  $info['fname'],
-        'last_name'   =>  $info['lname'],
-        'contact_number' => $info['number'],
-        'email'       =>  $info['email'],
-        'wants_updates' => Session::get('updates')
-        ));
-    } else {
-      
-    }
-    
+    $newCustomer = Customer::addCustomer();
+    return View::make('test')->with('test', $newCustomer);
+
   }
   
   /**
@@ -146,38 +105,6 @@ class BookingController extends BaseController {
    
   public function anyConfirmed() {
     
-    // Only save customer if the email does not already exist
-    // Using validator 
-    // Must not already exist in the `email` column of `users` table
-    $rules = array('email' => 'unique:customers,email');
-
-    $validator = Validator::make(
-      array(
-        'first_name' => Session::get('fname'),
-        'last_name' => Session::get('lname'),
-        'email' => Session::get('email')
-      ),
-      array(
-        'first_name' => 'exists:customers,first_name',
-        'last_name' => 'exists:customers,last_name',
-        'email' => 'exists:customers,email'
-      )
-    );
-
-    if ($validator->fails()) {
-      // Register the new user or whatever.
-      $customer = new Customer;
-      $customer->first_name = Session::get('fname');
-      $customer->last_name = Session::get('lname');
-      $customer->contact_number = Session::get('number');
-      $customer->email = Session::get('email');
-      $customer->wants_updates = Session::get('updates');
-      $customer->save();
-      $customerID = $customer->id;
-    } else {
-      // Get the customer id of the email
-      $customerID = DB::table('customers')->where('email', Session::get('email'))->pluck('id');
-    }
     
     // Creating the appointment
     // Required params, id, customer_id, appointment_type, appointment_date, appointment_time
