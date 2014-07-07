@@ -17,9 +17,10 @@ To get this working, you need to first generate the database schema using the mi
 
 Alternatively, you can run the script I made to easily remake the database for me, ```sh makedb.sh```
 
-## Resources  
-[Foundation](http://foundation.zurb.com) for the front-end  
-[Laravel](http://www.laravel.com) (obviously) for the framework
+## Resources 
+[Laravel](http://www.laravel.com) (obviously) for the framework  
+[Foundation](http://foundation.zurb.com) for the front-end    
+[jQuery](http://www.jquery.com) for the datepicker
 
 I will be working on this as often as I can in my spare time ( In between work and school )
 
