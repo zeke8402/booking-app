@@ -11,14 +11,15 @@ This is an open-source web application designed to allow users to book an appoin
 
 
 ## Instructions
-To get this working, you need to first generate the database schema using the migrations and seeds I have set up. The database by default uses the 'booking.sqlite' file included
-
-```php artisan migrate``` Creates the tables in the database
-
-```php artisan db:seed``` Seeds the tables with the relevant data
+To get this working, you need to first generate the database schema using the migrations and seeds I have set up. The database by default uses the 'booking.sqlite' file included  
+```php artisan migrate``` Creates the tables in the database  
+```php artisan db:seed``` Seeds the tables with the relevant data  
 
 Alternatively, you can run the script I made to easily remake the database for me, ```sh makedb.sh```
 
+## Resources  
+[Foundation](http://foundation.zurb.com) for the front-end  
+[Laravel](http://www.laravel.com) (obviously) for the framework
 
 I will be working on this as often as I can in my spare time ( In between work and school )
 
