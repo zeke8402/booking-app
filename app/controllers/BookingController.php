@@ -120,11 +120,32 @@ class BookingController extends BaseController {
     
     // We get the data from AJAX for the day selected, then we get all available times for that day
     $selectedDay = Input::get('selectedDay');
+  
+    $availableTimes = DB::select('SELECT id, booking_datetime AS bdate, strftime("%H:%M", booking_datetime) AS bdatetime FROM booking_datetimes WHERE strftime("%Y-%m-%d", booking_datetime)="'.$selectedDay.'"');
     
-    $availableTimes = DB::select('SELECT id, strftime("%H:%M", booking_datetime) AS bdate FROM booking_datetimes WHERE strftime("%Y-%m-%d", booking_datetime)="'.$selectedDay.'"');
+    // PSEUDO CODE
+    // Get package duration of the chosen package
+    $package = Package::find(Session::get('packageID'));
+    $packageTime = $package->package_time;
+    
+    // For each available time... 
+    foreach($availableTimes as $t => $value):
+   
+    //get the start and end times of that time
+    $startTime = new DateTime($value->bdate);
+    $endTime = new DateTime($value->bdate);
+    date_add($endTime, date_interval_create_from_date_string($packageTime.' hours')); 
 
-    // Now we have to cross-reference this data with our appointments table, and mask any dates that might cause a conflict
-    
+    // Try to grab any appointments between the start time and end time
+    $result = Appointment::timeBetween($startTime->format("Y-m-d H:i"), $endTime->format("Y-m-d H:i"));
+
+    // If no records are returned, the time is okay, if not, we must remove it from the array
+    if($result->first()) {
+      unset($availableTimes[$t]);
+    } 
+   
+    endforeach;
+
     return Response::make(View::make('getTimes')->with('selectedDay', $selectedDay)->with('availableTimes', $availableTimes), 200, array('Content-Type' =>     'application/json'));
 
   }

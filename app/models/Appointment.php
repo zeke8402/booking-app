@@ -17,8 +17,9 @@ class Appointment extends Eloquent{
     public function scopeDate($query, $date) {
       return $query->where('appointment_date', $date);
     }
-  
-    public function scopeBetween($query, $begin, $end) {
-      return $query->whereBetween('appointment_time', array($begin, $end));
-    } */
+  */
+    public function scopeTimeBetween($query, $begin, $end) {
+      //return $query->whereBetween('appointment_datetime', array($begin, $end));
+      return $query->where('appointment_datetime', '>', $begin)->where('appointment_datetime', '<', $end);
+    } 
 }
