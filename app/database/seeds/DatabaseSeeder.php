@@ -28,6 +28,9 @@ class DatabaseSeeder extends Seeder {
     $this->call('AppointmentSeeder');
     $this->command->info('Appointments seeded!');
     
+    $this->call('AdminSeeder');
+    $this->command->info('Admins seeded!');
+    
     Eloquent::unguard();
 
 		// $this->call('UserTableSeeder');

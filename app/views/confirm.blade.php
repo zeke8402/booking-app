@@ -16,7 +16,6 @@
               <th> Name </th>
               <th> Phone Number </th>
               <th align="center"> Email </th>
-              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -24,7 +23,6 @@
               <td> {{ $appointmentInfo['fname'] }} </td>
               <td> {{ $appointmentInfo['lname'] }} </td>
               <td> {{ $appointmentInfo['email'] }} </td>
-              <td> <a href="#"> Edit Details </td>
             </tr>
           </tbody>
       </table>

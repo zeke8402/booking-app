@@ -43,7 +43,7 @@
       <div class ="row">
         <div class="large-6 columns">
           <label for="number">Contact Number*</label>
-            <input type="text" name="number" placeholder="(555)-555-5555" required>
+            <input type="number" name="number" placeholder="5555555555" required>
           </label>
         <small class="error">Please enter a properly formatted number.</small>
       </div>

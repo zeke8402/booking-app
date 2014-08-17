@@ -14,3 +14,11 @@
 
 Route::get('/', 'BookingController@getIndex');
 Route::controller('booking', 'BookingController');
+
+// Admin Portion
+Route::controller('admin', 'AdminController');
+Route::get('/admin', 'AdminController@getIndex');
+
+
+
+

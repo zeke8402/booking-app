@@ -6,6 +6,8 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Admin' => $baseDir . '/app/models/Admin.php',
+    'AdminSeeder' => $baseDir . '/app/database/seeds/AdminSeeder.php',
     'Appointment' => $baseDir . '/app/models/Appointment.php',
     'AppointmentSeeder' => $baseDir . '/app/database/seeds/AppointmentSeeder.php',
     'BaseController' => $baseDir . '/app/controllers/BaseController.php',
@@ -13,8 +15,10 @@ return array(
     'BookingDateTimesTableSeeder' => $baseDir . '/app/database/seeds/BookingDateTimesTableSeeder.php',
     'BookingDates' => $baseDir . '/app/models/BookingDates.php',
     'BookingDatesTableSeeder' => $baseDir . '/app/database/seeds/BookingDatesTableSeeder.php',
+    'BookingDatetimes' => $baseDir . '/app/models/BookingDateTimes.php',
     'BookingTimes' => $baseDir . '/app/models/BookingTimes.php',
     'BookingTimesTableSeeder' => $baseDir . '/app/database/seeds/BookingTimesTableSeeder.php',
+    'CreateAdminTable' => $baseDir . '/app/database/migrations/2014_08_16_234626_create_admin_table.php',
     'CreateAppointmentsTable' => $baseDir . '/app/database/migrations/2014_03_10_060938_create_appointments_table.php',
     'CreateBookingDatesTable' => $baseDir . '/app/database/migrations/2014_02_21_042009_create_booking_dates_table.php',
     'CreateBookingDatetimesTable' => $baseDir . '/app/database/migrations/2014_07_07_044831_create_booking_datetimes_table.php',

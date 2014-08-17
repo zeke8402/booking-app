@@ -28,8 +28,9 @@ return array(
 	|
 	*/
 
-	'model' => 'User',
-
+//	'model' => 'User',
+//  Changed model to admin
+  'model' => 'Admin',
 	/*
 	|--------------------------------------------------------------------------
 	| Authentication Table
@@ -41,7 +42,7 @@ return array(
 	|
 	*/
 
-	'table' => 'users',
+	'table' => 'admin',
 
 	/*
 	|--------------------------------------------------------------------------

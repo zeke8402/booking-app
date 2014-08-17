@@ -1,6 +1,6 @@
 <?php
 
-class BookingDateTimes extends Eloquent{
+class BookingDatetimes extends Eloquent{
   protected $table = 'booking_datetimes';
   
   public function scopeDate($query, $date) {
