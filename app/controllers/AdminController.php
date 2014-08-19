@@ -10,7 +10,7 @@ class AdminController extends BaseController {
   public function anyLogin() {
     $input = Input::all();
     if (Auth::attempt(array('username' => $input['username'], 'password' => $input['password'] ))) {
-      return View::make('admin/success');
+      return $this->getAdminPage();
     } else {
       $errors = "Invalid username or password";
       return View::make('admin/adminLogin')->with('errors', $errors);
@@ -18,7 +18,7 @@ class AdminController extends BaseController {
     
   }
   
-  public function getTest() {
-    return View::make('admin/success');
+  public function getAdminPage() {
+    return View::make('admin/main');
   }
 }

@@ -16,6 +16,7 @@
            <input type="text" size="20" id="username" name="username" />
            <br/>
            <label for="password">Password:</label>
+           <small class="error">During development, username is admin and password is admin</small>
            <input type="password" size="20" id="password" name="password" />
            <?php
             if($errors != "None") {
