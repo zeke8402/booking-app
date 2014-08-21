@@ -1,5 +1,6 @@
 $(document).ready(function() {
   var cDate = new Date();
+  console.log(link);
   $('#calendar').fullCalendar({
     header: {
       left: 'prev,next today',
@@ -8,12 +9,11 @@ $(document).ready(function() {
     },
     defaultDate: '2014-08-19',
     editable: true,
-    events: [
-          {
-            title: 'Test Event',
-            start: cDate
-          }
-      
-    ]
+    events: {
+      url: link+'/admin/appointments',
+      error: function() {
+        $('#test').html('error');
+      }
+    }
   });
 });
