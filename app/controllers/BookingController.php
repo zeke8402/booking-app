@@ -93,9 +93,12 @@ class BookingController extends BaseController {
    * User interaction is complete
    *
    **/
-  // This will take the place of anyConfirmed
   public function anyConfirmed() {
     
+    // When this boolean is set to True, instead of deleting all appointment times for the package duration
+    // It will instead remove all times up to the end of the day, and continue to the next day until the package
+    // time is done.
+    $overlapDays = FALSE;
     $info = Session::get('appointmentInfo');
     $startTime = DateTime::createFromFormat('Y-m-d H:i', $info['datetime'] )->format('Y-m-d H:i');
     $endTime = new DateTime($info['datetime']);
@@ -106,8 +109,24 @@ class BookingController extends BaseController {
     // Create the appointment with this new customer id
     Appointment::addAppointment($newCustomer);
     
-    // Remove all dates conflicting with the appointment duration
-    BookingDateTimes::timeBetween($startTime, $endTime)->delete();
+    if ($overlapDays) {
+      // Remove hours up to the last hour of the day, then continue to the next day
+      // If necessary
+      
+      // PSEUDO CODE
+      // We will get the last appointment of the day and see if it's smaller than the package time
+      
+      // If the last appointment occurs beyond the package duration, we delete like normal
+      
+      // If the last appointment occurs before the package duration
+      // We subtract the hours we remove from the package duration to get remaining time
+      // Then we go to the next day with appointment times and remove enough appointments
+      // To make clearance for the package duration.
+      
+    } else {
+      // Remove all dates conflicting with the appointment duration
+      BookingDateTimes::timeBetween($startTime, $endTime)->delete();
+    }
   }
   
   /**
