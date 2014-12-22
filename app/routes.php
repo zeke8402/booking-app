@@ -1,6 +1,5 @@
 <?php
 
-//testing branch capatbilities again
 /*
 |--------------------------------------------------------------------------
 | Application Routes
