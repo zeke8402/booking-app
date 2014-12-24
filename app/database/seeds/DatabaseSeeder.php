@@ -13,12 +13,6 @@ class DatabaseSeeder extends Seeder {
     $this->call('PackageTableSeeder');
     $this->command->info('Package table seeded!');
     
-    $this->call('BookingDatesTableSeeder');
-    $this->command->info('Booking Dates seeded!');
-    
-    $this->call('BookingTimesTableSeeder');
-    $this->command->info('Booking Times seeded!');
-    
     $this->call('BookingDateTimesTableSeeder');
     $this->command->info('Booking DateTimes seeded!');
     
@@ -32,8 +26,6 @@ class DatabaseSeeder extends Seeder {
     $this->command->info('Admins seeded!');
     
     Eloquent::unguard();
-
-		// $this->call('UserTableSeeder');
 	}
 
 }
