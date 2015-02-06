@@ -1,5 +1,7 @@
 # booking-app
 
+[![Join the chat at https://gitter.im/zeke8402/booking-app](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/zeke8402/booking-app?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Laravel web application for booking appointments
 
 ## Hello!
