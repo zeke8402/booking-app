@@ -127,6 +127,8 @@ class BookingController extends BaseController {
       // Remove all dates conflicting with the appointment duration
       BookingDateTimes::timeBetween($startTime, $endTime)->delete();
     }
+    
+    return View::make('success');
   }
   
   /**
