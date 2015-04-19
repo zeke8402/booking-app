@@ -32,4 +32,4 @@ Laravel 5 released in the middle of the creation of this project, and since I am
 ## What's Left?
 The main thing that is missing is an Administrator panel to allow the admin to dictate availability for each day. Once this feature is complete the app will be fully operational.
 
-I encourage and appreciate any feedback related to this app. I am not currently aware of the full scope of the application, but I plan on making it easily customizable to anyone's needs.
+I encourage and appreciate any feedback related to this app.
