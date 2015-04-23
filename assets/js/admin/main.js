@@ -5,7 +5,8 @@ $(document).ready(function() {
     header: {
       left: 'prev,next today',
       center: 'Test',
-      right: 'month,agendaWeek,agendaDay'
+      //right: 'month,agendaWeek,agendaDay'
+      right: 'month, basicWeek, basicDay'
     },
     defaultDate: '2014-08-19',
     editable: true,
