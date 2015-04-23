@@ -36,7 +36,8 @@ $(function() {
 		minDate: 0,
 		dateFormat: 'yy-mm-dd',
     onSelect: function(d){
-      document.getElementById('daySelect').innerHTML = d;
+      var test = moment(d);
+      document.getElementById('daySelect').innerHTML = test.format("MMM Do, YYYY");
       //Here we need to make an AJAX request to get all the available dates
       $.ajax({
         url: "<?php echo URL::to('booking/times'); ?>",

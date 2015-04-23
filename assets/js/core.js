@@ -1,9 +1,0 @@
-$(document).ready(function() {
-  
-};
-
-		      
-    
-    
-                                                            
-

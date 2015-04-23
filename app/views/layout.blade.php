@@ -15,15 +15,16 @@
     {{ HTML::style('assets/css/calendar.css') }}
     
     <!-- Modernizr -->
-    {{ HTML::script('js/vendor/modernizr.js') }}
+    {{ HTML::script('assets/js/vendor/modernizr.js') }}
     
     <!-- JQuery must be in the header for the calendar to work, I don't know why... -->
     {{ HTML::script('http://code.jquery.com/jquery-1.9.1.js') }}
     {{ HTML::script('http://code.jquery.com/ui/1.11.0/jquery-ui.js') }}
 
-
-  {{ HTML::script('assets/js/bootstrap.js') }}
-  {{ HTML::script('assets/js/core.js') }}
+    {{ HTML::script('assets/js/bootstrap.js') }}
+    
+    <!-- Moment -->
+    {{ HTML::script('assets/js/moment.js') }}
  
 </head>  
 <body>
