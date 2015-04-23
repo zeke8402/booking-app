@@ -25,6 +25,7 @@ Alternatively, you can run the script I made to easily remake the database for m
 [Bootswatch](http://www.bootswatch.com) for the base theme, which is (flatly)  
 [jQuery](http://www.jquery.com) for the datepicker  
 [FullCalendar](http://fullcalendar.io) for the admin calendar  
+[Moment.js](http://www.momentjs.com) for date formatting  
 
 I will be working on this as often as I can in my spare time ( In between work and school )
 
