@@ -49,7 +49,7 @@ $(function() {
           $('#dayTimes').empty();
           $('#dayTimes').append('<h4>Times available</h4>');
           for(var i=0; i < response.length; i++) {
-            var link = '/booking-app/';
+            var link = '{{ $link.'/' }}';
             $('#dayTimes').append('<a href="'+ link + 'booking/details/' + response[i].id +'">' + response[i].bdatetime +'</a><br>');
           }
         },
