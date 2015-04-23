@@ -1,8 +1,10 @@
 @extends('layout')
 @section('content')
-<br><br><br>
+<div class="row jumbotron text-center">
+  <h1>Confirm Appointment</h1>
+</div>
 <div class="row">
-  <ul class="pricing-table">
+  <ul>
     <li class="title">Confirm Appointment</li>
     <li class="price">
    

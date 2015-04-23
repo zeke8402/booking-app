@@ -40,12 +40,13 @@ class BookingController extends BaseController {
     
     // Put the passed date time ID into the session
     Session::put('aptID', $aptID);
+    $package = Package::find(Session::get('packageID'));
     
     // Get row of date id
     $dateRow = BookingDateTimes::find($aptID);
     Session::put('selection', $dateRow->booking_datetime);
     
-    return View::make('customerInfo')->with('pid', Session::get('packageID'))->with('dateRow', $dateRow)->with('aptID', $aptID);
+    return View::make('customerInfo')->with('pid', Session::get('packageID'))->with('package_name', $package->package_name)->with('dateRow', $dateRow)->with('aptID', $aptID);
     
   }
   

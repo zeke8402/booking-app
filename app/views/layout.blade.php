@@ -5,11 +5,14 @@
   <title>Book Appointment</title>
 
   <!-- Linking CSS -->
-    {{ HTML::style('assets/css/lugo.datepicker.css') }}
-    {{ HTML::style('assets/css/scheduler.css') }}
+   
+    
     {{ HTML::style('assets/css/normalize.css') }}
-    {{ HTML::style('assets/css/foundation.css') }}
-    {{ HTML::style('assets/js/jquery-ui.custom/jquery-ui.min.css') }}
+    {{ HTML::style('assets/css/bootstrap-3.3.4/css/bootstrap.css') }}
+    {{ HTML::style('assets/css/flatly.css') }}
+   
+    <!-- Datepicker css -->
+    {{ HTML::style('assets/css/calendar.css') }}
     
     <!-- Modernizr -->
     {{ HTML::script('js/vendor/modernizr.js') }}
@@ -19,14 +22,14 @@
     {{ HTML::script('http://code.jquery.com/ui/1.11.0/jquery-ui.js') }}
 
 
-  {{ HTML::script('assets/js/foundation.min.js') }}
+  {{ HTML::script('assets/js/bootstrap.js') }}
   {{ HTML::script('assets/js/core.js') }}
  
 </head>  
 <body>
-  <div class="large-12 columns text-center">
+
   @yield('content')
-  </div>
+
 
  </body>
 </html>
