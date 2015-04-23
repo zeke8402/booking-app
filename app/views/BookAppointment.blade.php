@@ -4,7 +4,7 @@
 <div class="row jumbotron text-center">
   <h1>Select a Day</h1>
   <p>You chose <b> {{ $packageName }} </b></p>
-  <p> Current Date is <?php $cDate = date('m/d/Y'); echo $cDate; ?> </p>
+  <p id="currentDate">  </p>
 </div>
 
 <div class="row text-center">
@@ -28,6 +28,8 @@
 	<script>
 		$(document).ready(function() {
 
+      cDate = moment();
+      $('#currentDate').text("Current Date is " + cDate.format("MMMM Do, YYYY") );
 			var jdays = <?php echo json_encode($days); ?>;
 //My function to intialize the datepicker
 $(function() {
@@ -36,8 +38,8 @@ $(function() {
 		minDate: 0,
 		dateFormat: 'yy-mm-dd',
     onSelect: function(d){
-      var test = moment(d);
-      document.getElementById('daySelect').innerHTML = test.format("MMM Do, YYYY");
+      var dateSelected = moment(d);
+      document.getElementById('daySelect').innerHTML = dateSelected.format("MMMM Do, YYYY");
       //Here we need to make an AJAX request to get all the available dates
       $.ajax({
         url: "<?php echo URL::to('booking/times'); ?>",

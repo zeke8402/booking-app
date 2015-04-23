@@ -3,36 +3,40 @@
 <div class="row jumbotron text-center">
   <h1>Confirm Appointment</h1>
 </div>
-<div class="row">
-  <ul>
-    <li class="title">Confirm Appointment</li>
-    <li class="price">
-   
-      <h4> With Person on {{ DateTime::createFromFormat('Y-m-d H:i', $appointmentInfo['datetime'] )->format('g:ia \o\n l, jS \o\f F Y') }} </h4>
-      <h4><small>{{ link_to('/', 'Change'); }}</small></h4>
-    </li>
-    <li class="bullet-item">
-        <table class="confirmation-table" width="100%">
-          <thead>
-            <tr>
-              <th> Name </th>
-              <th> Phone Number </th>
-              <th align="center"> Email </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td> {{ $appointmentInfo['fname'] }} </td>
-              <td> {{ $appointmentInfo['lname'] }} </td>
-              <td> {{ $appointmentInfo['email'] }} </td>
-            </tr>
-          </tbody>
-      </table>
-    </li>
-<li class="bullet-item">
-  <a href="confirmed" class="button">Confirm Appointment</a>
-</li>
-  </ul>
+
+<div class="row col-md-6 well center-block">
+  <h1>For {{ $appointmentInfo['package_name'] }}</h1>
+  <h3 id="momentDate"></h3>
+  <legend>Customer Details</legend>
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Contact Number</th>
+        <th>E-Mail</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ $appointmentInfo['fname'] }} </td>
+        <td>{{ $appointmentInfo['lname'] }} </td>
+        <td>{{ $appointmentInfo['number'] }} </td>
+        <td>{{ $appointmentInfo['email'] }} </td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <div class="text-center">
+  <a href="confirmed" class="btn btn-primary">Confirm Appointment</a>
+  </div>
+  
 </div>
-      
+
+<script>
+  $(document).ready(function() {
+    mDate = moment({{ "'".Session::get('selection')."'" }});
+    $('#momentDate').text("On " + mDate.format("MMMM Do, YYYY"));
+  })
+</script>
 @stop

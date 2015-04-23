@@ -2,33 +2,54 @@
 <html>
 <head>
     <title> Admin Login </title>
-    {{ HTML::style('assets/css/foundation.css') }}
+    {{ HTML::style('assets/css/bootstrap-3.3.4/css/bootstrap.css') }}
+    {{ HTML::style('assets/css/flatly.css') }}
+    {{ HTML::style('assets/css/core.css') }}
 </head>
 <body>
- <div class="row">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="panel panel-primary">
+        <div class="panel-heading">Login to Admin Panel</div>
+        <div class="panel-body">
+          @if ($errors != 'None')
+            <div class="alert alert-danger">
+              <strong>Invalid Username or Password</strong>
+            </div>
+          @endif
+          
+          {{ Form::open(array('url' => 'admin/login', 'class' => 'form-horizontal')) }}
+          
+          <div class="form-group">
+            <label for="username" class="col-lg-2 control-label">Username</label>
+            <div class="col-lg-8">
+              <input type="text" class="form-control" id="username" name="username">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="password" class="col-lg-2 control-label">Password</label>
+            <div class="col-lg-8">
+              <input type="password" class="form-control" id="password" name="password">
+            </div>
+          </div>
+          
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary">Log in</button>
+          </div>
+          <br><br><br>
+          <div class="alert alert-dismissible alert-info">
+            During Development, username is admin and password is admin
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <div class="small-centered small-4 medium-4 large-8 columns login" align="center">
-       <h1> Admin Login</h1>
-       {{ Form::open(array('url' => 'admin/login')) }}
-       <fieldset>
-           <legend> Log in </legend>
-           <label for="username">Username:</label>
-           <input type="text" size="20" id="username" name="username" />
-           <br/>
-           <label for="password">Password:</label>
-           <small class="error">During development, username is admin and password is admin</small>
-           <input type="password" size="20" id="password" name="password" />
-           <?php
-            if($errors != "None") {
-            echo '<small class="error">Invalid username or password</small>';
-            }
-           ?>
-        <br/>
-        <button type="submit" class="button-medium radius"> Log In </button>
-    </fieldset>
+  </div>
+  
 {{ Form::close() }}
-</div>
-
-</div>
 </body>
 </html>

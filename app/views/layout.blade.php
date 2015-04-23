@@ -10,6 +10,8 @@
     {{ HTML::style('assets/css/normalize.css') }}
     {{ HTML::style('assets/css/bootstrap-3.3.4/css/bootstrap.css') }}
     {{ HTML::style('assets/css/flatly.css') }}
+    {{ HTML::style('assets/css/core.css') }}
+
    
     <!-- Datepicker css -->
     {{ HTML::style('assets/css/calendar.css') }}
