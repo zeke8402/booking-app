@@ -15,11 +15,13 @@ This is an open-source web application designed to allow users to book an appoin
 
 
 ## Instructions
-To get this working, you need to first generate the database schema using the migrations and seeds I have set up. The database by default uses the 'booking.sqlite' file included  
+To get this working, you need to install dependencies and set up your .env
+```composer install``` 
+```php artisan key:generate``` 
+Now add the app key to your .env file, this is also where you define your database (there is an example in root called .env.example)
+Next, you need to run the database migrations
 ```php artisan migrate``` Creates the tables in the database  
 ```php artisan db:seed``` Seeds the tables with the relevant data  
-
-Alternatively, you can run the script I made to easily remake the database for me, ```sh makedb.sh```
 
 ## Resources 
 [Laravel](http://www.laravel.com) (obviously) for the framework  
@@ -31,10 +33,8 @@ Alternatively, you can run the script I made to easily remake the database for m
 
 I will be working on this as often as I can in my spare time ( In between work and school )
 
-## Laravel 5
-I was originally going to finish this in Laravel 4, as Laravel 5 seemed to be a big jump. But I have familiarized myself very well with L5 and with the announcement that L5.1 will be LTS, I will move this application to that version in the near future.
-
 ## What's Left?
 The main thing that is missing is an Administrator panel to allow the admin to dictate availability for each day. Once this feature is complete the app will be fully operational.
 
+This was developed with PostGres in mind, so if you have any compatibility issues with other databases, please let me know.
 I encourage and appreciate any feedback related to this app.
