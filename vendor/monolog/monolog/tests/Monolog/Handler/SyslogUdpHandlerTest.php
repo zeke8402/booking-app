@@ -1,9 +1,19 @@
 <?php
 
+/*
+ * This file is part of the Monolog package.
+ *
+ * (c) Jordi Boggiano <j.boggiano@seld.be>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Monolog\Handler;
 
-use Monolog\TestCase;
-
+/**
+ * @requires extension sockets
+ */
 class SyslogUdpHandlerTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -16,16 +26,16 @@ class SyslogUdpHandlerTest extends \PHPUnit_Framework_TestCase
 
     public function testWeSplitIntoLines()
     {
-        $handler = new SyslogUdpHandler("127.0.0.1", 514, "local5");
+        $handler = new SyslogUdpHandler("127.0.0.1", 514, "authpriv");
         $handler->setFormatter(new \Monolog\Formatter\ChromePHPFormatter());
 
         $socket = $this->getMock('\Monolog\Handler\SyslogUdp\UdpSocket', array('write'), array('lol', 'lol'));
         $socket->expects($this->at(0))
             ->method('write')
-            ->with("lol", "<172>: ");
+            ->with("lol", "<".(LOG_AUTHPRIV + LOG_WARNING).">1 ");
         $socket->expects($this->at(1))
             ->method('write')
-            ->with("hej", "<172>: ");
+            ->with("hej", "<".(LOG_AUTHPRIV + LOG_WARNING).">1 ");
 
         $handler->setSocket($socket);
 

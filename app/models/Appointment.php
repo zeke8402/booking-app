@@ -1,6 +1,16 @@
 <?php
+namespace App\Models;
 
-class Appointment extends Eloquent{
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Session;
+
+
+class Appointment extends Model implements AuthenticatableContract{
+
+    use authenticatable;
+
   	protected $table = 'appointments';
     protected $fillable = array('customer_id', 'appointment_type', 'appointment_datetime');
     protected $guarded = array('id', 'created_at', 'updated_at');

@@ -49,7 +49,7 @@ class SocketHandler extends AbstractProcessingHandler
      * @throws \UnexpectedValueException
      * @throws \RuntimeException
      */
-    public function write(array $record)
+    protected function write(array $record)
     {
         $this->connectIfNotConnected();
         $data = $this->generateDataStream($record);
@@ -80,11 +80,11 @@ class SocketHandler extends AbstractProcessingHandler
     /**
      * Set socket connection to nbe persistent. It only has effect before the connection is initiated.
      *
-     * @param type $boolean
+     * @param boolean $persistent
      */
-    public function setPersistent($boolean)
+    public function setPersistent($persistent)
     {
-        $this->persistent = (boolean) $boolean;
+        $this->persistent = (boolean) $persistent;
     }
 
     /**
@@ -190,7 +190,7 @@ class SocketHandler extends AbstractProcessingHandler
     protected function streamSetTimeout()
     {
         $seconds = floor($this->timeout);
-        $microseconds = round(($this->timeout - $seconds)*1e6);
+        $microseconds = round(($this->timeout - $seconds) * 1e6);
 
         return stream_set_timeout($this->resource, $seconds, $microseconds);
     }
@@ -281,5 +281,4 @@ class SocketHandler extends AbstractProcessingHandler
             throw new \RuntimeException("End-of-file reached, probably we got disconnected (sent $sent of $length)");
         }
     }
-
 }

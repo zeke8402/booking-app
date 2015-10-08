@@ -1,6 +1,14 @@
-<?php
+<?php namespace App\Models;
 
-class Customer extends Eloquent{
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Session;
+use Validator;
+
+class Customer extends Model implements AuthenticatableContract{
+
+  use Authenticatable;
   protected $table = 'customers';
   protected $fillable = array('first_name', 'last_name', 'contact_number', 'email', 'wants_updates');
   protected $guarded = array('id', 'created_at', 'updated_at');

@@ -11,9 +11,7 @@
 /**
  * Redundantly and rotationally uses several Transports when sending.
  *
- * @package    Swift
- * @subpackage Transport
- * @author     Chris Corbyn
+ * @author Chris Corbyn
  */
 class Swift_Transport_LoadBalancedTransport implements Swift_Transport
 {
@@ -62,7 +60,7 @@ class Swift_Transport_LoadBalancedTransport implements Swift_Transport
     /**
      * Test if this Transport mechanism has started.
      *
-     * @return boolean
+     * @return bool
      */
     public function isStarted()
     {
@@ -104,8 +102,7 @@ class Swift_Transport_LoadBalancedTransport implements Swift_Transport
         $sent = 0;
 
         for ($i = 0; $i < $maxTransports
-            && $transport = $this->_getNextTransport(); ++$i)
-        {
+            && $transport = $this->_getNextTransport(); ++$i) {
             try {
                 if (!$transport->isStarted()) {
                     $transport->start();
@@ -138,8 +135,6 @@ class Swift_Transport_LoadBalancedTransport implements Swift_Transport
             $transport->registerPlugin($plugin);
         }
     }
-
-    // -- Protected methods
 
     /**
      * Rotates the transport list around and returns the first instance.

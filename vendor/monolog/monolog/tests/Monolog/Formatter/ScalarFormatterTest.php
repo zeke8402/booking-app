@@ -12,7 +12,6 @@ class ScalarFormatterTest extends \PHPUnit_Framework_TestCase
     {
         $data = array();
         $trace = $e->getTrace();
-        array_shift($trace);
         foreach ($trace as $frame) {
             if (isset($frame['file'])) {
                 $data[] = $frame['file'].':'.$frame['line'];
@@ -40,7 +39,7 @@ class ScalarFormatterTest extends \PHPUnit_Framework_TestCase
             'foo' => 'string',
             'bar' => 1,
             'baz' => false,
-            'bam' => array(1,2,3),
+            'bam' => array(1, 2, 3),
             'bat' => array('foo' => 'bar'),
             'bap' => \DateTime::createFromFormat(\DateTime::ISO8601, '1970-01-01T00:00:00+0000'),
             'ban' => $exception
@@ -50,12 +49,13 @@ class ScalarFormatterTest extends \PHPUnit_Framework_TestCase
             'foo' => 'string',
             'bar' => 1,
             'baz' => false,
-            'bam' => $this->encodeJson(array(1,2,3)),
+            'bam' => $this->encodeJson(array(1, 2, 3)),
             'bat' => $this->encodeJson(array('foo' => 'bar')),
             'bap' => '1970-01-01 00:00:00',
             'ban' => $this->encodeJson(array(
                 'class'   => get_class($exception),
                 'message' => $exception->getMessage(),
+                'code'    => $exception->getCode(),
                 'file'    => $exception->getFile() . ':' . $exception->getLine(),
                 'trace'   => $this->buildTrace($exception)
             ))
@@ -88,6 +88,7 @@ class ScalarFormatterTest extends \PHPUnit_Framework_TestCase
                 'exception' => array(
                     'class'   => get_class($exception),
                     'message' => $exception->getMessage(),
+                    'code'    => $exception->getCode(),
                     'file'    => $exception->getFile() . ':' . $exception->getLine(),
                     'trace'   => $this->buildTrace($exception)
                 )

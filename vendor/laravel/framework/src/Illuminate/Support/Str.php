@@ -1,356 +1,460 @@
-<?php namespace Illuminate\Support;
+<?php
 
-class Str {
+namespace Illuminate\Support;
 
-	/**
-	 * The registered string macros.
-	 *
-	 * @var array
-	 */
-	protected static $macros = array();
+use RuntimeException;
+use Stringy\StaticStringy;
+use Illuminate\Support\Traits\Macroable;
 
-	/**
-	 * Transliterate a UTF-8 value to ASCII.
-	 *
-	 * @param  string  $value
-	 * @return string
-	 */
-	public static function ascii($value)
-	{
-		return \Patchwork\Utf8::toAscii($value);
-	}
+class Str
+{
+    use Macroable;
 
-	/**
-	 * Convert a value to camel case.
-	 *
-	 * @param  string  $value
-	 * @return string
-	 */
-	public static function camel($value)
-	{
-		return lcfirst(static::studly($value));
-	}
+    /**
+     * The cache of snake-cased words.
+     *
+     * @var array
+     */
+    protected static $snakeCache = [];
 
-	/**
-	 * Determine if a given string contains a given substring.
-	 *
-	 * @param  string        $haystack
-	 * @param  string|array  $needles
-	 * @return bool
-	 */
-	public static function contains($haystack, $needles)
-	{
-		foreach ((array) $needles as $needle)
-		{
-			if ($needle != '' && strpos($haystack, $needle) !== false) return true;
-		}
+    /**
+     * The cache of camel-cased words.
+     *
+     * @var array
+     */
+    protected static $camelCache = [];
 
-		return false;
-	}
+    /**
+     * The cache of studly-cased words.
+     *
+     * @var array
+     */
+    protected static $studlyCache = [];
 
-	/**
-	 * Determine if a given string ends with a given substring.
-	 *
-	 * @param string $haystack
-	 * @param string|array $needles
-	 * @return bool
-	 */
-	public static function endsWith($haystack, $needles)
-	{
-		foreach ((array) $needles as $needle)
-		{
-			if ($needle == substr($haystack, -strlen($needle))) return true;
-		}
+    /**
+     * Transliterate a UTF-8 value to ASCII.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public static function ascii($value)
+    {
+        return StaticStringy::toAscii($value);
+    }
 
-		return false;
-	}
+    /**
+     * Convert a value to camel case.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public static function camel($value)
+    {
+        if (isset(static::$camelCache[$value])) {
+            return static::$camelCache[$value];
+        }
 
-	/**
-	 * Cap a string with a single instance of a given value.
-	 *
-	 * @param  string  $value
-	 * @param  string  $cap
-	 * @return string
-	 */
-	public static function finish($value, $cap)
-	{
-		$quoted = preg_quote($cap, '/');
+        return static::$camelCache[$value] = lcfirst(static::studly($value));
+    }
 
-		return preg_replace('/(?:'.$quoted.')+$/', '', $value).$cap;
-	}
+    /**
+     * Determine if a given string contains a given substring.
+     *
+     * @param  string  $haystack
+     * @param  string|array  $needles
+     * @return bool
+     */
+    public static function contains($haystack, $needles)
+    {
+        foreach ((array) $needles as $needle) {
+            if ($needle != '' && strpos($haystack, $needle) !== false) {
+                return true;
+            }
+        }
 
-	/**
-	 * Determine if a given string matches a given pattern.
-	 *
-	 * @param  string  $pattern
-	 * @param  string  $value
-	 * @return bool
-	 */
-	public static function is($pattern, $value)
-	{
-		if ($pattern == $value) return true;
+        return false;
+    }
 
-		$pattern = preg_quote($pattern, '#');
+    /**
+     * Determine if a given string ends with a given substring.
+     *
+     * @param  string  $haystack
+     * @param  string|array  $needles
+     * @return bool
+     */
+    public static function endsWith($haystack, $needles)
+    {
+        foreach ((array) $needles as $needle) {
+            if ((string) $needle === substr($haystack, -strlen($needle))) {
+                return true;
+            }
+        }
 
-		// Asterisks are translated into zero-or-more regular expression wildcards
-		// to make it convenient to check if the strings starts with the given
-		// pattern such as "library/*", making any string check convenient.
-		$pattern = str_replace('\*', '.*', $pattern).'\z';
+        return false;
+    }
 
-		return (bool) preg_match('#^'.$pattern.'#', $value);
-	}
+    /**
+     * Cap a string with a single instance of a given value.
+     *
+     * @param  string  $value
+     * @param  string  $cap
+     * @return string
+     */
+    public static function finish($value, $cap)
+    {
+        $quoted = preg_quote($cap, '/');
 
-	/**
-	 * Return the length of the given string.
-	 *
-	 * @param  string  $value
-	 * @return int
-	 */
-	public static function length($value)
-	{
-		return mb_strlen($value);
-	}
+        return preg_replace('/(?:'.$quoted.')+$/', '', $value).$cap;
+    }
 
-	/**
-	 * Limit the number of characters in a string.
-	 *
-	 * @param  string  $value
-	 * @param  int     $limit
-	 * @param  string  $end
-	 * @return string
-	 */
-	public static function limit($value, $limit = 100, $end = '...')
-	{
-		if (mb_strlen($value) <= $limit) return $value;
+    /**
+     * Determine if a given string matches a given pattern.
+     *
+     * @param  string  $pattern
+     * @param  string  $value
+     * @return bool
+     */
+    public static function is($pattern, $value)
+    {
+        if ($pattern == $value) {
+            return true;
+        }
 
-		return rtrim(mb_substr($value, 0, $limit, 'UTF-8')).$end;
-	}
+        $pattern = preg_quote($pattern, '#');
 
-	/**
-	 * Convert the given string to lower-case.
-	 *
-	 * @param  string  $value
-	 * @return string
-	 */
-	public static function lower($value)
-	{
-		return mb_strtolower($value);
-	}
+        // Asterisks are translated into zero-or-more regular expression wildcards
+        // to make it convenient to check if the strings starts with the given
+        // pattern such as "library/*", making any string check convenient.
+        $pattern = str_replace('\*', '.*', $pattern).'\z';
 
-	/**
-	 * Limit the number of words in a string.
-	 *
-	 * @param  string  $value
-	 * @param  int     $words
-	 * @param  string  $end
-	 * @return string
-	 */
-	public static function words($value, $words = 100, $end = '...')
-	{
-		preg_match('/^\s*+(?:\S++\s*+){1,'.$words.'}/u', $value, $matches);
+        return (bool) preg_match('#^'.$pattern.'#', $value);
+    }
 
-		if ( ! isset($matches[0])) return $value;
+    /**
+     * Return the length of the given string.
+     *
+     * @param  string  $value
+     * @return int
+     */
+    public static function length($value)
+    {
+        return mb_strlen($value);
+    }
 
-		if (strlen($value) == strlen($matches[0])) return $value;
+    /**
+     * Limit the number of characters in a string.
+     *
+     * @param  string  $value
+     * @param  int     $limit
+     * @param  string  $end
+     * @return string
+     */
+    public static function limit($value, $limit = 100, $end = '...')
+    {
+        if (mb_strwidth($value, 'UTF-8') <= $limit) {
+            return $value;
+        }
 
-		return rtrim($matches[0]).$end;
-	}
+        return rtrim(mb_strimwidth($value, 0, $limit, '', 'UTF-8')).$end;
+    }
 
-	/**
-	 * Parse a Class@method style callback into class and method.
-	 *
-	 * @param  string  $callback
-	 * @param  string  $default
-	 * @return array
-	 */
-	public static function parseCallback($callback, $default)
-	{
-		return static::contains($callback, '@') ? explode('@', $callback, 2) : array($callback, $default);
-	}
+    /**
+     * Convert the given string to lower-case.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public static function lower($value)
+    {
+        return mb_strtolower($value, 'UTF-8');
+    }
 
-	/**
-	 * Get the plural form of an English word.
-	 *
-	 * @param  string  $value
-	 * @param  int  $count
-	 * @return string
-	 */
-	public static function plural($value, $count = 2)
-	{
-		return Pluralizer::plural($value, $count);
-	}
+    /**
+     * Limit the number of words in a string.
+     *
+     * @param  string  $value
+     * @param  int     $words
+     * @param  string  $end
+     * @return string
+     */
+    public static function words($value, $words = 100, $end = '...')
+    {
+        preg_match('/^\s*+(?:\S++\s*+){1,'.$words.'}/u', $value, $matches);
 
-	/**
-	 * Generate a more truly "random" alpha-numeric string.
-	 *
-	 * @param  int     $length
-	 * @return string
-	 *
-	 * @throws \RuntimeException
-	 */
-	public static function random($length = 16)
-	{
-		if (function_exists('openssl_random_pseudo_bytes'))
-		{
-			$bytes = openssl_random_pseudo_bytes($length * 2);
+        if (! isset($matches[0]) || strlen($value) === strlen($matches[0])) {
+            return $value;
+        }
 
-			if ($bytes === false)
-			{
-				throw new \RuntimeException('Unable to generate random string.');
-			}
+        return rtrim($matches[0]).$end;
+    }
 
-			return substr(str_replace(array('/', '+', '='), '', base64_encode($bytes)), 0, $length);
-		}
+    /**
+     * Parse a Class@method style callback into class and method.
+     *
+     * @param  string  $callback
+     * @param  string  $default
+     * @return array
+     */
+    public static function parseCallback($callback, $default)
+    {
+        return static::contains($callback, '@') ? explode('@', $callback, 2) : [$callback, $default];
+    }
 
-		return static::quickRandom($length);
-	}
+    /**
+     * Get the plural form of an English word.
+     *
+     * @param  string  $value
+     * @param  int     $count
+     * @return string
+     */
+    public static function plural($value, $count = 2)
+    {
+        return Pluralizer::plural($value, $count);
+    }
 
-	/**
-	 * Generate a "random" alpha-numeric string.
-	 *
-	 * Should not be considered sufficient for cryptography, etc.
-	 *
-	 * @param  int     $length
-	 * @return string
-	 */
-	public static function quickRandom($length = 16)
-	{
-		$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    /**
+     * Generate a more truly "random" alpha-numeric string.
+     *
+     * @param  int  $length
+     * @return string
+     *
+     * @throws \RuntimeException
+     */
+    public static function random($length = 16)
+    {
+        $string = '';
 
-		return substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
-	}
+        while (($len = strlen($string)) < $length) {
+            $size = $length - $len;
 
-	/**
-	 * Convert the given string to upper-case.
-	 *
-	 * @param  string  $value
-	 * @return string
-	 */
-	public static function upper($value)
-	{
-		return mb_strtoupper($value);
-	}
+            $bytes = static::randomBytes($size);
 
-	/**
-	 * Convert the given string to title case.
-	 *
-	 * @param  string  $value
-	 * @return string
-	 */
-	public static function title($value)
-	{
-		return mb_convert_case($value, MB_CASE_TITLE, 'UTF-8');
-	}
+            $string .= substr(str_replace(['/', '+', '='], '', base64_encode($bytes)), 0, $size);
+        }
 
-	/**
-	 * Get the singular form of an English word.
-	 *
-	 * @param  string  $value
-	 * @return string
-	 */
-	public static function singular($value)
-	{
-		return Pluralizer::singular($value);
-	}
+        return $string;
+    }
 
-	/**
-	 * Generate a URL friendly "slug" from a given string.
-	 *
-	 * @param  string  $title
-	 * @param  string  $separator
-	 * @return string
-	 */
-	public static function slug($title, $separator = '-')
-	{
-		$title = static::ascii($title);
+    /**
+     * Generate a more truly "random" bytes.
+     *
+     * @param  int  $length
+     * @return string
+     *
+     * @throws \RuntimeException
+     */
+    public static function randomBytes($length = 16)
+    {
+        if (PHP_MAJOR_VERSION >= 7) {
+            $bytes = random_bytes($length);
+        } elseif (function_exists('openssl_random_pseudo_bytes')) {
+            $bytes = openssl_random_pseudo_bytes($length, $strong);
 
-		// Convert all dashes/undescores into separator
-		$flip = $separator == '-' ? '_' : '-';
+            if ($bytes === false || $strong === false) {
+                throw new RuntimeException('Unable to generate random string.');
+            }
+        } else {
+            throw new RuntimeException('OpenSSL extension is required for PHP 5 users.');
+        }
 
-		$title = preg_replace('!['.preg_quote($flip).']+!u', $separator, $title);
+        return $bytes;
+    }
 
-		// Remove all characters that are not the separator, letters, numbers, or whitespace.
-		$title = preg_replace('![^'.preg_quote($separator).'\pL\pN\s]+!u', '', mb_strtolower($title));
+    /**
+     * Generate a "random" alpha-numeric string.
+     *
+     * Should not be considered sufficient for cryptography, etc.
+     *
+     * @param  int  $length
+     * @return string
+     */
+    public static function quickRandom($length = 16)
+    {
+        $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-		// Replace all separator characters and whitespace by a single separator
-		$title = preg_replace('!['.preg_quote($separator).'\s]+!u', $separator, $title);
+        return substr(str_shuffle(str_repeat($pool, $length)), 0, $length);
+    }
 
-		return trim($title, $separator);
-	}
+    /**
+     * Compares two strings using a constant-time algorithm.
+     *
+     * Note: This method will leak length information.
+     *
+     * Note: Adapted from Symfony\Component\Security\Core\Util\StringUtils.
+     *
+     * @param  string  $knownString
+     * @param  string  $userInput
+     * @return bool
+     */
+    public static function equals($knownString, $userInput)
+    {
+        if (! is_string($knownString)) {
+            $knownString = (string) $knownString;
+        }
 
-	/**
-	 * Convert a string to snake case.
-	 *
-	 * @param  string  $value
-	 * @param  string  $delimiter
-	 * @return string
-	 */
-	public static function snake($value, $delimiter = '_')
-	{
-		$replace = '$1'.$delimiter.'$2';
+        if (! is_string($userInput)) {
+            $userInput = (string) $userInput;
+        }
 
-		return ctype_lower($value) ? $value : strtolower(preg_replace('/(.)([A-Z])/', $replace, $value));
-	}
+        if (function_exists('hash_equals')) {
+            return hash_equals($knownString, $userInput);
+        }
 
-	/**
-	 * Determine if a given string starts with a given substring.
-	 *
-	 * @param  string  $haystack
-	 * @param  string|array  $needles
-	 * @return bool
-	 */
-	public static function startsWith($haystack, $needles)
-	{
-		foreach ((array) $needles as $needle)
-		{
-			if ($needle != '' && strpos($haystack, $needle) === 0) return true;
-		}
+        $knownLength = mb_strlen($knownString);
 
-		return false;
-	}
+        if (mb_strlen($userInput) !== $knownLength) {
+            return false;
+        }
 
-	/**
-	 * Convert a value to studly caps case.
-	 *
-	 * @param  string  $value
-	 * @return string
-	 */
-	public static function studly($value)
-	{
-		$value = ucwords(str_replace(array('-', '_'), ' ', $value));
+        $result = 0;
 
-		return str_replace(' ', '', $value);
-	}
+        for ($i = 0; $i < $knownLength; ++$i) {
+            $result |= (ord($knownString[$i]) ^ ord($userInput[$i]));
+        }
 
-	/**
-	 * Register a custom string macro.
-	 *
-	 * @param  string    $name
-	 * @param  callable  $macro
-	 * @return void
-	 */
-	public static function macro($name, $macro)
-	{
-		static::$macros[$name] = $macro;
-	}
+        return 0 === $result;
+    }
 
-	/**
-	 * Dynamically handle calls to the string class.
-	 *
-	 * @param  string  $method
-	 * @param  array   $parameters
-	 * @return mixed
-	 *
-	 * @throws \BadMethodCallException
-	 */
-	public static function __callStatic($method, $parameters)
-	{
-		if (isset(static::$macros[$method]))
-		{
-			return call_user_func_array(static::$macros[$method], $parameters);
-		}
+    /**
+     * Convert the given string to upper-case.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public static function upper($value)
+    {
+        return mb_strtoupper($value, 'UTF-8');
+    }
 
-		throw new \BadMethodCallException("Method {$method} does not exist.");
-	}
+    /**
+     * Convert the given string to title case.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public static function title($value)
+    {
+        return mb_convert_case($value, MB_CASE_TITLE, 'UTF-8');
+    }
 
+    /**
+     * Get the singular form of an English word.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public static function singular($value)
+    {
+        return Pluralizer::singular($value);
+    }
+
+    /**
+     * Generate a URL friendly "slug" from a given string.
+     *
+     * @param  string  $title
+     * @param  string  $separator
+     * @return string
+     */
+    public static function slug($title, $separator = '-')
+    {
+        $title = static::ascii($title);
+
+        // Convert all dashes/underscores into separator
+        $flip = $separator == '-' ? '_' : '-';
+
+        $title = preg_replace('!['.preg_quote($flip).']+!u', $separator, $title);
+
+        // Remove all characters that are not the separator, letters, numbers, or whitespace.
+        $title = preg_replace('![^'.preg_quote($separator).'\pL\pN\s]+!u', '', mb_strtolower($title));
+
+        // Replace all separator characters and whitespace by a single separator
+        $title = preg_replace('!['.preg_quote($separator).'\s]+!u', $separator, $title);
+
+        return trim($title, $separator);
+    }
+
+    /**
+     * Convert a string to snake case.
+     *
+     * @param  string  $value
+     * @param  string  $delimiter
+     * @return string
+     */
+    public static function snake($value, $delimiter = '_')
+    {
+        $key = $value.$delimiter;
+
+        if (isset(static::$snakeCache[$key])) {
+            return static::$snakeCache[$key];
+        }
+
+        if (! ctype_lower($value)) {
+            $value = strtolower(preg_replace('/(.)(?=[A-Z])/', '$1'.$delimiter, $value));
+
+            $value = preg_replace('/\s+/', '', $value);
+        }
+
+        return static::$snakeCache[$key] = $value;
+    }
+
+    /**
+     * Determine if a given string starts with a given substring.
+     *
+     * @param  string  $haystack
+     * @param  string|array  $needles
+     * @return bool
+     */
+    public static function startsWith($haystack, $needles)
+    {
+        foreach ((array) $needles as $needle) {
+            if ($needle != '' && strpos($haystack, $needle) === 0) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Convert a value to studly caps case.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public static function studly($value)
+    {
+        $key = $value;
+
+        if (isset(static::$studlyCache[$key])) {
+            return static::$studlyCache[$key];
+        }
+
+        $value = ucwords(str_replace(['-', '_'], ' ', $value));
+
+        return static::$studlyCache[$key] = str_replace(' ', '', $value);
+    }
+
+    /**
+     * Returns the portion of string specified by the start and length parameters.
+     *
+     * @param  string  $string
+     * @param  int  $start
+     * @param  int|null  $length
+     * @return string
+     */
+    public static function substr($string, $start, $length = null)
+    {
+        return mb_substr($string, $start, $length, 'UTF-8');
+    }
+
+    /**
+     * Make a string's first character uppercase.
+     *
+     * @param  string  $string
+     * @return string
+     */
+    public static function ucfirst($string)
+    {
+        return static::upper(static::substr($string, 0, 1)).static::substr($string, 1);
+    }
 }

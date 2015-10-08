@@ -1,40 +1,27 @@
-# booking-app
+## Laravel PHP Framework
 
-[![Join the chat at https://gitter.im/zeke8402/booking-app](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/zeke8402/booking-app?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
+[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
+[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
+[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
+[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
 
-Laravel web application for booking appointments
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
 
-![Screenshot](https://raw.githubusercontent.com/zeke8402/booking-app/master/preview.png)
+Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
 
-## Hello!
-This is an open-source web application designed to allow users to book an appointment. This is very much a work in progress, but the end product will:
-***
- - Take into account time for each 'package' to be completed, ensuring no appointment overlapping will be possible
- - Implement a robust Administrator interface to easily select the dates and times that are available for appointments
- - Store user information (WITH THEIR PERMISSION) in order to create a database for mailing out newsletters and deals
+## Official Documentation
 
+Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
 
-## Instructions
-To get this working, you need to first generate the database schema using the migrations and seeds I have set up. The database by default uses the 'booking.sqlite' file included  
-```php artisan migrate``` Creates the tables in the database  
-```php artisan db:seed``` Seeds the tables with the relevant data  
+## Contributing
 
-Alternatively, you can run the script I made to easily remake the database for me, ```sh makedb.sh```
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
 
-## Resources 
-[Laravel](http://www.laravel.com) (obviously) for the framework  
-[Bootstrap](http://www.getbootstrap.com) for the front-end  
-[Bootswatch](http://www.bootswatch.com) for the base theme, which is (flatly)  
-[jQuery](http://www.jquery.com) for the datepicker  
-[FullCalendar](http://fullcalendar.io) for the admin calendar  
-[Moment.js](http://www.momentjs.com) for date formatting  
+## Security Vulnerabilities
 
-I will be working on this as often as I can in my spare time ( In between work and school )
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
 
-## Laravel 5
-Laravel 5 released in the middle of the creation of this project, and since I am so close I decided not to migrate and finish it in Laravel 4. I might move the logic to a Laravel 5 project once I'm comfortable with the update, but until then I will use version 4.
+### License
 
-## What's Left?
-The main thing that is missing is an Administrator panel to allow the admin to dictate availability for each day. Once this feature is complete the app will be fully operational.
-
-I encourage and appreciate any feedback related to this app.
+The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)

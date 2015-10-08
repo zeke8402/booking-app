@@ -1,10 +1,6 @@
 <?php
 
-require_once 'Swift/Tests/SwiftUnitTestCase.php';
-require_once 'Swift/Mailer/ArrayRecipientIterator.php';
-
-class Swift_Mailer_ArrayRecipientIteratorTest
-    extends Swift_Tests_SwiftUnitTestCase
+class Swift_Mailer_ArrayRecipientIteratorTest extends \PHPUnit_Framework_TestCase
 {
     public function testHasNextReturnsFalseForEmptyArray()
     {
@@ -29,7 +25,7 @@ class Swift_Mailer_ArrayRecipientIteratorTest
     public function testReturnedValueHasPreservedKeyValuePair()
     {
         $it = new Swift_Mailer_ArrayRecipientIterator(array('foo@bar' => 'Foo'));
-        $this->assertEqual(array('foo@bar' => 'Foo'), $it->nextRecipient());
+        $this->assertEquals(array('foo@bar' => 'Foo'), $it->nextRecipient());
     }
 
     public function testIteratorMovesNextAfterEachIteration()
@@ -37,10 +33,10 @@ class Swift_Mailer_ArrayRecipientIteratorTest
         $it = new Swift_Mailer_ArrayRecipientIterator(array(
             'foo@bar' => 'Foo',
             'zip@button' => 'Zip thing',
-            'test@test' => null
+            'test@test' => null,
             ));
-        $this->assertEqual(array('foo@bar' => 'Foo'), $it->nextRecipient());
-        $this->assertEqual(array('zip@button' => 'Zip thing'), $it->nextRecipient());
-        $this->assertEqual(array('test@test' => null), $it->nextRecipient());
+        $this->assertEquals(array('foo@bar' => 'Foo'), $it->nextRecipient());
+        $this->assertEquals(array('zip@button' => 'Zip thing'), $it->nextRecipient());
+        $this->assertEquals(array('test@test' => null), $it->nextRecipient());
     }
 }

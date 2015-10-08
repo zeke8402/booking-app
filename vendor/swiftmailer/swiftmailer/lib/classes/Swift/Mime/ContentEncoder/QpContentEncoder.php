@@ -11,9 +11,7 @@
 /**
  * Handles Quoted Printable (QP) Transfer Encoding in Swift Mailer.
  *
- * @package    Swift
- * @subpackage Mime
- * @author     Chris Corbyn
+ * @author Chris Corbyn
  */
 class Swift_Mime_ContentEncoder_QpContentEncoder extends Swift_Encoder_QpEncoder implements Swift_Mime_ContentEncoder
 {
@@ -24,7 +22,7 @@ class Swift_Mime_ContentEncoder_QpContentEncoder extends Swift_Encoder_QpEncoder
      *
      * @param Swift_CharacterStream $charStream to use for reading characters
      * @param Swift_StreamFilter    $filter     if canonicalization should occur
-     * @param boolean               $dotEscape  if dot stuffing workaround must be enabled
+     * @param bool                  $dotEscape  if dot stuffing workaround must be enabled
      */
     public function __construct(Swift_CharacterStream $charStream, Swift_StreamFilter $filter = null, $dotEscape = false)
     {
@@ -60,8 +58,8 @@ class Swift_Mime_ContentEncoder_QpContentEncoder extends Swift_Encoder_QpEncoder
      *
      * @param Swift_OutputByteStream $os              output stream
      * @param Swift_InputByteStream  $is              input stream
-     * @param integer                $firstLineOffset
-     * @param integer                $maxLineLength
+     * @param int                    $firstLineOffset
+     * @param int                    $maxLineLength
      */
     public function encodeByteStream(Swift_OutputByteStream $os, Swift_InputByteStream $is, $firstLineOffset = 0, $maxLineLength = 0)
     {
@@ -76,7 +74,7 @@ class Swift_Mime_ContentEncoder_QpContentEncoder extends Swift_Encoder_QpEncoder
 
         $currentLine = '';
         $prepend = '';
-        $size=$lineLen=0;
+        $size = $lineLen = 0;
 
         while (false !== $bytes = $this->_nextSequence()) {
             // If we're filtering the input
@@ -97,18 +95,18 @@ class Swift_Mime_ContentEncoder_QpContentEncoder extends Swift_Encoder_QpEncoder
             }
 
             $enc = $this->_encodeByteSequence($bytes, $size);
-            if ($currentLine && $lineLen+$size >= $thisLineLength) {
-                $is->write($prepend . $this->_standardize($currentLine));
+            if ($currentLine && $lineLen + $size >= $thisLineLength) {
+                $is->write($prepend.$this->_standardize($currentLine));
                 $currentLine = '';
                 $prepend = "=\r\n";
                 $thisLineLength = $maxLineLength;
-                $lineLen=0;
+                $lineLen = 0;
             }
-            $lineLen+=$size;
+            $lineLen += $size;
             $currentLine .= $enc;
         }
         if (strlen($currentLine)) {
-            $is->write($prepend . $this->_standardize($currentLine));
+            $is->write($prepend.$this->_standardize($currentLine));
         }
     }
 

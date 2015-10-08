@@ -11,8 +11,6 @@
 /**
  * This is the implementation class for {@link Swift_Transport_MailInvoker}.
  *
- * @package    Swift
- * @subpackage Transport
  * @author     Chris Corbyn
  */
 class Swift_Transport_SimpleMailInvoker implements Swift_Transport_MailInvoker
@@ -28,7 +26,7 @@ class Swift_Transport_SimpleMailInvoker implements Swift_Transport_MailInvoker
      * @param string $headers
      * @param string $extraParams
      *
-     * @return boolean
+     * @return bool
      */
     public function mail($to, $subject, $body, $headers = null, $extraParams = null)
     {

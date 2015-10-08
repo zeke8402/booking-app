@@ -1,22 +1,18 @@
 <?php
 
-require_once 'Swift/Tests/SwiftUnitTestCase.php';
-require_once 'Swift/StreamFilters/StringReplacementFilter.php';
-
-class Swift_StreamFilters_StringReplacementFilterTest
-    extends Swift_Tests_SwiftUnitTestCase
+class Swift_StreamFilters_StringReplacementFilterTest extends \PHPUnit_Framework_TestCase
 {
     public function testBasicReplacementsAreMade()
     {
         $filter = $this->_createFilter('foo', 'bar');
-        $this->assertEqual('XbarYbarZ', $filter->filter('XfooYfooZ'));
+        $this->assertEquals('XbarYbarZ', $filter->filter('XfooYfooZ'));
     }
 
     public function testShouldBufferReturnsTrueIfPartialMatchAtEndOfBuffer()
     {
         $filter = $this->_createFilter('foo', 'bar');
         $this->assertTrue($filter->shouldBuffer('XfooYf'),
-            '%s: Filter should buffer since "foo" is the needle and the ending ' .
+            '%s: Filter should buffer since "foo" is the needle and the ending '.
             '"f" could be from "foo"'
             );
     }
@@ -24,13 +20,13 @@ class Swift_StreamFilters_StringReplacementFilterTest
     public function testFilterCanMakeMultipleReplacements()
     {
         $filter = $this->_createFilter(array('a', 'b'), 'foo');
-        $this->assertEqual('XfooYfooZ', $filter->filter('XaYbZ'));
+        $this->assertEquals('XfooYfooZ', $filter->filter('XaYbZ'));
     }
 
     public function testMultipleReplacementsCanBeDifferent()
     {
         $filter = $this->_createFilter(array('a', 'b'), array('foo', 'zip'));
-        $this->assertEqual('XfooYzipZ', $filter->filter('XaYbZ'));
+        $this->assertEquals('XfooYzipZ', $filter->filter('XaYbZ'));
     }
 
     public function testShouldBufferReturnsFalseIfPartialMatchNotAtEndOfString()
@@ -45,7 +41,7 @@ class Swift_StreamFilters_StringReplacementFilterTest
     {
         $filter = $this->_createFilter(array('foo', 'zip'), 'bar');
         $this->assertTrue($filter->shouldBuffer('XfooYzi'),
-            '%s: Filter should buffer since "zip" is a needle and the ending ' .
+            '%s: Filter should buffer since "zip" is a needle and the ending '.
             '"zi" could be from "zip"'
             );
     }

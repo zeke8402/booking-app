@@ -28,9 +28,17 @@ class IntrospectionProcessor
 {
     private $level;
 
-    public function __construct($level = Logger::DEBUG)
+    private $skipClassesPartials;
+
+    private $skipFunctions = array(
+        'call_user_func',
+        'call_user_func_array',
+    );
+
+    public function __construct($level = Logger::DEBUG, array $skipClassesPartials = array())
     {
-        $this->level = $level;
+        $this->level = Logger::toMonologLevel($level);
+        $this->skipClassesPartials = array_merge(array('Monolog\\'), $skipClassesPartials);
     }
 
     /**
@@ -52,21 +60,43 @@ class IntrospectionProcessor
         array_shift($trace);
 
         $i = 0;
-        while (isset($trace[$i]['class']) && false !== strpos($trace[$i]['class'], 'Monolog\\')) {
-            $i++;
+
+        while ($this->isTraceClassOrSkippedFunction($trace, $i)) {
+            if (isset($trace[$i]['class'])) {
+                foreach ($this->skipClassesPartials as $part) {
+                    if (strpos($trace[$i]['class'], $part) !== false) {
+                        $i++;
+                        continue 2;
+                    }
+                }
+            } elseif (in_array($trace[$i]['function'], $this->skipFunctions)) {
+                $i++;
+                continue;
+            }
+
+            break;
         }
 
         // we should have the call source now
         $record['extra'] = array_merge(
             $record['extra'],
             array(
-                'file'      => isset($trace[$i-1]['file']) ? $trace[$i-1]['file'] : null,
-                'line'      => isset($trace[$i-1]['line']) ? $trace[$i-1]['line'] : null,
+                'file'      => isset($trace[$i - 1]['file']) ? $trace[$i - 1]['file'] : null,
+                'line'      => isset($trace[$i - 1]['line']) ? $trace[$i - 1]['line'] : null,
                 'class'     => isset($trace[$i]['class']) ? $trace[$i]['class'] : null,
                 'function'  => isset($trace[$i]['function']) ? $trace[$i]['function'] : null,
             )
         );
 
         return $record;
+    }
+
+    private function isTraceClassOrSkippedFunction (array $trace, $index)
+    {
+        if (!isset($trace[$index])) {
+            return false;
+        }
+
+        return isset($trace[$index]['class']) || in_array($trace[$index]['function'], $this->skipFunctions);
     }
 }

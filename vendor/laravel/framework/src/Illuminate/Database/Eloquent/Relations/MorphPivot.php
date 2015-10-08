@@ -1,47 +1,79 @@
-<?php namespace Illuminate\Database\Eloquent\Relations;
+<?php
+
+namespace Illuminate\Database\Eloquent\Relations;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class MorphPivot extends Pivot {
+class MorphPivot extends Pivot
+{
+    /**
+     * The type of the polymorphic relation.
+     *
+     * Explicitly define this so it's not included in saved attributes.
+     *
+     * @var string
+     */
+    protected $morphType;
 
-	/**
-	 * Set the keys for a save update query.
-	 *
-	 * @param  \Illuminate\Database\Eloquent\Builder
-	 * @return \Illuminate\Database\Eloquent\Builder
-	 */
-	protected function setKeysForSaveQuery(Builder $query)
-	{
-		$query->where($this->morphType, $this->getAttribute($this->morphType));
+    /**
+     * The value of the polymorphic relation.
+     *
+     * Explicitly define this so it's not included in saved attributes.
+     *
+     * @var string
+     */
+    protected $morphClass;
 
-		return parent::setKeysForSaveQuery($query);
-	}
+    /**
+     * Set the keys for a save update query.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    protected function setKeysForSaveQuery(Builder $query)
+    {
+        $query->where($this->morphType, $this->morphClass);
 
-	/**
-	 * Delete the pivot model record from the database.
-	 *
-	 * @return int
-	 */
-	public function delete()
-	{
-		$query = $this->getDeleteQuery();
+        return parent::setKeysForSaveQuery($query);
+    }
 
-		$query->where($this->morphType, $this->getAttribute($this->morphType));
+    /**
+     * Delete the pivot model record from the database.
+     *
+     * @return int
+     */
+    public function delete()
+    {
+        $query = $this->getDeleteQuery();
 
-		return $query->delete();
-	}
+        $query->where($this->morphType, $this->morphClass);
 
-	/**
-	 * Set the morph type for the pivot.
-	 *
-	 * @param  string  $morphType
-	 * @return \Illuminate\Database\Eloquent\Relations\MorphPivot
-	 */
-	public function setMorphType($morphType)
-	{
-		$this->morphType = $morphType;
+        return $query->delete();
+    }
 
-		return $this;
-	}
+    /**
+     * Set the morph type for the pivot.
+     *
+     * @param  string  $morphType
+     * @return $this
+     */
+    public function setMorphType($morphType)
+    {
+        $this->morphType = $morphType;
 
+        return $this;
+    }
+
+    /**
+     * Set the morph class for the pivot.
+     *
+     * @param  string  $morphClass
+     * @return \Illuminate\Database\Eloquent\Relations\MorphPivot
+     */
+    public function setMorphClass($morphClass)
+    {
+        $this->morphClass = $morphClass;
+
+        return $this;
+    }
 }

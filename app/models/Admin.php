@@ -1,29 +1,32 @@
-<?php
+<?php namespace App\Models;
 
-use Illuminate\Auth\UserInterface;
-use Illuminate\Auth\Reminders\RemindableInterface;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 
-class Admin extends Eloquent implements UserInterface {
+class Admin extends Model implements AuthenticatableContract{
 
-protected $table = 'admin';
-/**
- * Get the unique identifier for the user.
- *
- * @return mixed
- */
-public function getAuthIdentifier()
-{
-    return $this->getKey();
-}
+    use Authenticatable;
 
-/**
- * Get the password for the user.
- *
- * @return string
- */
-public function getAuthPassword()
-{
-    return $this->password;
-}
-  
+    protected $table = 'admin';
+    /**
+     * Get the unique identifier for the user.
+     *
+     * @return mixed
+     */
+    public function getAuthIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Get the password for the user.
+     *
+     * @return string
+     */
+    public function getAuthPassword()
+    {
+        return $this->password;
+    }
+
 }

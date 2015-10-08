@@ -21,6 +21,7 @@ use Monolog\Logger;
  * Room      - HipChat Room Id or name, where messages are sent
  * Name      - Name used to send the message (from)
  * notify    - Should the message trigger a notification in the clients
+ * version   - The API version to use (HipChatHandler::API_V1 | HipChatHandler::API_V2)
  *
  * @author Rafael Dohms <rafael@doh.ms>
  * @see    https://www.hipchat.com/docs/api
@@ -28,12 +29,32 @@ use Monolog\Logger;
 class HipChatHandler extends SocketHandler
 {
     /**
+     * Use API version 1
+     */
+    const API_V1 = 'v1';
+
+    /**
+     * Use API version v2
+     */
+    const API_V2 = 'v2';
+
+    /**
+     * The maximum allowed length for the name used in the "from" field.
+     */
+    const MAXIMUM_NAME_LENGTH = 15;
+
+    /**
+     * The maximum allowed length for the message.
+     */
+    const MAXIMUM_MESSAGE_LENGTH = 9500;
+
+    /**
      * @var string
      */
     private $token;
 
     /**
-     * @var array
+     * @var string
      */
     private $room;
 
@@ -43,28 +64,53 @@ class HipChatHandler extends SocketHandler
     private $name;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $notify;
 
     /**
-     * @param string  $token  HipChat API Token
-     * @param string  $room   The room that should be alerted of the message (Id or Name)
-     * @param string  $name   Name used in the "from" field
-     * @param bool    $notify Trigger a notification in clients or not
-     * @param int     $level  The minimum logging level at which this handler will be triggered
-     * @param Boolean $bubble Whether the messages that are handled can bubble up the stack or not
-     * @param Boolean $useSSL Whether to connect via SSL.
+     * @var string
      */
-    public function __construct($token, $room, $name = 'Monolog', $notify = false, $level = Logger::CRITICAL, $bubble = true, $useSSL = true)
+    private $format;
+
+    /**
+     * @var string
+     */
+    private $host;
+
+    /**
+     * @var string
+     */
+    private $version;
+
+    /**
+     * @param string  $token    HipChat API Token
+     * @param string  $room     The room that should be alerted of the message (Id or Name)
+     * @param string  $name     Name used in the "from" field.  Not used for v2
+     * @param bool    $notify   Trigger a notification in clients or not
+     * @param int     $level    The minimum logging level at which this handler will be triggered
+     * @param bool    $bubble   Whether the messages that are handled can bubble up the stack or not
+     * @param bool    $useSSL   Whether to connect via SSL.
+     * @param string  $format   The format of the messages (default to text, can be set to html if you have html in the messages)
+     * @param string  $host     The HipChat server hostname.
+     * @param string  $version  The HipChat API version (default HipChatHandler::API_V1)
+     */
+    public function __construct($token, $room, $name = 'Monolog', $notify = false, $level = Logger::CRITICAL, $bubble = true, $useSSL = true, $format = 'text', $host = 'api.hipchat.com', $version = self::API_V1)
     {
-        $connectionString = $useSSL ? 'ssl://api.hipchat.com:443' : 'api.hipchat.com:80';
+        if ($version == self::API_V1 && !$this->validateStringLength($name, static::MAXIMUM_NAME_LENGTH)) {
+            throw new \InvalidArgumentException('The supplied name is too long. HipChat\'s v1 API supports names up to 15 UTF-8 characters.');
+        }
+
+        $connectionString = $useSSL ? 'ssl://'.$host.':443' : $host.':80';
         parent::__construct($connectionString, $level, $bubble);
 
         $this->token = $token;
         $this->name = $name;
         $this->notify = $notify;
         $this->room = $room;
+        $this->format = $format;
+        $this->host = $host;
+        $this->version = $version;
     }
 
     /**
@@ -89,13 +135,19 @@ class HipChatHandler extends SocketHandler
     private function buildContent($record)
     {
         $dataArray = array(
-            'from' => $this->name,
-            'room_id' => $this->room,
-            'notify' => $this->notify,
+            'notify' => $this->version == self::API_V1 ?
+                ($this->notify ? 1 : 0) :
+                ($this->notify ? 'true' : 'false'),
             'message' => $record['formatted'],
-            'message_format' => 'text',
+            'message_format' => $this->format,
             'color' => $this->getAlertColor($record['level']),
         );
+
+        // if we are using the legacy API then we need to send some additional information
+        if ($this->version == self::API_V1) {
+            $dataArray['room_id'] = $this->room;
+            $dataArray['from'] = $this->name;
+        }
 
         return http_build_query($dataArray);
     }
@@ -108,8 +160,15 @@ class HipChatHandler extends SocketHandler
      */
     private function buildHeader($content)
     {
-        $header = "POST /v1/rooms/message?format=json&auth_token=".$this->token." HTTP/1.1\r\n";
-        $header .= "Host: api.hipchat.com\r\n";
+        if ($this->version == self::API_V1) {
+            $header = "POST /v1/rooms/message?format=json&auth_token={$this->token} HTTP/1.1\r\n";
+        } else {
+            // needed for rooms with special (spaces, etc) characters in the name
+            $room = rawurlencode($this->room);
+            $header = "POST /v2/room/{$room}/notification?auth_token={$this->token} HTTP/1.1\r\n";
+        }
+
+        $header .= "Host: {$this->host}\r\n";
         $header .= "Content-Type: application/x-www-form-urlencoded\r\n";
         $header .= "Content-Length: " . strlen($content) . "\r\n";
         $header .= "\r\n";
@@ -144,7 +203,7 @@ class HipChatHandler extends SocketHandler
      *
      * @param array $record
      */
-    public function write(array $record)
+    protected function write(array $record)
     {
         parent::write($record);
         $this->closeSocket();
@@ -159,13 +218,19 @@ class HipChatHandler extends SocketHandler
             return true;
         }
 
-        $batchRecord = $this->combineRecords($records);
+        $batchRecords = $this->combineRecords($records);
 
-        if (!$this->isHandling($batchRecord)) {
-            return false;
+        $handled = false;
+        foreach ($batchRecords as $batchRecord) {
+            if ($this->isHandling($batchRecord)) {
+                $this->write($batchRecord);
+                $handled = true;
+            }
         }
 
-        $this->write($batchRecord);
+        if (!$handled) {
+            return false;
+        }
 
         return false === $this->bubble;
     }
@@ -180,6 +245,8 @@ class HipChatHandler extends SocketHandler
      */
     private function combineRecords($records)
     {
+        $batchRecord = null;
+        $batchRecords = array();
         $messages = array();
         $formattedMessages = array();
         $level = 0;
@@ -187,12 +254,7 @@ class HipChatHandler extends SocketHandler
         $datetime = null;
 
         foreach ($records as $record) {
-
             $record = $this->processRecord($record);
-            $record['formatted'] = $this->getFormatter()->format($record);
-
-            $messages[] = $record['message'];
-            $formattedMessages[] = $record['formatted'];
 
             if ($record['level'] > $level) {
                 $level = $record['level'];
@@ -202,18 +264,74 @@ class HipChatHandler extends SocketHandler
             if (null === $datetime) {
                 $datetime = $record['datetime'];
             }
+
+            $messages[] = $record['message'];
+            $messageStr = implode(PHP_EOL, $messages);
+            $formattedMessages[] = $this->getFormatter()->format($record);
+            $formattedMessageStr = implode('', $formattedMessages);
+
+            $batchRecord = array(
+                'message'   => $messageStr,
+                'formatted' => $formattedMessageStr,
+                'context'   => array(),
+                'extra'     => array(),
+            );
+
+            if (!$this->validateStringLength($batchRecord['formatted'], static::MAXIMUM_MESSAGE_LENGTH)) {
+                // Pop the last message and implode the remaining messages
+                $lastMessage = array_pop($messages);
+                $lastFormattedMessage = array_pop($formattedMessages);
+                $batchRecord['message'] = implode(PHP_EOL, $messages);
+                $batchRecord['formatted'] = implode('', $formattedMessages);
+
+                $batchRecords[] = $batchRecord;
+                $messages = array($lastMessage);
+                $formattedMessages = array($lastFormattedMessage);
+
+                $batchRecord = null;
+            }
         }
 
-        $batchRecord = array(
-            'message' => implode(PHP_EOL, $messages),
-            'formatted' => implode('', $formattedMessages),
-            'level' => $level,
-            'level_name' => $levelName,
-            'datetime' => $datetime,
-            'context' => array(),
-            'extra' => array(),
-        );
+        if (null !== $batchRecord) {
+            $batchRecords[] = $batchRecord;
+        }
 
-        return $batchRecord;
+        // Set the max level and datetime for all records
+        foreach ($batchRecords as &$batchRecord) {
+            $batchRecord = array_merge(
+                $batchRecord,
+                array(
+                    'level'      => $level,
+                    'level_name' => $levelName,
+                    'datetime'   => $datetime
+                )
+            );
+        }
+
+        return $batchRecords;
+    }
+
+    /**
+     * Validates the length of a string.
+     *
+     * If the `mb_strlen()` function is available, it will use that, as HipChat
+     * allows UTF-8 characters. Otherwise, it will fall back to `strlen()`.
+     *
+     * Note that this might cause false failures in the specific case of using
+     * a valid name with less than 16 characters, but 16 or more bytes, on a
+     * system where `mb_strlen()` is unavailable.
+     *
+     * @param string $str
+     * @param int    $length
+     *
+     * @return bool
+     */
+    private function validateStringLength($str, $length)
+    {
+        if (function_exists('mb_strlen')) {
+            return (mb_strlen($str) <= $length);
+        }
+
+        return (strlen($str) <= $length);
     }
 }
