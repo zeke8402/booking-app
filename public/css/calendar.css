@@ -1,0 +1,37 @@
+/* Calendar */
+.ui-datepicker-calendar {
+  width: 100%;
+}
+
+/* The following blocks dictate the previous and next look */
+.ui-datepicker-prev, .ui-datepicker-next {
+  cursor: pointer;
+}
+
+.ui-datepicker-prev {
+  float: left;
+  background-position: center -30px;
+}
+
+.ui-datepicker-next {
+  float: right;
+  background-position: center 0px;
+}
+
+/* This is the look of the months header */
+.ui-datepicker th {
+    text-transform: uppercase;
+  text-align: center;
+    font-size: 6pt;
+    padding: 5px 0;
+    color: #666666;
+    text-shadow: 1px 0px 0px #fff;
+    filter: dropshadow(color=#fff, offx=1, offy=0);
+    border-top: 1px solid #bbb;
+}
+
+/* This is the look of the actual dates */
+.ui-datepicker tbody td {
+  text-align: center;
+  padding: 8;
+}

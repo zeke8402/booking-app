@@ -1,0 +1,48 @@
+.available a.ui-state-default {background: green; color: white}
+
+.ui-zekepicker {
+	width: 216px;
+	height: auto;
+	margin: 5px auto 0;
+	font: 9pt Arial, sans-serif;
+	-webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
+	-moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
+	box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
+}
+
+.ui-zekepicker a {
+	text-decoration: none;
+}
+
+.ui-zekepicker table {
+	width: 100%;
+}
+
+.ui-zekepicker-header {
+	background-color: black;
+	color: black;
+	font-weight: bold;
+	-webkit-box-shadow: inset 0px 1px 1px 0px rgba(250, 250, 250, 2);
+	-moz-box-shadow: inset 0px 1px 1px 0px rgba(250, 250, 250, .2);
+	box-shadow: inset 0px 1px 1px 0px rgba(250, 250, 250, .2);
+	text-shadow: 1px -1px 0px #000;
+	filter: dropshadow(color=#000, offx=1, offy=-1);
+	line-height: 30px;
+	border-width: 1px 0 0 0;
+	border-style: solid;
+	border-color: #111;
+}
+
+.ui-datepicker-title {
+	text-align: center;
+}
+
+#customerForm {
+  margin: 0 auto;
+  width: 450px;
+}
+
+table.confirmation-table *{
+  text-align: center
+}
+
