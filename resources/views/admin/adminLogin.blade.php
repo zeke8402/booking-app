@@ -2,9 +2,9 @@
 <html>
 <head>
     <title> Admin Login </title>
-    {{ HTML::style('assets/css/bootstrap-3.3.4/css/bootstrap.css') }}
-    {{ HTML::style('assets/css/flatly.css') }}
-    {{ HTML::style('assets/css/core.css') }}
+    <link href="{{ asset('css/bootstrap-3.3.4/css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/flatly.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/core.css') }}" rel="stylesheet">
 </head>
 <body>
 <div class="container-fluid">
@@ -19,7 +19,7 @@
             </div>
           @endif
           
-          {{ Form::open(array('url' => 'admin/login', 'class' => 'form-horizontal')) }}
+          {!! Form::open(array('url' => 'admin/login', 'class' => 'form-horizontal')) !!}
           
           <div class="form-group">
             <label for="username" class="col-lg-2 control-label">Username</label>
@@ -50,6 +50,6 @@
 
   </div>
   
-{{ Form::close() }}
+{!! Form::close() !!}
 </body>
 </html>

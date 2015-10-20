@@ -1,12 +1,17 @@
 <?php
-class AdminController extends BaseController {
+namespace App\Http\Controllers;
+
+use Input;
+use Auth;
+class AdminController extends Controller {
   
   /**
    * Function to retrieve the index page
    */
   public function getIndex() {
     $errors = "None";
-    return View::make('admin/adminLogin')->with('errors', $errors);
+    //return View::make('admin/adminLogin')->with('errors', $errors);
+    return view('admin/adminLogin')->with('errors', $errors);
   }
   
   /**
@@ -18,7 +23,7 @@ class AdminController extends BaseController {
       return $this->getAdminPage();
     } else {
       $errors = "Invalid username or password";
-      return View::make('admin/adminLogin')->with('errors', $errors);
+      return view('admin/adminLogin')->with('errors', $errors);
     }
     
   }
@@ -27,7 +32,7 @@ class AdminController extends BaseController {
    * Function to load main admin view page when successfully logging in
    */
   public function getAdminPage() {
-    return View::make('admin/main');
+    return view('admin/main');
   }
   
   public function getAppointments() {

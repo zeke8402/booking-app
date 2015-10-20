@@ -13,3 +13,4 @@
 
 Route::get('/', 'BookingController@getIndex');
 Route::controller('booking', 'BookingController');
+Route::controller('admin', 'AdminController');
