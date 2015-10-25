@@ -7,4 +7,6 @@
 	<div id="error"></div>
 	<div id="calendar"></div>
 </div>
+
+<script src="{{ asset('/js/admin/calendar.js') }}"></script>
 @endsection
