@@ -7,12 +7,11 @@
   <p id="currentDate">  </p>
 </div>
 
-<div class="row text-center">
-  <div class="col-md-4"></div>
-  <div class="col-md-2">
+<div class="col-md-11 text-center">
+  <div class="col-md-offset-4 col-md-2">
     <div id="calendar"></div>
   </div>
-  <div class="col-md-2">
+  <div class="col-md-offset-1 col-md-2">
     <div class="panel panel-primary">
       <div class="panel-heading" id="daySelect">
         Select a Day

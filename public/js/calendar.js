@@ -55,7 +55,7 @@ function getTimes(d)
 	document.getElementById('daySelect').innerHTML = dateSelected.format("MMMM Do, YYYY");
 	$.get(url+"/booking/times?selectedDay="+d, function(data) {
 		$('#dayTimes').empty();
-		$('#dayTimes').append('<h4>Times Available</h4>');
+		$('#dayTimes').append('<h6>Times Available</h6>');
 		for(var i=0; i < data.length; i++) {
 			var rdate = data[i].booking_datetime;
 			rdate = rdate.split(" ");
