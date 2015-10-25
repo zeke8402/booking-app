@@ -15,7 +15,7 @@ class AdminController extends Controller {
   public function getIndex() {
     $errors = "None";
     //return View::make('admin/adminLogin')->with('errors', $errors);
-    return view('admin/adminLogin')->with('errors', $errors);
+    return view('admin/login')->with('errors', $errors);
   }
   
   /**
@@ -27,7 +27,7 @@ class AdminController extends Controller {
       return $this->getAdminPage();
     } else {
       $errors = "Invalid username or password";
-      return view('admin/adminLogin')->with('errors', $errors);
+      return view('admin/login')->with('errors', $errors);
     }
     
   }

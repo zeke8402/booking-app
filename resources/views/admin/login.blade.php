@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title> Admin Login </title>
-    <link href="{{ asset('css/bootstrap-3.3.4/css/bootstrap.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/flatly.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/core.css') }}" rel="stylesheet">
-</head>
-<body>
+@extends('admin/layout')
+@section('content')
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
@@ -39,7 +32,7 @@
             <button type="submit" class="btn btn-primary">Log in</button>
           </div>
           <br><br><br>
-          <div class="alert alert-dismissible alert-info">
+          <div class="alert alert-dismissible alert-warning">
             During Development, username is admin and password is admin
           </div>
           
@@ -53,3 +46,4 @@
 {!! Form::close() !!}
 </body>
 </html>
+@endsection

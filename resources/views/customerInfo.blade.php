@@ -10,7 +10,7 @@
 </div>
 <br><br><br>
 <!-- <div class="col-md-6 center-block" style="float:none;"> -->
-<div class="row col-md-6 well center-block" style="float:none;">
+<div class="row col-md-6 center-block" style="float:none;">
     
   
   <!-- Hidden forms to be used later for appointment confirmation -->
