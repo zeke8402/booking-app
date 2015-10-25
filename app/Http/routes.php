@@ -14,3 +14,9 @@
 Route::get('/', 'BookingController@getIndex');
 Route::controller('booking', 'BookingController');
 Route::controller('admin', 'AdminController');
+
+// API Routes
+Route::group(['prefix' => 'api'], function()
+{
+	Route::get('get-available-days', 'APIController@GetAvailableDays');
+});

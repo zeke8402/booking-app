@@ -1,3 +1,5 @@
 /vendor
 /node_modules
 .env
+/ba-project.sublime-project
+/ba-project.sublime-workspace
