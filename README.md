@@ -26,7 +26,7 @@ Next, you need to run the database migrations
 ## Resources 
 [Laravel](http://www.laravel.com) (obviously) for the framework  
 [Bootstrap](http://www.getbootstrap.com) for the front-end  
-[Bootswatch](http://www.bootswatch.com) for the base theme, which is (flatly)  
+[Bootswatch](http://www.bootswatch.com) for the base theme, which is (paper)  
 [jQuery](http://www.jquery.com) for the datepicker  
 [FullCalendar](http://fullcalendar.io) for the admin calendar  
 [Moment.js](http://www.momentjs.com) for date formatting  
