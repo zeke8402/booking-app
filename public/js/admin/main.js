@@ -1,19 +1,20 @@
 $(document).ready(function() {
+  var url = document.getElementById('url');
+  url = url.textContent;
   var cDate = new Date();
-  console.log(link);
+
   $('#calendar').fullCalendar({
     header: {
       left: 'prev,next today',
       center: 'Test',
-      //right: 'month,agendaWeek,agendaDay'
       right: 'month, basicWeek, basicDay'
     },
     defaultDate: cDate,
     editable: true,
     events: {
-      url: link+'/admin/appointments',
+      url: url+'/admin/appointments',
       error: function() {
-        $('#test').html('error');
+        $('#error').html('error');
       }
     },
     
