@@ -56,7 +56,7 @@ function getTimes(d)
 	$.get(url+"/booking/times?selectedDay="+d, function(data) {
 		$('#dayTimes').empty();
 		$('#dayTimes').append('<h6>Times Available</h6>');
-		for(var i=0; i < data.length; i++) {
+		for(var i in data) {
 			var rdate = data[i].booking_datetime;
 			rdate = rdate.split(" ");
 			$("#dayTimes").append('<a href="'+url+'/booking/details/'+data[i].id+'">' + rdate[1] + '</a><br>');

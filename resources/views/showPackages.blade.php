@@ -12,6 +12,7 @@
     <p><b>Package: </b><a href="booking/calendar/{{ $package->id }}">{{ $package->package_name }}</a><br>
       </div>
       <div class="panel-body">
+    <b>Time: </b>{{ $package->package_time }} hours<br>
     <b>Price: </b>{{ $package->package_price }}<br>
     <b>Description: </b>{{ $package->package_description }}</p>
     </div>
