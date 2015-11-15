@@ -66,51 +66,5 @@
  
   </div>
   
-   {{ Form::close() }} 
-  <!--
-  <div class="row">
-        <div class="large-6 columns">
-          <label for="fname">First Name <small>required</small>
-            <input type="text" name="fname" placeholder="First" required>
-          </label>
-          <small class="error">Please enter your first name</small>
-        </div>
-        <div class="large-6 columns">
-          <label for="lname">Last Name <small>required</small>
-            <input type="text" name="lname" placeholder="Last" required>
-          </label>
-          <small class="error">Please enter your last name</small>
-        </div>
-      </div>
-      <div class ="row">
-        <div class="large-6 columns">
-          <label for="number">Contact Number*</label>
-            <input type="number" name="number" placeholder="5555555555" required>
-          </label>
-        <small class="error">Please enter a properly formatted number.</small>
-      </div>
-      <div class="large-6 columns">
-        <label for="email">Email</label>
-          <input type="text" name="email" id="email" placeholder="user@example.com" required>
-      </label>
-      <small class="error">Please enter a valid e-mail address.</small>
-  </div>
-</div>
-<div class="row">
-  <div class="large-12 columns">
-    <input id="newsletterBox" name="newsletterBox" type="checkbox" checked><label for="newsletterBox">YES, I want to receive newsletters with this email</label></input>
-</div>
-
-</div>
-<div class="row">
-  <div class="large-12 columns">
-        <button type="submit">Submit</button>
-      </div>
-</div>
-    </fieldset> 
--->
-
-
-
-                
+   {!! Form::close() !!} 
 @stop
