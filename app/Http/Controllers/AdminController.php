@@ -14,7 +14,6 @@ class AdminController extends Controller {
    */
   public function getIndex() {
     $errors = "None";
-    //return View::make('admin/adminLogin')->with('errors', $errors);
     return view('admin/login')->with('errors', $errors);
   }
   
@@ -24,35 +23,15 @@ class AdminController extends Controller {
   public function anyLogin() {
     $input = Input::all();
     if (Auth::attempt(array('username' => $input['username'], 'password' => $input['password'] ))) {
-      return $this->getAdminPage();
+      return redirect('admin/appointments');
     } else {
       $errors = "Invalid username or password";
       return view('admin/login')->with('errors', $errors);
     }
-    
   }
-  
-  /**
-   * Function to load main admin view page when successfully logging in
-   */
-  public function getAdminPage() {
-    return view('admin/calendar');
-  }
-  
+
   public function getAppointments() {
-    
-    $appointments = Appointment::all();
-    $calendarAppointments = array();
-    foreach($appointments as $a) {
-      $customer = Customer::find($a['customer_id']);
-      $customer = $customer->first_name.' '.$customer->last_name;
-      $event = array(
-        'title' => 'Appointment with '.$customer,
-        'start' => $a['appointment_datetime']
-        );
-      array_push($calendarAppointments, $event);
-    }
-    
-    return response()->json($calendarAppointments);
+    return view('admin/appointments');
   }
+   
 }

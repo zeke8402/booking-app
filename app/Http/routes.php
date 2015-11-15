@@ -12,11 +12,20 @@
 */
 
 Route::get('/', 'BookingController@getIndex');
-Route::controller('booking', 'BookingController');
-Route::controller('admin', 'AdminController');
+
+
 
 // API Routes
 Route::group(['prefix' => 'api'], function()
 {
 	Route::get('get-available-days', 'APIController@GetAvailableDays');
 });
+
+// Admin API Routes
+Route::group(['prefix' => 'admin/api'], function()
+{
+	Route::get('get-all-appointments', 'AdminAPIController@GetAllAppointments');
+});
+
+Route::controller('booking', 'BookingController');
+Route::controller('admin', 'AdminController');

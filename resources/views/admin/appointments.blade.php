@@ -5,5 +5,5 @@
 	<div id="calendar"></div>
 </div>
 
-<script src="{{ asset('/js/admin/calendar.js') }}"></script>
+<script src="{{ asset('/js/admin/appointments.js') }}"></script>
 @endsection

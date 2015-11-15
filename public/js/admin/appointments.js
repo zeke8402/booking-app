@@ -12,9 +12,9 @@ $(document).ready(function() {
     defaultDate: cDate,
     editable: true,
     events: {
-      url: url+'/admin/appointments',
+      url: url+'/api/get-all-appointments',
       error: function() {
-        $('#error').html('error');
+        $('#error').html('Could not find any appointments');
       }
     },
     
