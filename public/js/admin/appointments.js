@@ -6,8 +6,8 @@ $(document).ready(function() {
   $('#calendar').fullCalendar({
     header: {
       left: 'prev,next today',
-      center: 'Test',
-      right: 'month, basicWeek, basicDay'
+      center: 'Appointments',
+      right: 'month, agendaWeek, agendaDay'
     },
     defaultDate: cDate,
     editable: true,
@@ -20,13 +20,13 @@ $(document).ready(function() {
     
     // Function to handle a day click event
     dayClick: function(date, jsEvent, view) {
-      alert('Clicked on: ' + date.format());
+      //alert('Clicked on: ' + date.format());
       $(this).css('background-color', 'red');
     },
     
     // Function to handle an event click event
     eventClick: function(calEvent, jsEvent, view) {
-      alert('Event: ' + calEvent.title);
+      //alert('Event: ' + calEvent.title);
       $(this).css('border-color', 'red');
     }
   });

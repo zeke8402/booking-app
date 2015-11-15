@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use App\Models\Customer;
 use App\Models\BookingDateTime;
+use App\Models\Package;
 
 class AdminAPIController extends Controller
 {
@@ -24,12 +25,22 @@ class AdminAPIController extends Controller
 		$appointments = Appointment::all();
 		$calendarAppointments = array();
 		foreach($appointments as $a) {
+
 			$customer = Customer::find($a['customer_id']);
 			$customer = $customer->first_name.' '.$customer->last_name;
+
+			$package = Package::find($a['appointment_type']);
+
+			$startDate = date_create($a['appointment_datetime']);
+			$endDate = date_create($a['appointment_datetime']);
+			$time = (string)$package->package_time.' hours';
+			$endDate = date_add($endDate, date_interval_create_from_date_string($time));
 			$event = array(
+				'id' => '999',
 				'title' => 'Appointment with '.$customer,
-				'start' => $a['appointment_datetime']
-				);
+				'start' => $startDate->format('Y-m-d\TH:i:s'),
+				'end' => $endDate->format('Y-m-d\TH:i:s'),
+			);
 			array_push($calendarAppointments, $event);
 		}
 
