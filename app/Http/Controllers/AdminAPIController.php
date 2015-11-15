@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 
 // Model Usage
 use App\Models\Appointment;
+use App\Models\Customer;
 use App\Models\BookingDateTime;
 
 class AdminAPIController extends Controller
