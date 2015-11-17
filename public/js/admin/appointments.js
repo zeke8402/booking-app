@@ -3,6 +3,7 @@ $(document).ready(function() {
   url = url.textContent;
   var cDate = new Date();
 
+  // Calendar initialization
   $('#calendar').fullCalendar({
     header: {
       left: 'prev,next today',
@@ -10,7 +11,9 @@ $(document).ready(function() {
       right: 'month, agendaWeek, agendaDay'
     },
     defaultDate: cDate,
+    defaultView: 'agendaWeek',
     editable: true,
+    // API call returns a json feed
     events: {
       url: url+'/api/get-all-appointments',
       error: function() {
@@ -20,13 +23,11 @@ $(document).ready(function() {
     
     // Function to handle a day click event
     dayClick: function(date, jsEvent, view) {
-      //alert('Clicked on: ' + date.format());
       $(this).css('background-color', 'red');
     },
     
     // Function to handle an event click event
     eventClick: function(calEvent, jsEvent, view) {
-      //alert('Event: ' + calEvent.title);
       $(this).css('border-color', 'red');
     }
   });

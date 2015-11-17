@@ -10,11 +10,6 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
-Route::get('/', 'BookingController@getIndex');
-
-
-
 // API Routes
 Route::group(['prefix' => 'api'], function()
 {
@@ -25,5 +20,6 @@ Route::group(['prefix' => 'api'], function()
 	Route::get('get-all-appointments', 'AdminAPIController@GetAllAppointments');
 });
 
+Route::get('/', 'BookingController@getIndex');
 Route::controller('booking', 'BookingController');
 Route::controller('admin', 'AdminController');

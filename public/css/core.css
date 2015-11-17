@@ -1,3 +1,15 @@
 .center-block {
-  float: none;
+	float: none;
+}
+
+.vertical-center {
+	min-height: 100%;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	display: -webkit-flex; /* For Safari */
+	-webkit-justify-content: center; /* For Safari */
+	-webkit-align-items: center; /* For Safari */
 }
