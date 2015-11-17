@@ -33,5 +33,13 @@ class AdminController extends Controller {
   public function getAppointments() {
     return view('admin/appointments');
   }
+
+  public function getAvailability() {
+    return view('admin/availability');
+  }
+
+  public function getPackages() {
+    return view('admin/packages');
+  }
    
 }
