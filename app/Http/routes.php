@@ -20,6 +20,23 @@ Route::group(['prefix' => 'api'], function()
 	Route::get('get-all-appointments', 'AdminAPIController@GetAllAppointments');
 });
 
+// Admin Routes
+Route::group(['prefix' => 'admin'], function()
+{
+	Route::get('/', 'AdminController@index');
+	Route::any('login', 'AdminController@login');
+
+	// Appointment Routes
+	Route::get('appointments', 'AdminController@appointments');
+
+	// Availability Routes
+	Route::get('availability', 'AdminController@availability');
+
+	// Package Routes
+	Route::get('packages', 'AdminController@packages');
+	Route::get('edit-package/{package_id}', 'AdminController@editPackage');
+});
+
 Route::get('/', 'BookingController@getIndex');
 Route::controller('booking', 'BookingController');
 Route::controller('admin', 'AdminController');
