@@ -30,12 +30,12 @@
 
       <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" aria-expanded="false" style="height: 1px;">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Appointments<span class="sr-only">(current)</span></a></li>
-          <li><a href="#">Availability</a></li>
-          <li><a href="#">Packages</a></li>
+          <li><a href="{{ url('admin/appointments') }}">Appointments<span class="sr-only">(current)</span></a></li>
+          <li><a href="{{ url('admin/availability') }}">Availability</a></li>
+          <li><a href="{{ url('admin/packages') }}">Packages</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Log Out</a></li>
+          <li><a href="#">Log Out</a></li>
         </ul>
       </div>
     </div>

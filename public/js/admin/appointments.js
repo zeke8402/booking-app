@@ -5,6 +5,7 @@ $(document).ready(function() {
 
   // Calendar initialization
   $('#calendar').fullCalendar({
+    editable: true,
     header: {
       left: 'prev,next today',
       center: 'Appointments',
@@ -12,7 +13,6 @@ $(document).ready(function() {
     },
     defaultDate: cDate,
     defaultView: 'agendaWeek',
-    editable: true,
     // API call returns a json feed
     events: {
       url: url+'/api/get-all-appointments',

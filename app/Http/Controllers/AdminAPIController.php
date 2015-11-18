@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use Auth;
+
 // Model Usage
 use App\Models\Appointment;
 use App\Models\Customer;
@@ -36,7 +38,7 @@ class AdminAPIController extends Controller
 			$time = (string)$package->package_time.' hours';
 			$endDate = date_add($endDate, date_interval_create_from_date_string($time));
 			$event = array(
-				'id' => '999',
+				'id' => $a['id'],
 				'title' => 'Appointment with '.$customer,
 				'start' => $startDate->format('Y-m-d\TH:i:s'),
 				'end' => $endDate->format('Y-m-d\TH:i:s'),

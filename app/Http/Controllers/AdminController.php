@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointment;
+use App\Models\Package;
 use App\Models\Customer;
 
 use Input;
@@ -38,8 +39,13 @@ class AdminController extends Controller {
     return view('admin/availability');
   }
 
+  /**
+   * View function for list of packages
+   * @return view 
+   */
   public function getPackages() {
-    return view('admin/packages');
+    $packages = Package::all();
+    return view('admin/packages', ['packages' => $packages]);
   }
    
 }
