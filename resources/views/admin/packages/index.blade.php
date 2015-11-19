@@ -20,7 +20,7 @@
 					<td>{{ '$'.$p->package_price }}</td>
 					<td>{{ $p->package_time.' hours' }}</td>
 					<td>{{ $p->package_description }}</td>
-					<td><button class="btn btn-primary">Edit</button></td>
+					<td><a href="{{ url('admin/edit-package/'.$p->id) }}" class="btn btn-primary">Edit</a></td>
 				</tr>
 				@endforeach
 			</tbody>

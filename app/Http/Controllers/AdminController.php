@@ -61,5 +61,10 @@ class AdminController extends Controller {
   {
     return view('admin/packages/editPackage', ['package' => Package::find($package_id)]);
   }
+
+  public function updatePackage($package_id)
+  {
+    dd('tets');
+  }
    
 }
