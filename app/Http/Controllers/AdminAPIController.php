@@ -22,6 +22,10 @@ class AdminAPIController extends Controller
 		$this->middleware('auth');
 	}
 
+	/**
+	 * Retrieves all appointments and returns them
+	 * in fullCalendar expected JSON
+	 */
 	public function GetAllAppointments()
 	{
 		$appointments = Appointment::all();
@@ -47,6 +51,12 @@ class AdminAPIController extends Controller
 		}
 
 		return response()->json($calendarAppointments);
+	}
+
+	public function GetAppointmentInfo($id)
+	{
+		$appointment = Appointment::with('customer')->find($id);
+		return response()->json($appointment);
 	}
 
 }

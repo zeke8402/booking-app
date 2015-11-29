@@ -5,7 +5,7 @@ $(document).ready(function() {
 
   // Calendar initialization
   $('#calendar').fullCalendar({
-    editable: true,
+    editable: false,
     header: {
       left: 'prev,next today',
       center: 'Appointments',
@@ -23,12 +23,24 @@ $(document).ready(function() {
     
     // Function to handle a day click event
     dayClick: function(date, jsEvent, view) {
-      $(this).css('background-color', 'red');
+      //$(this).css('background-color', 'red');
     },
     
     // Function to handle an event click event
     eventClick: function(calEvent, jsEvent, view) {
-      $(this).css('border-color', 'red');
-    }
+      var detailView = $('#appointment-details');
+      $.get(url+"/api/get-appointment-info/"+calEvent.id, 
+        function(data) {
+          var start = moment(calEvent.start).format('YYYY-MM-DD [at] h:mm a');
+          var end = moment(calEvent.end).format('YYYY-MM-DD [at] h:mm a');
+          var details = '<h3>'+calEvent.title+'</h3>' +
+            '<p><b>Begins</b>: '+start+'</p>' +
+            '<p><b>Ends</b>: '+end+'</p>' +
+            '<p><a href="#" class="btn btn-danger">Delete Appointment</a></p>';
+          detailView.empty();
+          detailView.append(details);
+        });
+
+    },
   });
 });
