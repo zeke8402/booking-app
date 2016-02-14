@@ -1,6 +1,6 @@
 /vendor
 /node_modules
-/storage/database.sqlite
+storage/database.sqlite
 .env
 ba-project.sublime-project
 ba-project.sublime-workspace

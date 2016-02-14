@@ -27,6 +27,12 @@ class DatabaseSeeder extends Seeder {
     
     $this->call('AdminSeeder');
     $this->command->info('Admins seeded!');
+
+    $this->call('TimeIntervalTableSeeder');
+    $this->command->info('Time intervals seeded!');
+
+    $this->call('ConfigurationTableSeeder');
+    $this->command->info('Configurations seeded!');
     
     Eloquent::unguard();
 	}

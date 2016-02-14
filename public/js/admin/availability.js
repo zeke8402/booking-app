@@ -13,6 +13,10 @@ $(document).ready(function() {
     },
     defaultDate: cDate,
     defaultView: 'agendaWeek',
+    selectable: true,
+    select: function(start, end) {
+      var title = 'test';
+    },
     // API call returns a json feed
     /*
     events: {
