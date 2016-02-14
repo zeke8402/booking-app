@@ -7,7 +7,7 @@
 <div class="col-lg-4">
 	<legend> Details </legend>
 	<div id="availability-details">
-		<p>Click on an appointment to show details.</p>
+		@include('admin.setAvailability')
 	</div>
 </div>
 

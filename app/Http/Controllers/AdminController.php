@@ -66,5 +66,25 @@ class AdminController extends Controller {
   {
     dd('tets');
   }
+
+  /**
+   * Function to add all submitted form times to that date
+   * Will need to detect collisions, if any
+   * 
+   */
+  public function addAvailability()
+  {
+    $post = Input::all();
+   
+    $dateToAdd = $post['dateSelected'];
+    $times = [];
+    foreach($post['time'] as $key => $value) {
+      $times[$value] = $post['timeOfDay'][$key];
+    }
+
+    foreach($times as $time){
+      dd($dateToAdd.' '.$time);
+    }
+  }
    
 }

@@ -59,4 +59,10 @@ class AdminAPIController extends Controller
 		return response()->json($appointment);
 	}
 
+	/**
+	 * Retrieve all available times for each day visible
+	 *
+	 * 
+	 */
+
 }

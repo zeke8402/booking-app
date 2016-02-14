@@ -32,6 +32,7 @@ Route::group(['prefix' => 'admin'], function()
 
 	// Availability Routes
 	Route::get('availability', 'AdminController@availability');
+	Route::post('add/availability', 'AdminController@addAvailability');
 
 	// Package Routes
 	Route::get('packages', 'AdminController@packages');
