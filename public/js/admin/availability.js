@@ -1,7 +1,9 @@
 $(document).ready(function() {
+
   var url = document.getElementById('url');
   url = url.textContent;
   var cDate = new Date();
+  var token = $('meta[name="csrf-token"]').attr('content');
 
   // Calendar initialization
   $('#calendar').fullCalendar({
@@ -15,9 +17,33 @@ $(document).ready(function() {
     defaultView: 'agendaWeek',
     selectable: true,
     select: function(start, end) {
-      var title = 'test';
+      var title = confirm('Are you sure you want to set this availability?');
+      var eventData;
+      // Save it to DB and show
+      if (title) {
+
+        eventData = {
+          _token: token,
+          start: start.format(),
+          end: end.format(),
+        };
+
+        $.ajax({
+          type: "POST",
+          url: url+'/api/set-availability',
+          data: eventData,
+          success: function(data) {
+            console.log(data);
+          },
+          error: function(data) {
+            console.log('Error Processing');
+          },
+          dataType: "json",
+        });
+      }
     },
     // API call returns a json feed
+    // This needs to be refactored to show availability
     /*
     events: {
       url: url+'/api/get-all-appointments',
@@ -26,51 +52,5 @@ $(document).ready(function() {
       }
     },
     */
-    
-    // Function to handle a day click event
-    // We need to set hidden value to date and show
-    // availability widget
-    dayClick: function(date, jsEvent, view) {
-      //$(this).css('background-color', 'red');
-      clickedDay(date, jsEvent, view);
-    },
-    
   });
-
-  // Allow adding multiple times for that day
-  $('#addAvailabilityBtn').click(function(){
-    addTime('availabilityList');
-  });
-
-  function clickedDay(calDate, jsEvent, view)
-  {
-    $('input[name=dateSelected]').val(calDate.format("YYYY-MM-DD"));
-    $('#clickedDay').empty();
-    $('#clickedDay').append(calDate.format("MMMM Do, YYYY"));
-  }
-
-  function addTime(listId)
-  {
-    var list = $('#'+listId);
-    var listCount = list.children().length;
-    var newTime = list.find('li:first').clone().attr({id: "newTime"});
-    newTime.find('#time').empty();
-    newTime.appendTo(list);
-  }
-
-  $('#removeAvailabilityBtn').click(function() {
-    removeTime('availabilityList');
-  });
-
-  function removeTime(listId)
-  {
-    var list = $('#'+listId);
-    var listCount = list.children().length;
-    if(listCount <= 1) {
-      alert("You must select at least one time");
-    } else {
-      $('#'+listId+' li:last').remove();
-    }
-  }
-
 });

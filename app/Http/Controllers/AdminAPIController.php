@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use Input;
 use Auth;
 
 // Model Usage
@@ -57,6 +58,12 @@ class AdminAPIController extends Controller
 	{
 		$appointment = Appointment::with('customer')->find($id);
 		return response()->json($appointment);
+	}
+
+	public function SetAvailability()
+	{
+		$post = Input::all();
+		return response()->json($post, 200);
 	}
 
 	/**
