@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\Appointment;
 use App\Models\Package;
 use App\Models\Customer;
+use App\Models\Configuration;
+use App\Models\TimeInterval;
 
 use Input;
 use Auth;
@@ -41,6 +43,12 @@ class AdminController extends Controller {
   public function availability()
   {
     return view('admin/availability');
+  }
+
+  public function configuration()
+  {
+    $configuration = Configuration::with('timeInterval')->first();
+    return view('admin/configuration', ['configuration' => $configuration]);
   }
 
   /**

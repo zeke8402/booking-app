@@ -35,6 +35,9 @@ Route::group(['prefix' => 'admin'], function()
 	Route::get('availability', 'AdminController@availability');
 	Route::post('add/availability', 'AdminController@addAvailability');
 
+	// Configuration Routes
+	Route::get('configuration', 'AdminController@configuration');
+
 	// Package Routes
 	Route::get('packages', 'AdminController@packages');
 	Route::get('edit-package/{package_id}', 'AdminController@editPackage');
