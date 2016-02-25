@@ -75,4 +75,9 @@ class AdminController extends Controller {
     dd('tets');
   }
 
+  public function anySetTime()
+  {
+    dd('test');
+  }
+
 }
