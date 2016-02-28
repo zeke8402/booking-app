@@ -15,6 +15,15 @@ $(document).ready(function() {
     },
     defaultDate: cDate,
     defaultView: 'agendaWeek',
+    events: {
+     url: url+'/api/get-all-availability',
+     success: function(e) {
+      console.log(e);
+     },
+     error: function() {
+      $('#error').html('There was an error retrieiving Availability.');
+     } 
+    },
     selectable: true,
     select: function(start, end) {
       var title = confirm('Are you sure you want to set this availability?');

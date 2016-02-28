@@ -14,6 +14,7 @@ use App\Models\Appointment;
 use App\Models\Customer;
 use App\Models\BookingDateTime;
 use App\Models\Package;
+use App\Models\Configuration;
 
 class AdminAPIController extends Controller
 {
@@ -58,6 +59,33 @@ class AdminAPIController extends Controller
 	{
 		$appointment = Appointment::with('customer')->find($id);
 		return response()->json($appointment);
+	}
+
+	public function GetAllAvailability()
+	{
+		$times = BookingDateTime::all();
+		$availability = array();
+		$configs = Configuration::with('timeInterval')->first();
+		foreach($times as $t) {
+			$startDate = date_create($t['booking_datetime']);
+			$endDate = date_create($t['booking_datetime']);
+
+			// Get configuration variable
+			// @todo default metric is minutes and only one supported
+			// change to whichever metrics we support in the future
+			$timeToAdd = $configs->timeInterval->interval; //minutes
+			$endDate = $endDate->add(new \DateInterval('PT'.$timeToAdd.'M'));
+			$event = [
+				'id' => $t['id'],
+				'title' => 'Available',
+				'start' => $startDate->format('Y-m-d\TH:i:s'),
+				'end' => $endDate->format('Y-m-d\TH:i:s'),
+				'overlap' => false,
+				'rendering' => 'background',
+			];
+			array_push($availability, $event);
+		}
+		return response()->json($availability);	
 	}
 
 	public function SetAvailability()
