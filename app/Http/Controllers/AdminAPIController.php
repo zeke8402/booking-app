@@ -88,25 +88,36 @@ class AdminAPIController extends Controller
 		return response()->json($availability);	
 	}
 
+	/**
+	 * Sets availability based on POST data
+	 * @param $start [Start datetime of selection]
+	 * @param $end   [End datetime of selection]
+	 *
+	 * @return  response()->json() - description of events
+	 */
 	public function SetAvailability()
 	{
-		// WARNING
-		// @todo: availability allows overlaps. DO NOT ALLOW THIS
-		// We need to detect if the event overlaps another in it's time frame
 		$post = Input::all();
 		$configs = Configuration::with('timeInterval')->first();
 
+		// Creating our datetime variables
 		$startDate = new \DateTime($post['start']);
 		$intervalDate = new \DateTime($post['start']);
 		$endDate = new \DateTime($post['end']);
 
-		// PSEUDO CODE
-		// Create first interval (timeInterval) minutes after start date
-		// While intervalDate is less than endDate...
-		// Add (timeInterval) minutes and store to db
+		// This loops from start to end, creating availability based on
+		// configuration interval variables between start and end
 		while($intervalDate < $endDate) {
-			BookingDateTime::addAvailability($intervalDate);
-			$intervalDate->add(new \DateInterval('PT'.$configs->timeInterval->interval.'M'));
+			$intervalDateEnd = new \DateTime($intervalDate->format('Y-m-d H:i:s'));
+			$intervalDateEnd->add(new \DateInterval('PT'.$configs->timeInterval->interval.'M'));
+
+			// We check to make sure we are not overlapping existing availability
+			if (BookingDateTime::timeBetween($intervalDate, $intervalDateEnd)->first()) {
+				return response()->json("Segment overlaps with existing availability", 500);
+			} else {
+				BookingDateTime::addAvailability($intervalDate);
+				$intervalDate->add(new \DateInterval('PT'.$configs->timeInterval->interval.'M'));
+			}
 		}
 
 		return response()->json('success', 200);
