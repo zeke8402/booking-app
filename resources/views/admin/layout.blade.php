@@ -13,6 +13,7 @@
   <script src="{{ asset('/js/moment.js') }}"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.4.0/fullcalendar.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+  <meta name="csrf-token" content="<?php echo csrf_token(); ?>">
 </head>  
 <body>
   <div id="url" style="display: none">{{url('')}}</div>
@@ -33,6 +34,7 @@
           <li><a href="{{ url('admin/appointments') }}">Appointments<span class="sr-only">(current)</span></a></li>
           <li><a href="{{ url('admin/availability') }}">Availability</a></li>
           <li><a href="{{ url('admin/packages') }}">Packages</a></li>
+          <li><a href="{{ url('admin/configuration') }}">Configuration</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="#">Log Out</a></li>

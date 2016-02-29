@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\Appointment;
 use App\Models\Package;
 use App\Models\Customer;
+use App\Models\Configuration;
+use App\Models\TimeInterval;
 
 use Input;
 use Auth;
@@ -43,6 +45,12 @@ class AdminController extends Controller {
     return view('admin/availability');
   }
 
+  public function configuration()
+  {
+    $configuration = Configuration::with('timeInterval')->first();
+    return view('admin/configuration', ['configuration' => $configuration]);
+  }
+
   /**
    * View function for list of packages
    * @return view 
@@ -67,24 +75,9 @@ class AdminController extends Controller {
     dd('tets');
   }
 
-  /**
-   * Function to add all submitted form times to that date
-   * Will need to detect collisions, if any
-   * 
-   */
-  public function addAvailability()
+  public function anySetTime()
   {
-    $post = Input::all();
-   
-    $dateToAdd = $post['dateSelected'];
-    $times = [];
-    foreach($post['time'] as $key => $value) {
-      $times[$value] = $post['timeOfDay'][$key];
-    }
-
-    foreach($times as $time){
-      dd($dateToAdd.' '.$time);
-    }
+    dd('test');
   }
-   
+
 }

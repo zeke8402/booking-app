@@ -19,6 +19,8 @@ Route::group(['prefix' => 'api'], function()
 	// Admin API Routes
 	Route::get('get-all-appointments', 'AdminAPIController@GetAllAppointments');
 	Route::get('get-appointment-info/{id}', 'AdminAPIController@GetAppointmentInfo');
+	Route::get('get-all-availability', 'AdminAPIController@GetAllAvailability');
+	Route::any('set-availability', 'AdminAPIController@SetAvailability');
 });
 
 // Admin Routes
@@ -33,6 +35,9 @@ Route::group(['prefix' => 'admin'], function()
 	// Availability Routes
 	Route::get('availability', 'AdminController@availability');
 	Route::post('add/availability', 'AdminController@addAvailability');
+
+	// Configuration Routes
+	Route::get('configuration', 'AdminController@configuration');
 
 	// Package Routes
 	Route::get('packages', 'AdminController@packages');
