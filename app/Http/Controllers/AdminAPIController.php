@@ -90,14 +90,25 @@ class AdminAPIController extends Controller
 
 	public function SetAvailability()
 	{
+		// WARNING
+		// @todo: availability allows overlaps. DO NOT ALLOW THIS
+		// We need to detect if the event overlaps another in it's time frame
 		$post = Input::all();
-		return response()->json($post, 200);
+		$configs = Configuration::with('timeInterval')->first();
+
+		$startDate = new \DateTime($post['start']);
+		$intervalDate = new \DateTime($post['start']);
+		$endDate = new \DateTime($post['end']);
+
+		// PSEUDO CODE
+		// Create first interval (timeInterval) minutes after start date
+		// While intervalDate is less than endDate...
+		// Add (timeInterval) minutes and store to db
+		while($intervalDate < $endDate) {
+			BookingDateTime::addAvailability($intervalDate);
+			$intervalDate->add(new \DateInterval('PT'.$configs->timeInterval->interval.'M'));
+		}
+
+		return response()->json('success', 200);
 	}
-
-	/**
-	 * Retrieve all available times for each day visible
-	 *
-	 * 
-	 */
-
 }

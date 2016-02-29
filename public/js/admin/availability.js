@@ -18,7 +18,6 @@ $(document).ready(function() {
     events: {
      url: url+'/api/get-all-availability',
      success: function(e) {
-      console.log(e);
      },
      error: function() {
       $('#error').html('There was an error retrieiving Availability.');
@@ -42,7 +41,7 @@ $(document).ready(function() {
           url: url+'/api/set-availability',
           data: eventData,
           success: function(data) {
-            console.log(data);
+            $('#calendar').fullCalendar('refetchEvents');
           },
           error: function(data) {
             console.log('Error Processing');
@@ -51,15 +50,10 @@ $(document).ready(function() {
         });
       }
     },
-    // API call returns a json feed
-    // This needs to be refactored to show availability
-    /*
-    events: {
-      url: url+'/api/get-all-appointments',
-      error: function() {
-        $('#error').html('Could not find any appointments');
-      }
-    },
-    */
   });
+
+  function refreshCalendar()
+  {
+    $('#calendar').fullCalendar('refetchEvents');
+  }
 });
