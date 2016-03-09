@@ -34,7 +34,5 @@ To get this working, you need to install dependencies and set up your .env...
 I will be working on this as often as I can in my spare time ( In between work and school )
 
 ## What's Left?
-The main thing that is missing is an Administrator panel to allow the admin to dictate availability for each day. Once this feature is complete the app will be fully operational.
+The app, in essence, is fully operational. You can log in, set availability by dragging on the calendar, and users can book appointments, which then appear on your calendar. I intend to consolidate the two calendars together, and finish making certain configurations customizable (for example, the app segments dragged time into 30 minute intervals ). But if you don't mind manually changing values in the backend, then this app is usable.
 
-This was developed with PostGres in mind, so if you have any compatibility issues with other databases, please let me know.
-I encourage and appreciate any feedback related to this app.
