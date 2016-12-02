@@ -27,6 +27,6 @@ class CreateTimeIntervalsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('time_intervals');
     }
 }
