@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Input, Response, View;
+use Illuminate\Support\Facades\Input;
+use Response, View;
 use Session;
 use DB;
 use DateTime;
 
 // Declare Models to be used
 use App\Models\Package;
+use App\User;
 use App\Models\Customer;
 use App\Models\Appointment;
 use App\Models\BookingDateTime;

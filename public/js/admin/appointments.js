@@ -33,7 +33,7 @@ $(document).ready(function() {
         function(data) {
           var start = moment(calEvent.start).format('YYYY-MM-DD [at] h:mm a');
           var end = moment(calEvent.end).format('YYYY-MM-DD [at] h:mm a');
-          var details = '<h3>'+calEvent.title+'</h3>' +
+          var details = '<h4>'+calEvent.title+'</h4>' +
             '<p><b>Begins</b>: '+start+'</p>' +
             '<p><b>Ends</b>: '+end+'</p>' +
             '<p><a href="#" class="btn btn-danger">Delete Appointment</a></p>';

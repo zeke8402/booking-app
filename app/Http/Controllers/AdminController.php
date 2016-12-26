@@ -15,24 +15,15 @@ class AdminController extends Controller {
   /**
    * Function to retrieve the index page
    */
+  public function __construct() 
+  {
+    $this->middleware('auth');
+  }
+  
   public function index()
   {
     $errors = "None";
-    return view('admin/login')->with('errors', $errors);
-  }
-  
-  /**
-   * Function to attempt authorization, and redirect to admin page if successful, redirect to login with errors if not
-   */
-  public function login()
-  {
-    $input = Input::all();
-    if (Auth::attempt(array('username' => $input['username'], 'password' => $input['password'] ))) {
-      return redirect('admin/appointments');
-    } else {
-      $errors = "Invalid username or password";
-      return view('admin/login')->with('errors', $errors);
-    }
+    return view('admin/appointments')->with('errors', $errors);
   }
 
   public function appointments()

@@ -50,7 +50,7 @@ class Customer extends Model implements AuthenticatableContract{
         'wants_updates' => Session::get('updates')
         ))->id;
     } else {
-      return Customer::where('email', $info['email'])->pluck('id');
+      return Customer::where('email', $info['email'])->first()->id;
     }
     
   }

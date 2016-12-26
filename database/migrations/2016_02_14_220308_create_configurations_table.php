@@ -15,10 +15,10 @@ class CreateConfigurationsTable extends Migration
         Schema::create('configurations', function($table) {
             $table->increments('id');
             $table->integer('time_interval_id');
-            $table->foreign('time_interval_id')
-                ->references('id')
-                ->on('time_intervals')
-                ->onDelete('set null');
+            // $table->foreign('time_interval_id')
+            //     ->references('id')
+            //     ->on('time_intervals')
+            //     ->onDelete('set null');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateConfigurationsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('configurations');
     }
 }

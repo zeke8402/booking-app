@@ -21,7 +21,7 @@ class Appointment extends Model implements AuthenticatableContract{
      */
     public function customer()
     {
-      return $this->hasOne('App\models\Customer', 'id', 'customer_id');
+      return $this->hasOne('App\Models\Customer', 'id', 'customer_id');
     }
   
     public static function addAppointment($customerID) {
