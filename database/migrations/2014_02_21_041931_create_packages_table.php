@@ -16,7 +16,6 @@ class CreatePackagesTable extends Migration {
     Schema::create('packages', function($table) {
       $table->increments('id');
       $table->string('package_name');
-      $table->decimal('package_price', 11, 0);
       $table->integer('package_time');
       $table->text('package_description');
       $table->timestamps();

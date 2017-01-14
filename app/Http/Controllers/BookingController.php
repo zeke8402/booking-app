@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Mail;
 use Response, View;
 use Session;
 use DB;
@@ -100,6 +101,7 @@ class BookingController extends Controller
       "fname"        => $input['fname'],
       "lname"        => $input['lname'],
       "number"       => $input['number'],
+      "identity"     => $input['identity'],
       "email"        => $input['email'],
       "updates"      => isset($input['newsletterBox']) ? 'Yes' : 'No'
       ];
@@ -133,7 +135,7 @@ class BookingController extends Controller
     $info = Session::get('appointmentInfo');
     $startTime = new DateTime($info['datetime']);
     $endTime = new DateTime($info['datetime']);
-    date_add($endTime, date_interval_create_from_date_string($info['package_time'].' hours'));
+    date_add($endTime, date_interval_create_from_date_string($info['package_time'].' minutes'));
     $newCustomer = Customer::addCustomer();
     $startTime = $startTime->format('Y-m-d H:i');
     $endTime = $endTime->format('Y-m-d H:i');
@@ -159,6 +161,8 @@ class BookingController extends Controller
       // Remove all dates conflicting with the appointment duration
       BookingDateTime::timeBetween($startTime, $endTime)->delete();
     }
+
+    $message = 'Thanks for choosing us.';
     
     return View::make('success');
   }
@@ -190,7 +194,7 @@ class BookingController extends Controller
       $startTime = new DateTime($value->booking_datetime);
       if ($startTime->format("Y-m-d") == $selectedDay) {
         $endTime = new DateTime($value->booking_datetime);
-        date_add($endTime, date_interval_create_from_date_string($packageTime.' hours')); 
+        date_add($endTime, date_interval_create_from_date_string($packageTime.' minutes')); 
 
         // Try to grab any appointments between the start time and end time
         $result = Appointment::timeBetween($startTime->format("Y-m-d H:i"), $endTime->format("Y-m-d H:i"));

@@ -16,9 +16,6 @@ class DatabaseSeeder extends Seeder {
 	    $this->call(PackageTableSeeder::class);
 	    $this->command->info('Package table seeded!');
 	    
-	    $this->call(BookingDateTimeTableSeeder::class);
-	    $this->command->info('Booking DateTimes seeded!');
-	    
 	    $this->call(CustomerSeeder::class);
 	    $this->command->info('Customers seeded!');
 	    

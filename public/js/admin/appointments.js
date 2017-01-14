@@ -8,11 +8,12 @@ $(document).ready(function() {
     editable: false,
     header: {
       left: 'prev,next today',
-      center: 'Appointments',
+      center: 'title',
       right: 'month, agendaWeek, agendaDay'
     },
+    eventLimit: true,
     defaultDate: cDate,
-    defaultView: 'agendaWeek',
+    defaultView: 'month',
     // API call returns a json feed
     events: {
       url: url+'/api/get-all-appointments',
@@ -31,12 +32,14 @@ $(document).ready(function() {
       var detailView = $('#appointment-details');
       $.get(url+"/api/get-appointment-info/"+calEvent.id, 
         function(data) {
-          var start = moment(calEvent.start).format('YYYY-MM-DD [at] h:mm a');
-          var end = moment(calEvent.end).format('YYYY-MM-DD [at] h:mm a');
-          var details = '<h4>'+calEvent.title+'</h4>' +
+          var start = moment(calEvent.start).format(' h:mm a');
+          var end = moment(calEvent.end).format(' h:mm a');
+          var details = '<h5>'+calEvent.title+'</h5>' +
             '<p><b>Begins</b>: '+start+'</p>' +
             '<p><b>Ends</b>: '+end+'</p>' +
-            '<p><a href="#" class="btn btn-danger">Delete Appointment</a></p>';
+            '<p><b>Phone</b>: '+calEvent.number+'</p>' +
+            '<p><b>Email</b>: '+calEvent.email+'</p>' +
+            '<form action="#"><textarea name="text"  placeholder="Enter message" cols="40" rows="3"></textarea><br><input type="submit" value="Sent SMS"></form> ';
           detailView.empty();
           detailView.append(details);
         });

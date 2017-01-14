@@ -1,11 +1,14 @@
 @extends('layout')
 @section('content')
+<br><br><br>
 <?php $link = Request::root(); ?>
-<div class="row jumbotron text-center">
-  <h1>Select a Day</h1>
-  <p>You chose <b> {{ $packageName }} </b></p>
-  <p id="currentDate">  </p>
-</div>
+<center>
+  <div class="panel">
+    <h1>Select a Day</h1>
+    <p>You have choosen <b> {{ $packageName }} </b></p>
+    <h3 id="currentDate">  </h3>
+  </div>
+</center>
 
 <div class="col-md-11 text-center">
   <div class="col-md-offset-4 col-lg-offset-1 col-md-2 col-lg-6">

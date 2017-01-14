@@ -35,17 +35,21 @@ class AdminAPIController extends Controller
 		foreach($appointments as $a) {
 
 			$customer = Customer::find($a['customer_id']);
+			$email = $customer->email;
+			$phone = $customer->contact_number;
 			$customer = $customer->first_name.' '.$customer->last_name;
-
+	
 			$package = Package::find($a['appointment_type']);
 
 			$startDate = date_create($a['appointment_datetime']);
 			$endDate = date_create($a['appointment_datetime']);
-			$time = (string)$package->package_time.' hours';
+			$time = (string)$package->package_time.' minutes';
 			$endDate = date_add($endDate, date_interval_create_from_date_string($time));
 			$event = array(
 				'id' => $a['id'],
 				'title' => 'Appointment with '.$customer,
+				'number' => $phone,
+				'email' => $email,
 				'start' => $startDate->format('Y-m-d\TH:i:s'),
 				'end' => $endDate->format('Y-m-d\TH:i:s'),
 			);

@@ -10,7 +10,7 @@ class Customer extends Model implements AuthenticatableContract{
 
   use Authenticatable;
   protected $table = 'customers';
-  protected $fillable = array('first_name', 'last_name', 'contact_number', 'email', 'wants_updates');
+  protected $fillable = array('first_name', 'last_name', 'contact_number','identity', 'email', 'wants_updates');
   protected $guarded = array('id', 'created_at', 'updated_at');
   
   /**
@@ -46,6 +46,7 @@ class Customer extends Model implements AuthenticatableContract{
         'first_name'  =>  $info['fname'],
         'last_name'   =>  $info['lname'],
         'contact_number' => $info['number'],
+        'identity' => $info['identity'],
         'email'       =>  $info['email'],
         'wants_updates' => Session::get('updates')
         ))->id;

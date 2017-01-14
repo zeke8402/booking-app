@@ -10,10 +10,6 @@
         {!! Form::label('package_name', 'Name') !!}
         {!! Form::text('package_name') !!}
 
-        <!-- price -->
-        {!! Form::label('package_price', 'Price') !!}
-        {!! Form::number('package_price') !!}
-
         {!! Form::label('package_time', 'Time') !!}
         {!! Form::number('package_time') !!}
 

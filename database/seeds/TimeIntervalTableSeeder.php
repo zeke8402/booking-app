@@ -17,7 +17,7 @@ class TimeIntervalTableSeeder extends Seeder {
     ]);
 
     TimeInterval::create([
-      'interval' => '30',
+      'interval' => '15',
       'metric' => 'minutes'
     ]);
   }

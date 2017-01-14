@@ -3,7 +3,7 @@
 
 <!-- Output correct data for checking -->
 <div class="row jumbotron text-center">
-  <h3> You chose {{ $package_name }} </h3>
+  <h3> You have choosen {{ $package_name }} </h3>
   <h3> To be conducted on </h3>
   <h3> {{ $dateFormat }} </h3>
 
@@ -44,7 +44,15 @@
        <input type="text" class="form-control" name="number" id="number" placeholder="5555555555">
     </div>
   </div>
-  
+
+   <!-- Identity -->
+  <div class="form-group">
+    <label for="number" class="col-lg-2 control-label">IC/Passport No.</label>
+    <div class="col-lg-10">
+       <input type="text" class="form-control" name="identity" id="identity" placeholder="IC/ Passport Number">
+    </div>
+  </div>
+
   <!-- Email -->
    <div class="form-group">
     <label for="email" class="col-lg-2 control-label">E-Mail</label>

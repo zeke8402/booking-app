@@ -10,7 +10,7 @@ $(document).ready(function() {
     editable: false,
     header: {
       left: 'prev,next today',
-      center: 'Appointments',
+      center: 'title',
       right: 'month, agendaWeek, agendaDay'
     },
     defaultDate: cDate,

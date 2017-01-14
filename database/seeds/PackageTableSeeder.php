@@ -13,16 +13,20 @@ class PackageTableSeeder extends Seeder {
     
     Package::create(array(
       'package_name' => 'Package 1',
-      'package_price' => '135',
-      'package_time' => '8',
-      'package_description' => 'This is the first package and a description of it'
+      'package_time' => '15',
+      'package_description' => 'This package is suitable for single patient'
     ));
     
     Package::create(array(
       'package_name' => 'Package 2',
-      'package_price' => '175',
-      'package_time' => '2',
-      'package_description' => 'This is the second package and a description of it'
-  ));
+      'package_time' => '30',
+      'package_description' => 'This package is suitable for 2 patients'
+    ));
+
+    Package::create(array(
+      'package_name' => 'Package 2',
+      'package_time' => '45',
+      'package_description' => 'This package is suitable for 3 patients'
+    ));
   }
 }

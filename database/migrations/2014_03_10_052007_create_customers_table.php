@@ -18,6 +18,7 @@ class CreateCustomersTable extends Migration {
         $table->string('first_name');
         $table->string('last_name');
         $table->string('contact_number');
+        $table->string('identity');
         $table->string('email');
         $table->boolean('wants_updates');
         $table->timestamps();

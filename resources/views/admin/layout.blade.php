@@ -2,7 +2,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin</title>
+  <title>{{ config('app.name', 'Mediviron') }}</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
   <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.4.0/fullcalendar.min.css" rel="stylesheet">
   <link href="{{ asset('/css/paper.css') }}" rel="stylesheet">
@@ -18,7 +18,7 @@
 <body>
   <div id="url" style="display: none">{{url('')}}</div>
   <nav class="navbar navbar-default">
-    <div class="container-fluid">
+    <div class="container">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
           <span class="sr-only">Toggle navigation</span>
@@ -26,16 +26,18 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="{{ url('admin/appointments') }}">Booking</a>
+
+        <a class="navbar-left" href="{{ url('admin/appointments') }}">
+                    <img src="{{ URL::to('/') }}/img/mediviron-puchongavenue-logo.png" height="64px" alt="">
+                </a>
       </div>
 
       <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" aria-expanded="false" style="height: 1px;">
         <ul class="nav navbar-nav">
-          <li><a href="{{ url('admin/appointments') }}">Appointments<span class="sr-only">(current)</span></a></li>
-          <li><a href="{{ url('admin/availability') }}">Availability</a></li>
-          <li><a href="{{ url('admin/packages') }}">Packages</a></li>
+          <li class="{{ Request::is('admin/appointments') ? 'active' : '' }}"><a href="{{ url('admin/appointments') }}">Appointments<span class="sr-only">(current)</span></a></li>
+          <li class="{{ Request::is('admin/availability') ? 'active' : '' }}"><a href="{{ url('admin/availability') }}">Availability</a></li>
+          <li class="{{ Request::is('admin/packages') ? 'active' : '' }}"><a href="{{ url('admin/packages') }}">Packages</a></li>
           <li><a href="{{ url('admin/configuration') }}">Configuration</a></li>
-          <li><a href="{{ url('admin/users') }}">Administrator</a></li>
                       
         </ul>
         
@@ -72,6 +74,8 @@
       </div>
     </div>
   </nav>
-  @yield('content')
+  <div class="container">
+    @yield('content')
+  </div>
 </body>
 </html>

@@ -13,9 +13,10 @@
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/', 'HomeController@index');
 
-Route::get('/', 'BookingController@getIndex');
+Route::get('/home', 'HomeController@index');
+Route::get('appointment', 'BookingController@getIndex');
 Route::get('booking/calendar/{id}', 'BookingController@getCalendar');
 Route::get('booking/times', 'BookingController@getTimes');
 Route::get('booking/details/{id}', 'BookingController@getDetails');
