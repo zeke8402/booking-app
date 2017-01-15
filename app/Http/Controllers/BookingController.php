@@ -87,8 +87,18 @@ class BookingController extends Controller
   * Function to post customer info and present confirmation view
   * User Confirms appointment details to continue
   **/
-  public function anyConfirm() 
+  public function anyConfirm(Request $request) 
   {
+
+    $this->validate($request, [
+        'firstName' => 'required',
+        'lastName' => 'required',
+        'contactNumber' => 'required|numeric|size:10',
+        'email' => 'required | email',
+        'package' => 'required'
+    ]);
+
+
 
     $input = Input::all();
     $package = Package::find($input['package']);
@@ -98,9 +108,9 @@ class BookingController extends Controller
       "package_name" => $package->package_name,
       "package_time" => $package->package_time,
       "datetime"     => Session::get('selection'),
-      "fname"        => $input['fname'],
-      "lname"        => $input['lname'],
-      "number"       => $input['number'],
+      "fname"        => $input['firstName'],
+      "lname"        => $input['lastName'],
+      "number"       => $input['contactNumber'],
       "identity"     => $input['identity'],
       "email"        => $input['email'],
       "updates"      => isset($input['newsletterBox']) ? 'Yes' : 'No'
