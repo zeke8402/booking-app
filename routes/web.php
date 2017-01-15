@@ -16,8 +16,8 @@ Auth::routes();
 Route::get('/', 'HomeController@index');
 
 Route::get('/home', 'HomeController@index');
-Route::get('appointment', 'BookingController@getIndex');
-Route::get('booking/calendar/{id}', 'BookingController@getCalendar');
+//Route::get('appointment', 'BookingController@getIndex');
+Route::get('appointment', 'BookingController@getCalendar');
 Route::get('booking/times', 'BookingController@getTimes');
 Route::get('booking/details/{id}', 'BookingController@getDetails');
 Route::post('anyConfirm', 'BookingController@anyConfirm');

@@ -3,7 +3,6 @@
 
 <!-- Output correct data for checking -->
 <div class="row jumbotron text-center">
-  <h3> You have choosen {{ $package_name }} </h3>
   <h3> To be conducted on </h3>
   <h3> {{ $dateFormat }} </h3>
 
@@ -15,8 +14,6 @@
   
   <!-- Hidden forms to be used later for appointment confirmation -->
 {!! Form::open(array('action' => 'BookingController@anyConfirm', 'class' => 'form-horizontal', 'data-abide'=>true)) !!}
-{!! Form::hidden('pid', $pid) !!}
-
 
 <fieldset>
   <legend>Customer Information</legend>
@@ -60,6 +57,15 @@
        <input type="text" class="form-control" name="email" id="email" placeholder="you@example.com">
     </div>
   </div>
+
+  <div class="form-group">
+        <label for="package" style="float:left;padding: 6px 12px 2px 12px;" class="col-lg-2 control-label">Number of patients</label>
+        <select id="package" name="package" style="width:auto;" class="form-control selectWidth">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+      </div>
   
   <div class="checkbox text-center">
       <label>

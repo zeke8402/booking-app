@@ -39,16 +39,16 @@ class BookingController extends Controller
   *
   * User selects date + time to continue
   **/
-  public function getCalendar($pid)
+  public function getCalendar()
   {
 
     //Add package to the session data
-    Session::put('packageID', $pid);
-    $package = Package::find($pid);
+    // Session::put('packageID', $pid);
+    // $package = Package::find($pid);
     
     // This groups all booking times by date so we can give a list of all days available.
     $data = [
-    'packageName' => $package->package_name,
+  //  'packageName' => $package->package_name,
     'days' => BookingDateTime::all()
     ];
     
@@ -64,7 +64,7 @@ class BookingController extends Controller
 
     // Put the passed date time ID into the session
     Session::put('aptID', $aptID);
-    $package = Package::find(Session::get('packageID'));
+   // $package = Package::find(Session::get('packageID'));
     
     // Get row of date id
     $dateRow = BookingDateTime::find($aptID);
@@ -73,8 +73,8 @@ class BookingController extends Controller
     Session::put('selection', $dateRow->booking_datetime);
 
     $data = [
-    'pid' => Session::get('packageID'),
-    'package_name' => $package->package_name,
+    //'pid' => Session::get('packageID'),
+    // 'package_name' => $package->package_name,
     'dateRow'   => $dateRow,
     'dateFormat' => $dateFormat,
     'aptID' =>  $aptID,
@@ -91,10 +91,10 @@ class BookingController extends Controller
   {
 
     $input = Input::all();
-    $package = Package::find(Session::get('packageID'));
+    $package = Package::find($input['package']);
 
     $appointmentInfo = [ 
-      "package_id"   => Session::get('packageID'),
+      "package_id"   => $input['package'],
       "package_name" => $package->package_name,
       "package_time" => $package->package_time,
       "datetime"     => Session::get('selection'),
@@ -115,7 +115,7 @@ class BookingController extends Controller
       Session::put('updates', '0');
     }
 
-    $packageName = Package::where('id', $input['pid'])->pluck('package_name');
+    $packageName = Package::where('id', $input['package'])->pluck('package_name');
     return View::make('confirm')->with('appointmentInfo', $appointmentInfo);
   }
   
@@ -185,7 +185,7 @@ class BookingController extends Controller
     
     // PSEUDO CODE
     // Get package duration of the chosen package
-    $package = Package::find(Session::get('packageID'));
+    $package = Package::find(1);
     $packageTime = $package->package_time;
     
     // For each available time... 

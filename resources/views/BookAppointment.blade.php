@@ -3,9 +3,8 @@
 <br><br><br>
 <?php $link = Request::root(); ?>
 <center>
-  <div class="panel">
+  <div class="well">
     <h1>Select a Day</h1>
-    <p>You have choosen <b> {{ $packageName }} </b></p>
     <h3 id="currentDate">  </h3>
   </div>
 </center>
