@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,6 +9,7 @@
 | to using a Closure or controller method. Build something great!
 |
 */
+
 
 Auth::routes();
 
@@ -56,4 +56,7 @@ Route::group(['prefix' => 'admin','middleware'=>'auth'], function()
 	Route::get('packages', 'AdminController@packages');
 	Route::get('edit-package/{package_id}', 'AdminController@editPackage');
 	Route::post('update-package/{package_id}', array('as' => 'package.update'), 'AdminController@updatePackage');
+
+	Route::get('sendsms', 'AdminController@sendsms');
+
 });

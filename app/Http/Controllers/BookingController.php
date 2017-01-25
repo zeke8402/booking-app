@@ -11,6 +11,7 @@ use Response, View;
 use Session;
 use DB;
 use DateTime;
+use Nexmo;
 
 // Declare Models to be used
 use App\Models\Package;
@@ -93,7 +94,7 @@ class BookingController extends Controller
     $this->validate($request, [
         'firstName' => 'required',
         'lastName' => 'required',
-        'contactNumber' => 'required|numeric|size:10',
+        'contactNumber' => 'required|numeric',
         'email' => 'required | email',
         'package' => 'required'
     ]);
@@ -111,7 +112,7 @@ class BookingController extends Controller
       "fname"        => $input['firstName'],
       "lname"        => $input['lastName'],
       "number"       => $input['contactNumber'],
-      "identity"     => $input['identity'],
+      "identity"     => $input['identityNumber'],
       "email"        => $input['email'],
       "updates"      => isset($input['newsletterBox']) ? 'Yes' : 'No'
       ];
@@ -173,6 +174,12 @@ class BookingController extends Controller
     }
 
     $message = 'Thanks for choosing us.';
+
+      Nexmo::message()->send([
+          'to' => '6'.$info['number'],
+          'from' => 'Saimedic Clinic',
+          'text' => 'Your appointment has been created with Saimedic Clinic at '.$startTime
+      ]);
     
     return View::make('success');
   }

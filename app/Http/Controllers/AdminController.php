@@ -10,6 +10,15 @@ use App\Models\TimeInterval;
 use Input;
 use Auth;
 use View;
+
+
+use Illuminate\Http\Request;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use Session;
+use DB;
+use DateTime;
+
 class AdminController extends Controller {
   
   /**
@@ -69,6 +78,12 @@ class AdminController extends Controller {
   public function anySetTime()
   {
     dd('test');
+  }
+
+  public function sendsms(Request $request){
+
+    $input = Input::all();
+    var_dump($input['text']);
   }
 
 }

@@ -12,4 +12,5 @@
 </div>
 
 <script src="{{ asset('/js/admin/appointments.js') }}"></script>
+
 @endsection
