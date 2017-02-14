@@ -1,5 +1,6 @@
 $(document).ready(function() {
   var url = document.getElementById('url');
+  var token = document.head.querySelector("[name=csrf-token]").content;
   url = url.textContent;
   var cDate = new Date();
 
@@ -35,14 +36,17 @@ $(document).ready(function() {
           var start = moment(calEvent.start).format(' h:mm a');
           var end = moment(calEvent.end).format(' h:mm a');
           var details = '<h5>'+calEvent.title+'</h5>' +
-          '<form action="/admin/sendsms" method="get" id="smsForm">'+
+          '<form  onsubmit="event.preventDefault(); document.getElementById(\'smsForm\').submit(); " action="/admin/sendsms" method="POST" id="smsForm">'+
           '<input type="hidden"  id="phoneNumber" name ="number" value="'+calEvent.number+'">'+
-          '<input type="hidden"  id="startTime" name ="number" value="'+start+'">'+
+          '<input type="hidden"  id="startTime" name ="start" value="'+start+'">'+
             '<p><b>Begins</b>: '+start+'</p>' +
             '<p><b>Ends</b>: '+end+'</p>' +
             '<p><b>Phone</b>: '+calEvent.number+'</p>' +
             '<p><b>Email</b>: '+calEvent.email+'</p>' +
-            '<textarea name="text" id="text"  placeholder="Enter message" cols="40" rows="3"></textarea><br><input type="submit" value="Sent SMS"></form> ';
+            '<textarea name="text" id="text"  placeholder="Enter message" cols="40" rows="3"></textarea><br>'+
+            '<input type="hidden" name="_token" value="'+token+'">'+
+            '<input type="submit" value="Sent SMS">'+
+            '</form> ';
           detailView.empty();
           detailView.append(details);
         });
@@ -50,8 +54,5 @@ $(document).ready(function() {
     },
   });
 
-
-
-   
-
 });
+

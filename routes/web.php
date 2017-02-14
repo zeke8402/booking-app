@@ -57,6 +57,6 @@ Route::group(['prefix' => 'admin','middleware'=>'auth'], function()
 	Route::get('edit-package/{package_id}', 'AdminController@editPackage');
 	Route::post('update-package/{package_id}', array('as' => 'package.update'), 'AdminController@updatePackage');
 
-	Route::get('sendsms', 'AdminController@sendsms');
+	Route::post('sendsms', 'AdminController@sendsms');
 
 });

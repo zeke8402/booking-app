@@ -7,10 +7,10 @@ use App\Models\Customer;
 use App\Models\Configuration;
 use App\Models\TimeInterval;
 
-use Input;
+use Illuminate\Support\Facades\Input;
 use Auth;
 use View;
-
+use Nexmo;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -83,7 +83,14 @@ class AdminController extends Controller {
   public function sendsms(Request $request){
 
     $input = Input::all();
-    var_dump($input['text']);
+
+    // Nexmo::message()->send([
+    //       'to' => '6'.$input['number'],
+    //       'from' => 'Saimedic Clinic',
+    //       'text' => 'Updates from Saimedic Clinic : '.$input['text']
+    // ]);
+
+    return redirect()->back();
   }
 
 }

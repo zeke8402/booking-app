@@ -175,11 +175,11 @@ class BookingController extends Controller
 
     $message = 'Thanks for choosing us.';
 
-      Nexmo::message()->send([
-          'to' => '6'.$info['number'],
-          'from' => 'Saimedic Clinic',
-          'text' => 'Your appointment has been created with Saimedic Clinic at '.$startTime
-      ]);
+      // Nexmo::message()->send([
+      //     'to' => '6'.$info['number'],
+      //     'from' => 'Saimedic Clinic',
+      //     'text' => 'Your appointment has been created with Saimedic Clinic at '.$startTime
+      // ]);
     
     return View::make('success');
   }
