@@ -84,13 +84,20 @@ class AdminController extends Controller {
 
     $input = Input::all();
 
-    // Nexmo::message()->send([
-    //       'to' => '6'.$input['number'],
-    //       'from' => 'Saimedic Clinic',
-    //       'text' => 'Updates from Saimedic Clinic : '.$input['text']
-    // ]);
+    try{
+      Nexmo::message()->send([
+           'to' => '6'.$input['number'],
+           'from' => 'Saimedic Clinic',
+           'text' => 'Updates from Saimedic Clinic : '.$input['text']
+     ]);
+    }
+    catch (Exception $e) {
 
-    return redirect()->back();
+    } 
+    finally{
+      return redirect()->back(); 
+    }
+
   }
 
 }
