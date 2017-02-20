@@ -83,7 +83,7 @@
         
           <div class="footer-copyright">
               <div class="container-fluid">
-                  <b>Saimedic Clinic</b> | Developed By<a href="https://sopnopriyo.com"> sopnopriyo International </a>
+                  <b>Klinik Mediviron Puchong Avenue</b> | Developed By<a href="https://sopnopriyo.com"> Sopnopriyo International </a>
 
               </div>
           </div>
