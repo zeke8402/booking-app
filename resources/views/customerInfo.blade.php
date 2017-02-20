@@ -2,7 +2,7 @@
 @section('content')
 
 <!-- Output correct data for checking -->
-<div class="row jumbotron text-center">
+<div class="jumbotron text-center">
   <h3> To be conducted on </h3>
   <h3> {{ $dateFormat }} </h3>
 

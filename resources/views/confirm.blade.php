@@ -6,7 +6,7 @@
 
 <div class="row col-md-6 well center-block">
   <h3 id="momentDate"></h3>
-  <legend>Customer Details</legend>
+  <legend>Patient Details</legend>
   <table class="table table-striped table-hover">
     <thead>
       <tr>
