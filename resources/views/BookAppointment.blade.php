@@ -9,7 +9,7 @@
   </div>
 </center>
 
-<div class="col-md-11 text-center">
+<div class="col-md-12">
   <div class="col-md-offset-4 col-lg-offset-1 col-md-2 col-lg-6">
     <div id="calendar"></div>
   </div>
@@ -23,8 +23,7 @@
       </div>
     </div>
   </div>
-</div>
-
+</div> 
 <!-- Calendar Functionality -->
 <script src="{{ asset('/js/calendar.js') }}"></script>
 @endsection

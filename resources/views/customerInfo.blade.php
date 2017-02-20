@@ -67,7 +67,16 @@
        <input type="text" class="form-control" name="email" id="email" placeholder="you@example.com">
     </div>
   </div>
-
+<div class="form-group">
+        <label for="service-type" style="float:left;padding: 6px 12px 2px 12px;" class="col-lg-2 control-label">Appointment Type</label>
+        <select id="service-type" name="service_type" style="width:auto;" class="form-control selectWidth">
+          <option value="General Walk-In">General Walk-In</option>
+          <option value="Pregnancy">Pregnancy</option>
+          <option value="Blood Test">Blood Test</option>
+          <option value="Others">Others</option>
+        </select>
+  </div>
+  
   <div class="form-group">
         <label for="package" style="float:left;padding: 6px 12px 2px 12px;" class="col-lg-2 control-label">Number of patients</label>
         <select id="package" name="package" style="width:auto;" class="form-control selectWidth">
@@ -75,7 +84,7 @@
           <option value="2">2</option>
           <option value="3">3</option>
         </select>
-      </div>
+  </div>
   
   <div class="checkbox text-center">
       <label>
@@ -92,3 +101,5 @@
   
    {!! Form::close() !!} 
 @stop
+
+<br><br><br><br>

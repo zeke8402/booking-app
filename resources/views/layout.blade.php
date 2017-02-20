@@ -32,7 +32,7 @@
   <script src="{{ asset('/js/moment.js') }}"></script>
 
 </head>  
-<body>
+
 <div id="url" style="display: none">{{url('')}}</div>
   <div id="app">
 
@@ -77,5 +77,16 @@
 
   @yield('content')
 
-</body>
+  <!--Footer-->
+    <footer class="page-footer  text-center primary-color-dark">
+
+        
+          <div class="footer-copyright">
+              <div class="container-fluid">
+                  <b>Saimedic Clinic</b> | Developed By<a href="https://sopnopriyo.com"> sopnopriyo International </a>
+
+              </div>
+          </div>
+        
+    </footer>
 </html>

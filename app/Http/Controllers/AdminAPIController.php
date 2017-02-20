@@ -50,6 +50,7 @@ class AdminAPIController extends Controller
 				'title' => 'Appointment with '.$customer,
 				'number' => $phone,
 				'email' => $email,
+				'service_type' => $a['service_type'] ,
 				'start' => $startDate->format('Y-m-d\TH:i:s'),
 				'end' => $endDate->format('Y-m-d\TH:i:s'),
 			);

@@ -114,6 +114,7 @@ class BookingController extends Controller
       "number"       => $input['contactNumber'],
       "identity"     => $input['identityNumber'],
       "email"        => $input['email'],
+      "service_type" => $input['service_type'],
       "updates"      => isset($input['newsletterBox']) ? 'Yes' : 'No'
       ];
 

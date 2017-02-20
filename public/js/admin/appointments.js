@@ -43,6 +43,7 @@ $(document).ready(function() {
             '<p><b>Ends</b>: '+end+'</p>' +
             '<p><b>Phone</b>: '+calEvent.number+'</p>' +
             '<p><b>Email</b>: '+calEvent.email+'</p>' +
+            '<p><b>Appointment Type</b>: '+calEvent.service_type+'</p>' +
             '<textarea name="text" id="text"  placeholder="Enter message" cols="40" rows="3"></textarea><br>'+
             '<input type="hidden" name="_token" value="'+token+'">'+
             '<input type="submit" value="Sent SMS">'+
