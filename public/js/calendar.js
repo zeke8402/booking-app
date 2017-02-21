@@ -1,7 +1,7 @@
 var url = document.getElementById("url").textContent;
 var jdays = [];
 cDate = moment();
-$('#currentDate').text("Current Date is " + cDate.format("MMMM Do, YYYY") );
+$('#currentDate').text( cDate.format("MMMM Do, YYYY") );
 
 $(document).ready(function($){
 	createCalendar();

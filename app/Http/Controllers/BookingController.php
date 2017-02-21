@@ -5,13 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Input, Response, View;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Mail;
+use Response, View;
 use Session;
 use DB;
 use DateTime;
+use Nexmo;
 
 // Declare Models to be used
 use App\Models\Package;
+use App\User;
 use App\Models\Customer;
 use App\Models\Appointment;
 use App\Models\BookingDateTime;
@@ -36,16 +40,16 @@ class BookingController extends Controller
   *
   * User selects date + time to continue
   **/
-  public function getCalendar($pid)
+  public function getCalendar()
   {
 
     //Add package to the session data
-    Session::put('packageID', $pid);
-    $package = Package::find($pid);
+    // Session::put('packageID', $pid);
+    // $package = Package::find($pid);
     
     // This groups all booking times by date so we can give a list of all days available.
     $data = [
-    'packageName' => $package->package_name,
+  //  'packageName' => $package->package_name,
     'days' => BookingDateTime::all()
     ];
     
@@ -61,7 +65,7 @@ class BookingController extends Controller
 
     // Put the passed date time ID into the session
     Session::put('aptID', $aptID);
-    $package = Package::find(Session::get('packageID'));
+   // $package = Package::find(Session::get('packageID'));
     
     // Get row of date id
     $dateRow = BookingDateTime::find($aptID);
@@ -70,8 +74,8 @@ class BookingController extends Controller
     Session::put('selection', $dateRow->booking_datetime);
 
     $data = [
-    'pid' => Session::get('packageID'),
-    'package_name' => $package->package_name,
+    //'pid' => Session::get('packageID'),
+    // 'package_name' => $package->package_name,
     'dateRow'   => $dateRow,
     'dateFormat' => $dateFormat,
     'aptID' =>  $aptID,
@@ -84,21 +88,33 @@ class BookingController extends Controller
   * Function to post customer info and present confirmation view
   * User Confirms appointment details to continue
   **/
-  public function anyConfirm() 
+  public function anyConfirm(Request $request) 
   {
 
+    $this->validate($request, [
+        'firstName' => 'required',
+        'lastName' => 'required',
+        'contactNumber' => 'required|numeric',
+        'email' => 'required | email',
+        'package' => 'required'
+    ]);
+
+
+
     $input = Input::all();
-    $package = Package::find(Session::get('packageID'));
+    $package = Package::find($input['package']);
 
     $appointmentInfo = [ 
-      "package_id"   => Session::get('packageID'),
+      "package_id"   => $input['package'],
       "package_name" => $package->package_name,
       "package_time" => $package->package_time,
       "datetime"     => Session::get('selection'),
-      "fname"        => $input['fname'],
-      "lname"        => $input['lname'],
-      "number"       => $input['number'],
+      "fname"        => $input['firstName'],
+      "lname"        => $input['lastName'],
+      "number"       => $input['contactNumber'],
+      "identity"     => $input['identityNumber'],
       "email"        => $input['email'],
+      "service_type" => $input['service_type'],
       "updates"      => isset($input['newsletterBox']) ? 'Yes' : 'No'
       ];
 
@@ -111,7 +127,7 @@ class BookingController extends Controller
       Session::put('updates', '0');
     }
 
-    $packageName = Package::where('id', $input['pid'])->pluck('package_name');
+    $packageName = Package::where('id', $input['package'])->pluck('package_name');
     return View::make('confirm')->with('appointmentInfo', $appointmentInfo);
   }
   
@@ -131,7 +147,7 @@ class BookingController extends Controller
     $info = Session::get('appointmentInfo');
     $startTime = new DateTime($info['datetime']);
     $endTime = new DateTime($info['datetime']);
-    date_add($endTime, date_interval_create_from_date_string($info['package_time'].' hours'));
+    date_add($endTime, date_interval_create_from_date_string($info['package_time'].' minutes'));
     $newCustomer = Customer::addCustomer();
     $startTime = $startTime->format('Y-m-d H:i');
     $endTime = $endTime->format('Y-m-d H:i');
@@ -157,8 +173,24 @@ class BookingController extends Controller
       // Remove all dates conflicting with the appointment duration
       BookingDateTime::timeBetween($startTime, $endTime)->delete();
     }
+
+    $message = 'Thanks for choosing us.';
+    try{
+
+      Nexmo::message()->send([
+          'to' => '6'.$info['number'],
+          'from' => 'Saimedic Clinic',
+          'text' => 'Your appointment has been created with Saimedic Clinic at '.$startTime
+      ]);
+
+    } catch (Exception $e) {
+
+    }
+
+    finally{
+      return View::make('success');  
+    } 
     
-    return View::make('success');
   }
   
   /**
@@ -179,7 +211,7 @@ class BookingController extends Controller
     
     // PSEUDO CODE
     // Get package duration of the chosen package
-    $package = Package::find(Session::get('packageID'));
+    $package = Package::find(1);
     $packageTime = $package->package_time;
     
     // For each available time... 
@@ -188,7 +220,7 @@ class BookingController extends Controller
       $startTime = new DateTime($value->booking_datetime);
       if ($startTime->format("Y-m-d") == $selectedDay) {
         $endTime = new DateTime($value->booking_datetime);
-        date_add($endTime, date_interval_create_from_date_string($packageTime.' hours')); 
+        date_add($endTime, date_interval_create_from_date_string($packageTime.' minutes')); 
 
         // Try to grab any appointments between the start time and end time
         $result = Appointment::timeBetween($startTime->format("Y-m-d H:i"), $endTime->format("Y-m-d H:i"));

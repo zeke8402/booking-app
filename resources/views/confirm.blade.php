@@ -5,9 +5,8 @@
 </div>
 
 <div class="row col-md-6 well center-block">
-  <h1>For {{ $appointmentInfo['package_name'] }}</h1>
   <h3 id="momentDate"></h3>
-  <legend>Customer Details</legend>
+  <legend>Patient Details</legend>
   <table class="table table-striped table-hover">
     <thead>
       <tr>
@@ -34,6 +33,7 @@
   </div>
   
 </div>
+<br><br><br><br><br>
 
 <script>
   $(document).ready(function() {

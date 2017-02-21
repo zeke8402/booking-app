@@ -10,7 +10,7 @@ $(document).ready(function() {
     editable: false,
     header: {
       left: 'prev,next today',
-      center: 'Appointments',
+      center: 'title',
       right: 'month, agendaWeek, agendaDay'
     },
     defaultDate: cDate,
@@ -44,7 +44,7 @@ $(document).ready(function() {
             $('#calendar').fullCalendar('refetchEvents');
           },
           error: function(data) {
-            alert(data.responseText);
+            alert('Problem with setting availability');
           },
           dataType: "json",
         });
