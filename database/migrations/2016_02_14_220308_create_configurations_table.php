@@ -14,7 +14,7 @@ class CreateConfigurationsTable extends Migration
     {
         Schema::create('configurations', function($table) {
             $table->increments('id');
-            $table->integer('time_interval_id');
+            $table->integer('time_interval_id')->unsigned()->nullable()->index();
             $table->foreign('time_interval_id')
                 ->references('id')
                 ->on('time_intervals')
@@ -30,6 +30,6 @@ class CreateConfigurationsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('configurations');
     }
 }
